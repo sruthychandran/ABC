@@ -6,9 +6,14 @@ import java.util.List;
 
 
 import com.abinbev.admin.entity.Category;
+import com.abinbev.admin.entity.User;
+import com.abinbev.admin.entity.User.UserBuilder;
 
+import lombok.Builder;
 import lombok.Data;
 @Data
+@Builder
+	
 public class UserDto {
 	
 	private String uuid;

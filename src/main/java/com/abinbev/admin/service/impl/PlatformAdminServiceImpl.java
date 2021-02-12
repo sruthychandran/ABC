@@ -31,9 +31,6 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	@Autowired
 	UserDAO userDAO;
 
-	MapperUtil<UserDto, User> toUser = new MapperUtil<>();
-	MapperUtil<User, UserResponseDto> toUserResponse = new MapperUtil<>();
-
 	@Value("${message.create}")
 	String creationMessage;
 	@Value("${message.update}")
@@ -41,48 +38,48 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	@Value("${message.delete}")
 	String deletionMessage;
 
+	MapperUtil<UserDto, User> toUser = new MapperUtil<>();
+	MapperUtil<User, UserResponseDto> toUserResponse = new MapperUtil<>();
+
 	@Override
 	public UserResponseDto saveUser(UserDto userDto) throws DuplicateEmailException {
 		User user = toUser.transfer(userDto, User.class);
-	if(emailExist(user.getEmailId())) {
-		throw new DuplicateEmailException("The email address: " + user.getEmailId() + " is already in use.");
-	}
+		if (emailExist(user.getEmailId())) {
+			throw new DuplicateEmailException("The email address: " + user.getEmailId() + " is already in use.");
+		}
 		user.setCreatedDate(new Date());
 		user.setCreatedBy(user.getEmailId());
 		user = userDAO.save(user);
 		UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 		response.setMessage(creationMessage);
 		return response;
+
 	}
-	
-	 private boolean emailExist(String email) {
-	        User user = userDAO.findByEmail(email);
-	 
-	        if (user != null) {
-	            return true;
-	        }
-	 
-	        return false;
-	    }
-	
-	
-	
+
+	private boolean emailExist(String email) {
+		User user = userDAO.findByEmail(email);
+
+		if (user != null) {
+			return true;
+		}
+
+		return false;
+	}
+
 	@Override
 	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException {
 		User user = toUser.transfer(userDto, User.class);
-		User existingUser=userDAO.findByUuid(userDto.getUuid());
-		
-		
-		if(existingUser == null ) {
+		User existingUser = userDAO.findByUuid(userDto.getUuid());
+
+		if (existingUser == null) {
 			throw new UserNotFoundException("user not found");
 		}
 		user.setCreatedBy(existingUser.getCreatedBy());
 		user.setCreatedDate(existingUser.getCreatedDate());
 		user.setModifiedBy(userDto.getEmailId());
-
 		user.setModifiedDate(new Date());
-		UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 		user = userDAO.save(user);
+		UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 		response.setMessage(updationMessage);
 		return response;
 
