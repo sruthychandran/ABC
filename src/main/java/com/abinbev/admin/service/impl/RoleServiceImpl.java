@@ -43,11 +43,13 @@ public class RoleServiceImpl implements RoleService {
 
 
 	@Override
-	public void saveRole(RoleDto roleDto) {
+	public RoleResponseDto saveRole(RoleDto roleDto) {
 		Role role=toRole.transfer(roleDto,Role.class);
 	   role= roleDAO.save(role); 
 		 RoleResponseDto response=toRoleResponse.transfer(role,RoleResponseDto.class);
 		 response.setMessage(creationMessage);
+		 return response;
+		 
 	}
 
 
@@ -77,7 +79,15 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	
-
+	@Override
+	public RoleResponseDto updateRole(RoleDto roleDto) {
+		Role role=toRole.transfer(roleDto,Role.class);
+	   role= roleDAO.save(role); 
+		 RoleResponseDto response=toRoleResponse.transfer(role,RoleResponseDto.class);
+		 response.setMessage(creationMessage);
+		 return response;
+		 
+	}
 
 
 	

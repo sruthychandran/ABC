@@ -44,5 +44,20 @@ public class UserDAOImpl implements UserDAO {
 		mongoTemplate.save(user);
 
 	}
+	@Override
+	public User findByEmail(String emailId) {
+		Query query = new Query();
+		
+		query.addCriteria(Criteria.where("emailId").is(emailId));
+		return mongoTemplate.findOne(query, User.class);
+	}
+	
+	@Override
+	public User findByUuid(String uuid) {
+		Query query = new Query();
+		
+		query.addCriteria(Criteria.where("uuid").is(uuid));
+		return mongoTemplate.findOne(query, User.class);
+	}
 
 }

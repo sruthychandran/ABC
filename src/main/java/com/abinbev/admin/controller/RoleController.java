@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
@@ -27,7 +26,7 @@ public class RoleController {
 
 	@PostMapping("/createRole")
 	public void createRole(@RequestBody RoleDto roleDto) {
-		roleService.saveRole(roleDto);
+		 roleService.saveRole(roleDto);
 	}
 
 	@PutMapping("/updateRole")
