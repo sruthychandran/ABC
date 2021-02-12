@@ -1,8 +1,7 @@
 package com.abinbev.admin.dao;
 
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import com.abinbev.admin.entity.CategoryService;
 
@@ -14,5 +13,9 @@ import com.abinbev.admin.entity.CategoryService;
 public interface CategoryServiceDAO  {
 
 public CategoryService	save(CategoryService CategoryService) ;
+
+public List<CategoryService> getAllCategoryServices();
+
+public void deleteCategoryService(String categoryId);
 
 }

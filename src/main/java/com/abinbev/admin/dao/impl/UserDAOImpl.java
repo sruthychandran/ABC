@@ -28,7 +28,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> getAllUsers() {
-		return mongoTemplate.findAll(User.class);
+		Query query = new Query();
+		query.addCriteria(Criteria.where("status").is(true));
+		return mongoTemplate.find(query, User.class);
 	}
 
 	@Override

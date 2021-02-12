@@ -1,20 +1,18 @@
 package com.abinbev.admin.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
-import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 
 @RestController
@@ -29,14 +27,22 @@ public class CategoryServiceController {
 		categoryService.saveCategoryService(categoryServiceDto);
 	}
 
-	@PutMapping("/categories")
+	@PutMapping("/updateCategoryService")
 	public void updateCategoryService(@RequestBody CategoryServiceDto categoryServiceDto) {
 		categoryService.updateCategoryService(categoryServiceDto);
 	}
 
-	@GetMapping("/categories")
-	public String getCategoryService() {
-		return null;
+	@GetMapping("/getAllCategoryServices")
+	public List<CategoryServiceResponseDto> getAllCategoryServices() {
+		
+		return categoryService.getAllCategoryServices();
+	}
+	
+	@GetMapping("/deleteCategoryService/{categoryId}")
+	public void deleteCategoryService(@PathVariable String categoryId) {
+		
+		categoryService.deleteCategoryService(categoryId);
+	
 	}
 
 }

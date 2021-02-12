@@ -25,8 +25,8 @@ import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
 
 @RestController
-@RequestMapping("/platform-admin")
-public class PlatformAdminController {
+@RequestMapping("/tenant-admin")
+public class TenantAdminController {
 
 	@Autowired
 	PlatformAdminService platformAdminService;

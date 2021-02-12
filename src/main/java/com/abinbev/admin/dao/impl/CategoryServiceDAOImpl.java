@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +36,24 @@ public class CategoryServiceDAOImpl implements  CategoryServiceDAO  {
 
 		return result;
 		
+	}
+
+	@Override
+	public List<CategoryService> getAllCategoryServices() {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("status").is(true));
+		return mongoTemplate.find(query, CategoryService.class);
+	}
+
+	@Override
+	public void deleteCategoryService(String categoryId) {
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("categoryId").is(categoryId));
+		CategoryService categoryService = mongoTemplate.findOne(query, CategoryService.class);
+		
+		categoryService.setStatus(false);
+		mongoTemplate.save(categoryService);
 	}
 
 
