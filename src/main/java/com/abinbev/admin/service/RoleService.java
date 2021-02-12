@@ -7,9 +7,11 @@ import com.abinbev.admin.responseDto.RoleResponseDto;
 
 public interface RoleService {
 
-	public void saveRole(RoleDto RoleDto);
+	public RoleResponseDto saveRole(RoleDto RoleDto);
 	
 	public void deleteRole(String roleId);
 	
 	public List<RoleResponseDto> getAllRoles();
+	
+	public RoleResponseDto updateRole(RoleDto RoleDto);
 }

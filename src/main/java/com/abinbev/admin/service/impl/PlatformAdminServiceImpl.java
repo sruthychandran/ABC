@@ -16,6 +16,8 @@ import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
+import com.abinbev.admin.exception.DuplicateEmailException;
+import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -40,8 +42,11 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	String deletionMessage;
 
 	@Override
-	public UserResponseDto saveUser(UserDto userDto) {
+	public UserResponseDto saveUser(UserDto userDto) throws DuplicateEmailException {
 		User user = toUser.transfer(userDto, User.class);
+	if(emailExist(user.getEmailId())) {
+		throw new DuplicateEmailException("The email address: " + user.getEmailId() + " is already in use.");
+	}
 		user.setCreatedDate(new Date());
 		user.setCreatedBy(user.getEmailId());
 		user = userDAO.save(user);
@@ -49,10 +54,30 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		response.setMessage(creationMessage);
 		return response;
 	}
-
+	
+	 private boolean emailExist(String email) {
+	        User user = userDAO.findByEmail(email);
+	 
+	        if (user != null) {
+	            return true;
+	        }
+	 
+	        return false;
+	    }
+	
+	
+	
 	@Override
-	public UserResponseDto updateUser(UserDto userDto) {
+	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException {
 		User user = toUser.transfer(userDto, User.class);
+		User existingUser=userDAO.findByUuid(userDto.getUuid());
+		
+		
+		if(existingUser == null ) {
+			throw new UserNotFoundException("user not found");
+		}
+		user.setCreatedBy(existingUser.getCreatedBy());
+		user.setCreatedDate(existingUser.getCreatedDate());
 		user.setModifiedBy(userDto.getEmailId());
 
 		user.setModifiedDate(new Date());
