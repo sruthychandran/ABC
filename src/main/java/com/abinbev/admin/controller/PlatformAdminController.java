@@ -1,8 +1,11 @@
 package com.abinbev.admin.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +31,14 @@ public class PlatformAdminController {
 	@Autowired
 	PlatformAdminService platformAdminService;
 
-	@PostMapping("/createUsers")
+	@PostMapping("/createUser")
 	public ResponseEntity<UserResponseDto>  createUsers(@RequestBody UserDto userDto) {
 		UserResponseDto result = platformAdminService.saveUser(userDto);
 		
 		return ResponseEntity.ok().body(result);
 	}
 
-	@PutMapping("/updateUsers")
+	@PutMapping("/updateUser")
 	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException {
 		if(userDto.getUuid() == null)
 			throw new BadRequestAlertException("Invalid uuid");
@@ -43,6 +46,19 @@ public class PlatformAdminController {
 		return ResponseEntity.ok().body(result);
 	}
 
+	@GetMapping("/getAllUsers")
+	public ResponseEntity<List<UserResponseDto>> getAllUsers() throws BadRequestAlertException {
+		List<UserResponseDto> result = platformAdminService.getAllUsers();
+		return ResponseEntity.ok().body(result);
+	}
+	
+	@GetMapping("/deleteUser/{uuid}")
+	public ResponseEntity<Void> deleteUser(@PathVariable String uuid)throws BadRequestAlertException {
+		if(uuid == null)
+			throw new BadRequestAlertException("Invalid uuid");
+		platformAdminService.deleteUser(uuid);
+		return ResponseEntity.ok().build();
+	}
 
 
 	

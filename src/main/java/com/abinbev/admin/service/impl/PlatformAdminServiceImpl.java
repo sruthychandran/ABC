@@ -1,6 +1,8 @@
 package com.abinbev.admin.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,13 +54,35 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	public UserResponseDto updateUser(UserDto userDto) {
 		User user = toUser.transfer(userDto, User.class);
 		user.setModifiedBy(userDto.getEmailId());
-	
+
 		user.setModifiedDate(new Date());
 		UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 		user = userDAO.save(user);
 		response.setMessage(updationMessage);
 		return response;
 
+	}
+
+	@Override
+	public List<UserResponseDto> getAllUsers() {
+
+		List<UserResponseDto> userResponses = new ArrayList<UserResponseDto>();
+
+		List<User> users = userDAO.getAllUsers();
+
+		for (User user : users) {
+			UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
+			userResponses.add(response);
+
+		}
+
+		return userResponses;
+	}
+
+	@Override
+	public void deleteUser(String uuid) {
+
+		userDAO.deleteUser(uuid);
 	}
 
 }

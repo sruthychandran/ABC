@@ -1,8 +1,7 @@
 package com.abinbev.admin.dao;
 
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import com.abinbev.admin.entity.Role;
 
@@ -14,4 +13,8 @@ import com.abinbev.admin.entity.Role;
 public interface RoleDAO  {
 
 	public Role save(Role role) ;
+	
+	public void deleteRole(String roleId) ;
+	
+	public List<Role> getAllRoles();
 }
