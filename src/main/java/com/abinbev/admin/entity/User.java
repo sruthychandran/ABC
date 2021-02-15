@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
+import com.abinbev.admin.requestDto.CategoryDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +26,7 @@ public class User {
 	private String emailId;
 	private Long phoneNo;
 	private List<String> roles;
-	private List<Category> categories;
+	private List<CategoryDto> categories;
 	
 	private Boolean status;
 	
