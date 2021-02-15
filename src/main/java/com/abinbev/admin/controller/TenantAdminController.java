@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.BadRequestAlertException;
+import com.abinbev.admin.exception.DuplicateEmailException;
+import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -32,14 +34,14 @@ public class TenantAdminController {
 	PlatformAdminService platformAdminService;
 
 	@PostMapping("/createUser")
-	public ResponseEntity<UserResponseDto>  createUsers(@RequestBody UserDto userDto) {
+	public ResponseEntity<UserResponseDto>  createUsers(@RequestBody UserDto userDto) throws DuplicateEmailException {
 		UserResponseDto result = platformAdminService.saveUser(userDto);
 		
 		return ResponseEntity.ok().body(result);
 	}
 
 	@PutMapping("/updateUser")
-	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException {
+	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException, UserNotFoundException {
 		if(userDto.getUuid() == null)
 			throw new BadRequestAlertException("Invalid uuid");
 		UserResponseDto result = platformAdminService.updateUser(userDto);

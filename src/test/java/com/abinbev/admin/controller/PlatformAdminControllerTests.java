@@ -1,14 +1,16 @@
 package com.abinbev.admin.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -21,35 +23,25 @@ import com.abinbev.admin.service.PlatformAdminService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-@WebMvcTest(controllers = {PlatformAdminController.class})
+@WebMvcTest(controllers = { PlatformAdminController.class })
 public class PlatformAdminControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private PlatformAdminService platformAdminService;
-	
+
 	@Autowired
 	private ObjectMapper mapper;
 
 	@Test
-	
+
 	public void createUsers() throws Exception {
-		  
-		  User user = User.builder().firstName("rafeek").build();
-		  
-		  UserResponseDto userDTO = mapper.readValue(mapToJson(user), UserResponseDto.class);
+
+		User user = User.builder().firstName("rafeek").build();
+
+		UserResponseDto userDTO = mapper.readValue(mapToJson(user), UserResponseDto.class);
 
 		String inputInJson = this.mapToJson(userDTO);
 		String URI = "/api/users";
@@ -66,10 +58,10 @@ public class PlatformAdminControllerTests {
 		assertThat(outputInJson).isEqualTo(inputInJson);
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
-	
-	 private String mapToJson(Object object) throws JsonProcessingException {
-			ObjectMapper objectMapper = new ObjectMapper();
-			return objectMapper.writeValueAsString(object);
-		}
-	  
+
+	private String mapToJson(Object object) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(object);
+	}
+
 }
