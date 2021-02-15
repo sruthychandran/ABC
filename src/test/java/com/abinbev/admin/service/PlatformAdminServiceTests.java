@@ -54,91 +54,20 @@ public class PlatformAdminServiceTests {
 
 	@AfterEach
 	void afterEach() {
-		// log.info("@AfterEach - executed after each test method.");
+		userDAO.deleteAll();
 	}
-
-	/*
-	 * @Test public void test_emailUnique_success() { User user =
-	 * User.builder().firstName("rafeek").lastName("ks").emailId(
-	 * "rafeeq088@gmail.com").phoneNo(8089587001L).build(); user=
-	 * userDAO.findByEmail(user.getEmailId()); assertNull(user);
-	 * 
-	 * 
-	 * }
-	 */
-
-	/*
-	 * @Test public void test_emailUnique_fail_throw_exception() throws
-	 * JsonMappingException, JsonProcessingException { User user =
-	 * User.builder().firstName("rafeek").lastName("ks").emailId("abdul.r@gmail.com"
-	 * ).phoneNo(8089587001L).build(); UserDto userDTO =
-	 * mapper.readValue(mapToJson(user), UserDto.class); user=
-	 * userDAO.findByEmail(user.getEmailId()); Exception exception =
-	 * assertThrows(DuplicateEmailException.class, () ->
-	 * platformAdminService.saveUser(userDTO));
-	 * 
-	 * String expectedMessage =
-	 * "The email address: abdul.r@gmail.com is already in use."; String
-	 * actualMessage = exception.getMessage();
-	 * 
-	 * assertTrue(actualMessage.contains(expectedMessage));
-	 * 
-	 * }
-	 */
 
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(object);
 	}
 
-	// ====================== Test Data ==========================
+	
 
-	/*
-	 * @Test public void test_createUserWithDifferentEmailIds() throws
-	 * JsonMappingException, JsonProcessingException, DuplicateEmailException {
-	 * 
-	 * UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
-	 * "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
-	 * Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
-	 * "NI")).build())) .build();
-	 * 
-	 * UserResponseDto userResponse1 = platformAdminService.saveUser(user1);
-	 * assertNotNull(userResponse1.getUuid()); assertEquals("rafeeq088@gmail.com",
-	 * userResponse1.getEmailId()); assertEquals("PLS",
-	 * userResponse1.getCategories().get(0).getCategoryId()); assertEquals("NI",
-	 * userResponse1.getCategories().get(0).getModuleId().get(0));
-	 * 
-	 * UserDto user2 =
-	 * UserDto.builder().firstName("abi").lastName("shammu").emailId(
-	 * "abi@gmail.com") .phoneNo(8089587001l) .categories(
-	 * Arrays.asList(CategoryDto.builder().categoryId("PS").moduleId(Arrays.asList(
-	 * "XYZ")).build())) .build(); UserResponseDto userResponse2 =
-	 * platformAdminService.saveUser(user2); assertNotNull(userResponse2.getUuid());
-	 * assertEquals("abi@gmail.com", userResponse2.getEmailId()); assertEquals("PS",
-	 * userResponse2.getCategories().get(0).getCategoryId()); assertEquals("XYZ",
-	 * userResponse1.getCategories().get(0).getModuleId().get(0));
-	 * 
-	 * }
-	 * 
-	 * @Test public void test_createUserWithExistingEmail() throws
-	 * JsonMappingException, JsonProcessingException, DuplicateEmailException {
-	 * 
-	 * UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
-	 * "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
-	 * Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
-	 * "NI")).build())) .build(); UserResponseDto userResponse1 =
-	 * platformAdminService.saveUser(user1); assertNotNull(userResponse1.getUuid());
-	 * 
-	 * UserDto user2 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
-	 * "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
-	 * Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
-	 * "NI")).build())) .build(); assertThrows(DuplicateEmailException.class, () ->
-	 * platformAdminService.saveUser(user2));
-	 * 
-	 * }
-	 */
 	@Test
-	public void test_updateUser_success() throws JsonMappingException, JsonProcessingException, DuplicateEmailException, UserNotFoundException {
+	public void test_createUserWithDifferentEmailIds()
+			throws JsonMappingException, JsonProcessingException, DuplicateEmailException {
+
 		UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
 				.phoneNo(8089587001l)
 				.categories(
@@ -151,22 +80,67 @@ public class PlatformAdminServiceTests {
 		assertEquals("PLS", userResponse1.getCategories().get(0).getCategoryId());
 		assertEquals("NI", userResponse1.getCategories().get(0).getModuleId().get(0));
 
-		User retrievedUser = userDAO.findByEmail(user1.getEmailId());
-		// Update the required fields of retrieved user
-		// The retrieved user must have the primary key
-		Date createdDate = retrievedUser.getCreatedDate();
-		String createdBy = retrievedUser.getCreatedBy();
+		UserDto user2 = UserDto.builder().firstName("abi").lastName("shammu").emailId("abi@gmail.com")
+				.phoneNo(8089587001l)
+				.categories(
+						Arrays.asList(CategoryDto.builder().categoryId("PS").moduleId(Arrays.asList("XYZ")).build()))
+				.build();
+		UserResponseDto userResponse2 = platformAdminService.saveUser(user2);
+		assertNotNull(userResponse2.getUuid());
+		assertEquals("abi@gmail.com", userResponse2.getEmailId());
+		assertEquals("PS", userResponse2.getCategories().get(0).getCategoryId());
+		assertEquals("XYZ", userResponse2.getCategories().get(0).getModuleId().get(0));
 
-		// The created date and created by are modified now
-		// retrievedUser.setCreatedBy(newCreatedDate);
-		// retrievedUser.setCreatedBy(newCreatedBy);
-		UserDto userDTO1 = mapper.readValue(mapToJson(retrievedUser), UserDto.class);
-		UserResponseDto updatedUser = platformAdminService.updateUser(userDTO1);
-		assertNotNull(updatedUser.getUuid());
-		// Verifying the created Date and created by are not modified in the db
-		assertEquals(createdDate, updatedUser.getCreatedBy());
-		assertEquals(createdBy, updatedUser.getCreatedBy());
-		// assert all the updated values
 	}
+
+	@Test public void test_createUserWithExistingEmail() throws
+		  JsonMappingException, JsonProcessingException, DuplicateEmailException {
+		  
+		  UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
+		  "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
+		  Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
+		  "NI")).build())) .build(); UserResponseDto userResponse1 =
+		  platformAdminService.saveUser(user1); 
+		  assertNotNull(userResponse1.getUuid());
+		  
+		  UserDto user2 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
+		  "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
+		  Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
+		  "NI")).build())) .build(); assertThrows(DuplicateEmailException.class, () ->
+		  platformAdminService.saveUser(user2));
+		  
+		  }
+
+	@Test public void test_updateUser_success() throws JsonMappingException,
+		  JsonProcessingException, DuplicateEmailException, UserNotFoundException {
+		  UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
+		  "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
+		  Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
+		  "NI")).build())) .build();
+		  
+		  UserResponseDto userResponse1 = platformAdminService.saveUser(user1);
+		  assertNotNull(userResponse1.getUuid()); 
+		  assertEquals("rafeeq088@gmail.com",
+		  userResponse1.getEmailId()); assertEquals("PLS",
+		  userResponse1.getCategories().get(0).getCategoryId()); assertEquals("NI",
+		  userResponse1.getCategories().get(0).getModuleId().get(0));
+		  
+		  User retrievedUser = userDAO.findByUuid(userResponse1.getUuid()); 
+		  // Update the required fields of retrieved user 
+		  // The retrieved user must have the primarykey 
+		  assertNotNull(retrievedUser.getUuid()); 
+		  Date createdDate =retrievedUser.getCreatedDate(); 
+		  String createdBy = retrievedUser.getCreatedBy();
+		  
+		   UserDto userDTO1 =
+		  mapper.readValue(mapToJson(retrievedUser), UserDto.class); UserResponseDto
+		  updatedUser = platformAdminService.updateUser(userDTO1);
+		  assertNotNull(updatedUser.getUuid()); 
+		  // Verifying the created Date andcreated by are not modified in the db 
+		  assertEquals(createdDate,updatedUser.getCreatedDate());
+		  assertEquals(createdBy,updatedUser.getCreatedBy()); 
+		  // assert all the updated values
+		  }
+		 
 
 }

@@ -59,5 +59,9 @@ public class UserDAOImpl implements UserDAO {
 		query.addCriteria(Criteria.where("uuid").is(uuid));
 		return mongoTemplate.findOne(query, User.class);
 	}
+	
+	public void deleteAll() {
+		 mongoTemplate.remove(new Query(),User.class);
+	}
 
 }

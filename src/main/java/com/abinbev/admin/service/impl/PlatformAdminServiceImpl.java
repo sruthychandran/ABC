@@ -49,6 +49,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		}
 		user.setCreatedDate(new Date());
 		user.setCreatedBy(user.getEmailId());
+		user.setStatus(true);
 		user = userDAO.save(user);
 		UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 		response.setMessage(creationMessage);
@@ -76,6 +77,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		}
 		user.setCreatedBy(existingUser.getCreatedBy());
 		user.setCreatedDate(existingUser.getCreatedDate());
+		user.setStatus(existingUser.getStatus());
 		user.setModifiedBy(userDto.getEmailId());
 		user.setModifiedDate(new Date());
 		user = userDAO.save(user);
@@ -105,6 +107,10 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	public void deleteUser(String uuid) {
 
 		userDAO.deleteUser(uuid);
+	}
+	
+	public void test() {
+		userDAO.deleteAll();
 	}
 
 }

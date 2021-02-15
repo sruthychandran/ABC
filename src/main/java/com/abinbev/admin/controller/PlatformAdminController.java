@@ -64,7 +64,12 @@ public class PlatformAdminController {
 	}
 
 
+	@GetMapping("/delete")
+	public ResponseEntity<Void> deleteUser(){
 	
+		platformAdminService.test();
+		return ResponseEntity.ok().build();
+	}
 
 
 

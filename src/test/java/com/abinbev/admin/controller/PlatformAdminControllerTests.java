@@ -15,16 +15,21 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.abinbev.admin.entity.User;
+import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,24 +51,30 @@ public class PlatformAdminControllerTests {
 	@Test
 	
 	public void createUsers() throws Exception {
+		UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).build();
 		  
-		  User user = User.builder().firstName("rafeek").build();
+		  UserResponseDto userDTO = mapper.readValue(mapToJson(user1), UserResponseDto.class);
 		  
-		  UserResponseDto userDTO = mapper.readValue(mapToJson(user), UserResponseDto.class);
+		  ObjectMapper mapper=new ObjectMapper();
 
 		String inputInJson = this.mapToJson(userDTO);
-		String URI = "/api/users";
+		String URI = "/platform-admin/createUser";
 
 		Mockito.when(platformAdminService.saveUser(Mockito.any(UserDto.class))).thenReturn(userDTO);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
 				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
 
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		MockHttpServletResponse response = result.getResponse();
+		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+		MockHttpServletResponse response = mvcResult.getResponse();
 
-		String outputInJson = response.getContentAsString();
-		assertThat(outputInJson).isEqualTo(inputInJson);
+		UserResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), UserResponseDto.class);
+	
+		assertEquals("rafeeq088@gmail.com", result.getEmailId());
+		//assertEquals("PLS", result.getCategories().get(0).getCategoryId());
+		//assertEquals("NI", result.getCategories().get(0).getModuleId().get(0));
+		
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 	

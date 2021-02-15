@@ -25,7 +25,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto categoryServiceDto) {
 
 		CategoryService categoryService = toCategoryService.transfer(categoryServiceDto, CategoryService.class);
-
+		categoryService.setStatus(true);
 		categoryService = categoryDAO.save(categoryService);
 
 		return toCategoryServiceResponse.transfer(categoryService, CategoryServiceResponseDto.class);
@@ -34,7 +34,11 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 	@Override
 	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto) {
-		return null;
+		CategoryService categoryService = toCategoryService.transfer(categoryServiceDto, CategoryService.class);
+
+		categoryService = categoryDAO.save(categoryService);
+
+		return toCategoryServiceResponse.transfer(categoryService, CategoryServiceResponseDto.class);
 
 	}
 

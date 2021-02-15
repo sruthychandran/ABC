@@ -17,4 +17,6 @@ public interface RoleDAO  {
 	public void deleteRole(String roleId) ;
 	
 	public List<Role> getAllRoles();
+
+	Role findByRoleId(String roleId);
 }

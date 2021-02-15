@@ -47,5 +47,15 @@ public class RoleDAOImpl implements  RoleDAO  {
 		query.addCriteria(Criteria.where("status").is(true));
 		return mongoTemplate.find(query, Role.class);
 	}
+	
+	@Override
+	public Role findByRoleId(String roleId) {
+		Query query = new Query();
+		
+		query.addCriteria(Criteria.where("roleId").is(roleId));
+		return mongoTemplate.findOne(query, Role.class);
+	}
+	
+	
 
 }

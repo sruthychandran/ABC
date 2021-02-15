@@ -17,6 +17,7 @@ public interface PlatformAdminService {
 	 public List<UserResponseDto> getAllUsers();
 
 	 public void deleteUser(String uuid);
-
+     
+	 public void test();
 	
 }
