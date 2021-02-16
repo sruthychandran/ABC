@@ -56,6 +56,14 @@ public class CategoryServiceDAOImpl implements  CategoryServiceDAO  {
 		mongoTemplate.save(categoryService);
 	}
 
+	@Override
+	public CategoryService findByCategoryId(String categoryId) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("categoryId").is(categoryId));
+		return  mongoTemplate.findOne(query, CategoryService.class);
+		
+	}
+
 
 
 }

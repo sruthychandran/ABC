@@ -12,9 +12,13 @@ import org.springframework.stereotype.Repository;
 import com.abinbev.admin.dao.RoleDAO;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
+import com.abinbev.admin.service.impl.RoleServiceImpl;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 @Repository
+@Slf4j
 public class RoleDAOImpl implements  RoleDAO  {
 	
 	@Autowired
@@ -43,6 +47,7 @@ public class RoleDAOImpl implements  RoleDAO  {
 
 	@Override
 	public List<Role> getAllRoles() {
+		log.info("get Alllllllllllllllll");
 		Query query = new Query();
 		query.addCriteria(Criteria.where("status").is(true));
 		return mongoTemplate.find(query, Role.class);

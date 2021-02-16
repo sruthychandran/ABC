@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+//import javax.validation.constraints.NotNull;
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class User {
 	@Id
 	private String uuid;
+	
 	private String firstName;
 	private String lastName;
 	

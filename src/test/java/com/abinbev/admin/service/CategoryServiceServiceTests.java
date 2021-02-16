@@ -11,15 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.abinbev.admin.dao.CategoryServiceDAO;
 import com.abinbev.admin.dao.RoleDAO;
 import com.abinbev.admin.dao.UserDAO;
+import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.DuplicateEmailException;
 import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryDto;
+import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 
@@ -41,13 +45,13 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
-public class RoleServiceTests {
+public class CategoryServiceServiceTests {
 
 	@Autowired
-	private RoleService roleService;
+	private CategoryServiceService categoryServiceService;
 
-	@MockBean
-	private RoleDAO roleDAO;
+	@Mock
+	private CategoryServiceDAO categoryServiceDAO;
 
 	@Autowired
 	private ObjectMapper mapper;
@@ -68,38 +72,34 @@ public class RoleServiceTests {
 	}
 
 	@Test
-	public void test_createRoles_success() throws JsonMappingException, JsonProcessingException {
-		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
-		Role role = mapper.readValue(mapToJson(roleDto), Role.class);
+	public void test_createCategoryServices_success() throws JsonMappingException, JsonProcessingException {
+		CategoryServiceDto  categoryServiceDto = CategoryServiceDto.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
+				.categoryName("Notification Service").build();
 		
-		Mockito.when(roleDAO.save(Mockito.any(Role.class))).thenReturn(role);
-		 RoleResponseDto returnedUser=roleService.saveRole(roleDto);
-		assertNotNull(returnedUser.getRoleId());
-		assertEquals("EU", returnedUser.getRoleId());
-		assertEquals("end user", returnedUser.getRoleName());
+		CategoryService categoryService = mapper.readValue(mapToJson(categoryServiceDto), CategoryService.class);
+		
+		Mockito.when(categoryServiceDAO.save(Mockito.any(CategoryService.class))).thenReturn(categoryService);
+		
+		CategoryServiceResponseDto result=categoryServiceService.saveCategoryService(categoryServiceDto);
+		 
+		
+		assertEquals("CS", result.getCategoryId());
+		assertEquals("coreService",result.getCategoryName());
+		assertEquals("NI",result.getModuleId());
+		assertEquals("Notification Service",result.getModuleName());
+		assertNotNull(result.getCreatedDate());
+		assertEquals("created successfully",result.getMessage());
+		
 
 	}
 	
 	
-	  @Test public void test_updateRoles_success() throws JsonMappingException,
-	  JsonProcessingException, NotFoundException { 
-		  RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build(); 
-		  Role role =mapper.readValue(mapToJson(roleDto), Role.class); 
-	
-		  RoleResponseDto returnedUser=   RoleResponseDto.builder().roleId("EU").roleName("end user").build();
-		  Mockito.when(roleDAO.findByRoleId(returnedUser.getRoleId())).thenReturn(role);
-		  returnedUser.setRoleId("EU"); 
-		  returnedUser.setRoleName("hai updated");
-	      RoleDto updateRequest= mapper.readValue(mapToJson(returnedUser),RoleDto.class); 
-	      Role role1 =mapper.readValue(mapToJson(updateRequest), Role.class); 
-	      Mockito.when(roleDAO.save(Mockito.any(Role.class))).thenReturn(role1);
-	       RoleResponseDto  updatedRole=roleService.updateRole(updateRequest);
-	  
-	  assertNotNull(updatedRole.getRoleId());
-	  assertEquals("hai updated",updatedRole.getRoleName());
-	  
-	  }
-	 
+	/*
+	 * @Test public void test_updateCategoryService_success() throws
+	 * JsonMappingException, JsonProcessingException, NotFoundException {
+	 * 
+	 * }
+	 */
 	 
 	
 

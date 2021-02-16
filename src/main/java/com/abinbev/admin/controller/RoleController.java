@@ -12,10 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abinbev.admin.config.MessageResolver;
 import com.abinbev.admin.exception.BadRequestAlertException;
+import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
+import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.RoleService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
 @RequestMapping("/roles")
@@ -23,17 +28,24 @@ public class RoleController {
 
 	@Autowired
 	RoleService roleService;
-
+	 @Autowired private MessageResolver messageResolver;
 	@PostMapping("/createRole")
-	public void createRole(@RequestBody RoleDto roleDto) {
-		 roleService.saveRole(roleDto);
+	public ResponseEntity<RoleResponseDto> createRole(@RequestBody RoleDto roleDto) {
+		//System.out.println(messageResolver.resolveKey("user.not.found"));
+		
+		RoleResponseDto result= roleService.saveRole(roleDto);
+		return ResponseEntity.ok().body(result);
 	}
 
 	@PutMapping("/updateRole")
-	public void updateRole(@RequestBody RoleDto roleDto) {
-		roleService.saveRole(roleDto);
+	public ResponseEntity<RoleResponseDto> updateRole(@RequestBody RoleDto roleDto) throws BadRequestAlertException, NotFoundException, JsonMappingException, JsonProcessingException {
+		if(roleDto.getRoleId() == null)
+			throw new BadRequestAlertException("Invalid RoleId");
+		RoleResponseDto result= roleService.updateRole(roleDto);
+		return ResponseEntity.ok().body(result);
 	}
 
+	
 	@GetMapping("/getAllRoles")
 	public ResponseEntity<List<RoleResponseDto>> getAllRoles() throws BadRequestAlertException {
 		List<RoleResponseDto> result = roleService.getAllRoles();
@@ -41,7 +53,7 @@ public class RoleController {
 	}
 	
 	@GetMapping("/deleteRole/{roleId}")
-	public ResponseEntity<Void> deleteUser(@PathVariable String roleId)throws BadRequestAlertException {
+	public ResponseEntity<Void> deleteRole(@PathVariable String roleId)throws BadRequestAlertException {
 		if(roleId == null)
 			throw new BadRequestAlertException("Invalid uuid");
 		roleService.deleteRole(roleId);

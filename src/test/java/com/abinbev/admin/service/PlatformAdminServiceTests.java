@@ -1,26 +1,27 @@
 package com.abinbev.admin.service;
 
+
+
+
+
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.DuplicateEmailException;
-import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 
 @SpringBootTest
 public class PlatformAdminServiceTests {
@@ -54,7 +56,7 @@ public class PlatformAdminServiceTests {
 
 	@AfterEach
 	void afterEach() {
-		userDAO.deleteAll();
+		//userDAO.deleteAll();
 	}
 
 	private String mapToJson(Object object) throws JsonProcessingException {
@@ -106,13 +108,14 @@ public class PlatformAdminServiceTests {
 		  UserDto user2 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
 		  "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
 		  Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
-		  "NI")).build())) .build(); assertThrows(DuplicateEmailException.class, () ->
+		  "NI")).build())) .build(); 
+		  assertThrows(DuplicateEmailException.class, () ->
 		  platformAdminService.saveUser(user2));
 		  
 		  }
 
 	@Test public void test_updateUser_success() throws JsonMappingException,
-		  JsonProcessingException, DuplicateEmailException, UserNotFoundException {
+		  JsonProcessingException, DuplicateEmailException,NotFoundException {
 		  UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
 		  "rafeeq088@gmail.com") .phoneNo(8089587001l) .categories(
 		  Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(

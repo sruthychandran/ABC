@@ -3,6 +3,7 @@ package com.abinbev.admin.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.abinbev.admin.exception.BadRequestAlertException;
+import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
+import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 
 @RestController
@@ -23,19 +27,25 @@ public class CategoryServiceController {
 	CategoryServiceService categoryService;
 
 	@PostMapping("/createCategoryService")
-	public void createCategoryService(@RequestBody CategoryServiceDto categoryServiceDto) {
-		categoryService.saveCategoryService(categoryServiceDto);
+	public ResponseEntity<CategoryServiceResponseDto> createCategoryService(@RequestBody CategoryServiceDto categoryServiceDto) {
+		CategoryServiceResponseDto result =categoryService.saveCategoryService(categoryServiceDto);
+		return ResponseEntity.ok().body(result);
 	}
 
 	@PutMapping("/updateCategoryService")
-	public void updateCategoryService(@RequestBody CategoryServiceDto categoryServiceDto) {
-		categoryService.updateCategoryService(categoryServiceDto);
+	public ResponseEntity<CategoryServiceResponseDto> updateCategoryService(@RequestBody CategoryServiceDto categoryServiceDto) throws NotFoundException, BadRequestAlertException {
+		if(categoryServiceDto.getCategoryId() == null)
+			throw new BadRequestAlertException("Invalid CategoryId");
+		CategoryServiceResponseDto result =categoryService.updateCategoryService(categoryServiceDto);
+		return ResponseEntity.ok().body(result);
+		
 	}
 
 	@GetMapping("/getAllCategoryServices")
-	public List<CategoryServiceResponseDto> getAllCategoryServices() {
+	public ResponseEntity<List<CategoryServiceResponseDto>> getAllCategoryServices() {
 		
-		return categoryService.getAllCategoryServices();
+		List<CategoryServiceResponseDto> result = categoryService.getAllCategoryServices();
+		return ResponseEntity.ok().body(result);
 	}
 	
 	@GetMapping("/deleteCategoryService/{categoryId}")

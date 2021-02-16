@@ -2,8 +2,11 @@ package com.abinbev.admin.service;
 
 import java.util.List;
 
+import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 public interface RoleService {
 
@@ -13,5 +16,5 @@ public interface RoleService {
 	
 	public List<RoleResponseDto> getAllRoles();
 	
-	public RoleResponseDto updateRole(RoleDto RoleDto);
+	public RoleResponseDto updateRole(RoleDto RoleDto) throws NotFoundException, JsonMappingException, JsonProcessingException;
 }

@@ -19,7 +19,7 @@ import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.DuplicateEmailException;
-import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -42,7 +42,7 @@ public class PlatformAdminController {
 	}
 
 	@PutMapping("/updateUser")
-	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException, UserNotFoundException {
+	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException,NotFoundException {
 		if(userDto.getUuid() == null)
 			throw new BadRequestAlertException("Invalid uuid");
 		UserResponseDto result = platformAdminService.updateUser(userDto);

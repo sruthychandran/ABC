@@ -18,10 +18,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.requestDto.CategoryDto;
+import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
-
+import com.abinbev.admin.service.RoleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,35 +40,34 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-@WebMvcTest(controllers = {PlatformAdminController.class})
+@WebMvcTest(controllers = {RoleController.class})
 
-public class PlatformAdminControllerTests {
+public class RoleControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private PlatformAdminService platformAdminService;
+	private RoleService roleService;
 
 	@Autowired
 	private ObjectMapper mapper;
 
 	@Test
+    public void createRoles() throws Exception {
 
-	public void createUsers() throws Exception {
-
-		UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
-				.phoneNo(8089587001l).build();
+		
+		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("End User").build();
 		  
-		  UserResponseDto userDTO = mapper.readValue(mapToJson(user1), UserResponseDto.class);
+		  RoleResponseDto roleResponseDto = mapper.readValue(mapToJson(roleDto), RoleResponseDto.class);
 		  
 		  ObjectMapper mapper=new ObjectMapper();
 
 
-		String inputInJson = this.mapToJson(userDTO);
-		String URI = "/platform-admin/createUser";
+		String inputInJson = this.mapToJson(roleDto);
+		String URI = "/roles/createRole";
 
-		Mockito.when(platformAdminService.saveUser(Mockito.any(UserDto.class))).thenReturn(userDTO);
+		Mockito.when(roleService.saveRole(Mockito.any(RoleDto.class))).thenReturn(roleResponseDto);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
 				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
@@ -74,11 +75,10 @@ public class PlatformAdminControllerTests {
 		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = mvcResult.getResponse();
 
-		UserResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), UserResponseDto.class);
+		RoleResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), RoleResponseDto.class);
 	
-		assertEquals("rafeeq088@gmail.com", result.getEmailId());
-		//assertEquals("PLS", result.getCategories().get(0).getCategoryId());
-		//assertEquals("NI", result.getCategories().get(0).getModuleId().get(0));
+		assertEquals("EU", result.getRoleId());
+		assertEquals("End User", result.getRoleName());
 		
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}

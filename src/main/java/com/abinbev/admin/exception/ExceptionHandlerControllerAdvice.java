@@ -57,7 +57,16 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 		return error;
 	}
 	
-   
+	@ExceptionHandler(NotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ApiError  handleResourceNotFound(final NotFoundException exception,
+			final HttpServletRequest request) {
+
+		ApiError error = new ApiError();
+		error.setMessage(exception.getMessage());
+		
+		return error;
+	}
 
 	 
 	  
