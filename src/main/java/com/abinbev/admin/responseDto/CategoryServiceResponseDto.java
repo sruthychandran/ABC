@@ -14,7 +14,7 @@ public class CategoryServiceResponseDto {
 	private String categoryName;
 	private String moduleId;
 	private String moduleName;
-	private Boolean status;
+	private String status;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

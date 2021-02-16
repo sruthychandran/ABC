@@ -19,7 +19,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User save(User user) {
-		user.setStatus(true);
+		user.setStatus("enable");
 		User result = mongoTemplate.save(user);
 
 		return result;
@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
 		query.addCriteria(Criteria.where("uuid").is(uuid));
 		User user = mongoTemplate.findOne(query, User.class);
 		
-		user.setStatus(false);
+		user.setStatus("disable");
 		mongoTemplate.save(user);
 
 	}

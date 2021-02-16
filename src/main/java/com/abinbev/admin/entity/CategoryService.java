@@ -5,6 +5,7 @@ package com.abinbev.admin.entity;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.abinbev.admin.entity.User.UserBuilder;
@@ -20,11 +21,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Document
 public class CategoryService {
+	@Id
 	private String categoryId;
 	private String categoryName;
 	private String moduleId;
 	private String moduleName;
-	private Boolean status;
+	private String status;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

@@ -53,7 +53,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		}
 		user.setCreatedDate(new Date());
 		user.setCreatedBy(user.getEmailId());
-		user.setStatus(true);
+		user.setStatus("enabled");
 		user = userDAO.save(user);
 		UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 		response.setMessage(creationMessage);

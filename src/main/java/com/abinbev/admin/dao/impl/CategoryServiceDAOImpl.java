@@ -52,7 +52,7 @@ public class CategoryServiceDAOImpl implements  CategoryServiceDAO  {
 		query.addCriteria(Criteria.where("categoryId").is(categoryId));
 		CategoryService categoryService = mongoTemplate.findOne(query, CategoryService.class);
 		
-		categoryService.setStatus(false);
+		categoryService.setStatus("disable");
 		mongoTemplate.save(categoryService);
 	}
 

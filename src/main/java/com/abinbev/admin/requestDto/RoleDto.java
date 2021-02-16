@@ -13,7 +13,7 @@ import lombok.Data;
 public class RoleDto {
 	private String roleId;
 	private String roleName;
-	private Boolean status;
+	private String status;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

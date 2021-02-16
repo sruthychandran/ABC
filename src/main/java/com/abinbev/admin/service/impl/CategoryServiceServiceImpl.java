@@ -38,7 +38,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto categoryServiceDto) {
 
 		CategoryService categoryService = toCategoryService.transfer(categoryServiceDto, CategoryService.class);
-		categoryService.setStatus(true);
+		categoryService.setStatus("enabled");
 		categoryService.setCreatedDate(new Date());
 		//categoryService.setCreatedBy();
 		categoryService = categoryDAO.save(categoryService);

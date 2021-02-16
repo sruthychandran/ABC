@@ -40,7 +40,7 @@ public class RoleDAOImpl implements  RoleDAO  {
 		query.addCriteria(Criteria.where("roleId").is(roleId));
 		Role role = mongoTemplate.findOne(query, Role.class);
 		
-		role.setStatus(false);
+		role.setStatus("disable");
 		mongoTemplate.save(role);
 		
 	}

@@ -1,7 +1,7 @@
 package com.abinbev.admin.entity;
 
 
-
+import org.springframework.data.annotation.Id;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +19,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Document
 public class Role {
+	@Id
 	private String roleId;
 	private String roleName;
-	private Boolean status;
+	private String status;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

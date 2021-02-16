@@ -15,9 +15,9 @@ public class UserResponseDto {
 	private String lastName;
 	private String emailId;
 	private Long phoneNo;
-	private List<String> roles;
+	private String roleId;
 	private List<CategoryDto> categories;
-	private Boolean status;
+	private String status;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

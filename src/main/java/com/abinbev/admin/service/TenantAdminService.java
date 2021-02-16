@@ -24,19 +24,5 @@ public interface TenantAdminService {
 
 	 public void deleteUser(String uuid);
 	 
-	 public RoleResponseDto saveRole(RoleDto RoleDto);
-		
-		public void deleteRole(String roleId);
-		
-		public List<RoleResponseDto> getAllRoles();
-		
-		public RoleResponseDto updateRole(RoleDto RoleDto) throws NotFoundException, JsonMappingException, JsonProcessingException;
-
-		public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto CategoryServiceDto);
-
-		public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto) throws NotFoundException;
-
-		public List<CategoryServiceResponseDto> getAllCategoryServices();
-
-		public void deleteCategoryService(String categoryId);
+	
 }

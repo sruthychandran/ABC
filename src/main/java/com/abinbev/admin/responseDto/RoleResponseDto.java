@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class RoleResponseDto {
 	private String roleId;
 	private String roleName;
-	private Boolean status;
+	private String status;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;
