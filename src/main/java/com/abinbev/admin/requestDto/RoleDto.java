@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 @Builder
 public class RoleDto {
+	private String id;
 	private String roleId;
 	private String roleName;
 	private String status;

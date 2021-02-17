@@ -1,12 +1,6 @@
 package com.abinbev.admin.responseDto;
 
-
-
 import java.util.Date;
-
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.abinbev.admin.responseDto.RoleResponseDto.RoleResponseDtoBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryServiceResponseDto {
+	private String id;
 	private String categoryId;
 	private String categoryName;
 	private String moduleId;

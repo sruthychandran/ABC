@@ -2,6 +2,8 @@ package com.abinbev.admin.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.BadRequestAlertException;
-import com.abinbev.admin.exception.DuplicateEmailException;
+import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.NotFoundException;
+import com.abinbev.admin.exception.UserCreationFailureException;
+import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -36,54 +40,78 @@ public class PlatformAdminController {
 	@Autowired
 	PlatformAdminService platformAdminService;
 
+	/**
+	 * In this method a platform admin can create user
+	 * @param userDto
+	 * @return UserResponseDto
+	 * @throws EmailExistException
+	 * @throws UserCreationFailureException 
+	 */
 	@PostMapping("/createUser")
-	public ResponseEntity<UserResponseDto>  createUsers(@RequestBody UserDto userDto) throws DuplicateEmailException {
-		UserResponseDto result = platformAdminService.saveUser(userDto);
-		
+	public ResponseEntity<UserResponseDto> createUsers(@Valid @RequestBody UserDto userDto) throws EmailExistException, UserCreationFailureException {
+	
+
+		UserResponseDto result  = platformAdminService.saveUser(userDto);
+
 		return ResponseEntity.ok().body(result);
-		
+
 	}
 
+	/**
+	 * In this method a platform admin can update user
+	 * @param userDto
+	 * @return
+	 * @throws BadRequestAlertException
+	 * @throws NotFoundException
+	 * @throws UserNotFoundException 
+	 */
 	@PutMapping("/updateUser")
-	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException,NotFoundException {
-		if(userDto.getEmailId() == null)
+	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto)
+			throws BadRequestAlertException, UserNotFoundException {
+		if (userDto.getEmailId() == null)
 			throw new BadRequestAlertException("Invalid uuid");
 		UserResponseDto result = platformAdminService.updateUser(userDto);
 		return ResponseEntity.ok().body(result);
 	}
 
+	/**
+	 * In this method a platform admin can list users
+	 * @return List<UserResponseDto>
+	 * @throws BadRequestAlertException
+	 */
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<List<UserResponseDto>> getAllUsers() throws BadRequestAlertException {
 		List<UserResponseDto> result = platformAdminService.getAllUsers();
 		return ResponseEntity.ok().body(result);
 	}
-	
-	@GetMapping("/deleteUser/{uuid}")
-	public ResponseEntity<Void> deleteUser(@PathVariable String uuid)throws BadRequestAlertException {
-		if(uuid == null)
-			throw new BadRequestAlertException("Invalid uuid");
-		platformAdminService.deleteUser(uuid);
+
+	/**
+	 * In this method a platform admin can user
+	 * @param emailId
+	 * @return
+	 * @throws UserNotFoundException
+	 */
+	@GetMapping("/deleteUser/{emailId}")
+	public ResponseEntity<Void> deleteUser(@PathVariable String emailId) throws UserNotFoundException {
+
+		platformAdminService.deleteUser(emailId);
 		return ResponseEntity.ok().build();
 	}
 
-
-	@GetMapping("/delete")
-	public ResponseEntity<Void> deleteUser(){
 	
-		platformAdminService.test();
-		return ResponseEntity.ok().build();
-	}
-
+	/**
+	 * In this method a platform admin can find a user by mail id
+	 * @param emailId
+	 * @return
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 */
 	@GetMapping("/getUser/{emailId}")
-	public ResponseEntity<UserResponseDto> getUserByEmailId(@PathVariable String emailId) throws JsonMappingException, JsonProcessingException {
-		
+	public ResponseEntity<UserResponseDto> getUserByEmailId(@PathVariable String emailId)
+			throws JsonMappingException, JsonProcessingException {
+
 		UserResponseDto result = platformAdminService.findByEmailId(emailId);
 		return ResponseEntity.ok().body(result);
 	}
-
-
-
-	
-	
 
 }

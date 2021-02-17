@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-//import javax.validation.constraints.NotNull;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,25 +20,17 @@ import lombok.NoArgsConstructor;
 @Document
 public class User {
 	@Id
+	private String id;
 	private String emailId;
-	//private String uuid;
-	
 	private String firstName;
 	private String lastName;
-	
-	
 	private Long phoneNo;
 	private String roleId;
-	
 	private List<CategoryDto> categories;
-	
 	private String status;
-	
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;
 	private String modifiedBy;
-	
-	
 
 }

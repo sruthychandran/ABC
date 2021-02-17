@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.User;
+import com.abinbev.admin.responseDto.UserResponseDto;
+
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -19,10 +21,10 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User save(User user) {
-		user.setStatus("enable");
-		User result = mongoTemplate.save(user);
-
-		return result;
+		User createUserObj = mongoTemplate.save(user);
+		
+		return  createUserObj;
+		
 
 	}
 
@@ -33,17 +35,17 @@ public class UserDAOImpl implements UserDAO {
 		return mongoTemplate.find(query, User.class);
 	}
 
-	@Override
-	public void deleteUser(String uuid) {
-		
-		Query query = new Query();
-		query.addCriteria(Criteria.where("uuid").is(uuid));
-		User user = mongoTemplate.findOne(query, User.class);
-		
-		user.setStatus("disable");
-		mongoTemplate.save(user);
-
-	}
+	/*
+	 * @Override public void deleteUser(String emailId) {
+	 * 
+	 * Query query = new Query();
+	 * query.addCriteria(Criteria.where("emailId").is(emailId)); User user =
+	 * mongoTemplate.findOne(query, User.class);
+	 * 
+	 * user.setStatus("disable"); mongoTemplate.save(user);
+	 * 
+	 * }
+	 */
 	@Override
 	public User findByEmail(String emailId) {
 		Query query = new Query();
@@ -52,16 +54,12 @@ public class UserDAOImpl implements UserDAO {
 		return mongoTemplate.findOne(query, User.class);
 	}
 	
-	@Override
-	public User findByUuid(String uuid) {
-		Query query = new Query();
-		
-		query.addCriteria(Criteria.where("uuid").is(uuid));
-		return mongoTemplate.findOne(query, User.class);
-	}
+	
 	
 	public void deleteAll() {
 		 mongoTemplate.remove(new Query(),User.class);
 	}
+
+
 
 }

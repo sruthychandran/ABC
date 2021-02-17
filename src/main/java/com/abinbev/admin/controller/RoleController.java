@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abinbev.admin.config.MessageResolver;
 import com.abinbev.admin.exception.BadRequestAlertException;
-import com.abinbev.admin.exception.NotFoundException;
+import com.abinbev.admin.exception.RoleCreationFailureException;
+import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
-import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.RoleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -28,43 +27,80 @@ public class RoleController {
 
 	@Autowired
 	RoleService roleService;
-	 @Autowired private MessageResolver messageResolver;
+
+	/**
+	 *  In this method we can create a role
+	 * @param roleDto
+	 * @return RoleResponseDto
+	 * @throws RoleCreationFailureException
+	 */
 	@PostMapping("/createRole")
-	public ResponseEntity<RoleResponseDto> createRole(@RequestBody RoleDto roleDto) {
-		//System.out.println(messageResolver.resolveKey("user.not.found"));
-		
-		RoleResponseDto result= roleService.saveRole(roleDto);
+	public ResponseEntity<RoleResponseDto> createRole(@RequestBody RoleDto roleDto)
+			throws RoleCreationFailureException {
+
+		RoleResponseDto result = roleService.saveRole(roleDto);
 		return ResponseEntity.ok().body(result);
 	}
 
+	/**
+	 * In this method we can update a role
+	 * @param roleDto
+	 * @return RoleResponseDto
+	 * @throws BadRequestAlertException
+	 * @throws NotFoundException
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 */
 	@PutMapping("/updateRole")
-	public ResponseEntity<RoleResponseDto> updateRole(@RequestBody RoleDto roleDto) throws BadRequestAlertException, NotFoundException, JsonMappingException, JsonProcessingException {
-		if(roleDto.getRoleId() == null)
+	public ResponseEntity<RoleResponseDto> updateRole(@RequestBody RoleDto roleDto)
+			throws BadRequestAlertException, RoleNotFoundException {
+		if (roleDto.getRoleId() == null)
 			throw new BadRequestAlertException("Invalid RoleId");
-		RoleResponseDto result= roleService.updateRole(roleDto);
+		RoleResponseDto result = roleService.updateRole(roleDto);
 		return ResponseEntity.ok().body(result);
 	}
 
-	
+	/**
+	 * In this method we can list all roles
+	 * @return List<RoleResponseDto>
+	 * @throws BadRequestAlertException
+	 */
 	@GetMapping("/getAllRoles")
 	public ResponseEntity<List<RoleResponseDto>> getAllRoles() throws BadRequestAlertException {
 		List<RoleResponseDto> result = roleService.getAllRoles();
 		return ResponseEntity.ok().body(result);
 	}
-	
+
+	/**
+	 * In this method we can delete a role
+	 * @param roleId
+	 * 
+	 * @throws BadRequestAlertException
+	 * @throws RoleNotFoundException
+	 */
 	@GetMapping("/deleteRole/{roleId}")
-	public ResponseEntity<Void> deleteRole(@PathVariable String roleId)throws BadRequestAlertException {
-		if(roleId == null)
+	public ResponseEntity<Void> deleteRole(@PathVariable String roleId)
+			throws BadRequestAlertException, RoleNotFoundException {
+		if (roleId == null)
 			throw new BadRequestAlertException("Invalid roleId");
 		roleService.deleteRole(roleId);
 		return ResponseEntity.ok().build();
 	}
-	
+
+	/**
+	 * In this method we can get a role by id
+	 * @param roleId
+	 * @return RoleResponseDto
+	 * @throws BadRequestAlertException
+	 * 
+	 * @throws RoleNotFoundException
+	 */
 	@GetMapping("/getRole/{roleId}")
-	public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable String roleId) throws BadRequestAlertException, JsonMappingException, JsonProcessingException {
-		if(roleId == null)
+	public ResponseEntity<RoleResponseDto> getRoleByRoleId(@PathVariable String roleId)
+			throws BadRequestAlertException, RoleNotFoundException {
+		if (roleId == null)
 			throw new BadRequestAlertException("Invalid roleId");
-		RoleResponseDto result = roleService.findByRoleId(roleId);
+		RoleResponseDto result = roleService.getRole(roleId);
 		return ResponseEntity.ok().body(result);
 	}
 

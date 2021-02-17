@@ -15,6 +15,7 @@ import lombok.Data;
 @Data
 @Builder
 public class CategoryServiceDto {
+	private String id;
 	private String categoryId;
 	private String categoryName;
 	private String moduleId;

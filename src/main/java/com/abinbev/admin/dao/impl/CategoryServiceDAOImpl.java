@@ -45,16 +45,16 @@ public class CategoryServiceDAOImpl implements  CategoryServiceDAO  {
 		return mongoTemplate.find(query, CategoryService.class);
 	}
 
-	@Override
-	public void deleteCategoryService(String categoryId) {
-		
-		Query query = new Query();
-		query.addCriteria(Criteria.where("categoryId").is(categoryId));
-		CategoryService categoryService = mongoTemplate.findOne(query, CategoryService.class);
-		
-		categoryService.setStatus("disable");
-		mongoTemplate.save(categoryService);
-	}
+	/*
+	 * @Override public void deleteCategoryService(String categoryId) {
+	 * 
+	 * Query query = new Query();
+	 * query.addCriteria(Criteria.where("categoryId").is(categoryId));
+	 * CategoryService categoryService = mongoTemplate.findOne(query,
+	 * CategoryService.class);
+	 * 
+	 * categoryService.setStatus("disable"); mongoTemplate.save(categoryService); }
+	 */
 
 	@Override
 	public CategoryService findByCategoryId(String categoryId) {

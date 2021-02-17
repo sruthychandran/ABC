@@ -51,25 +51,42 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 	public @ResponseBody ApiError handleBadRequest(final BadRequestAlertException exception,
 			final HttpServletRequest request) {
 
-		ApiError error = new ApiError();
-		error.setMessage(exception.getMessage());
+		/*
+		 * ApiError error = new ApiError(); error.setMessage(exception.getMessage());
+		 */
 		
-		return error;
+		return  setExceptionModel(exception);
 	}
 	
-	@ExceptionHandler(NotFoundException.class)
+	@ExceptionHandler(UserNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public @ResponseBody ApiError  handleResourceNotFound(final NotFoundException exception,
+	public @ResponseBody ApiError  handleResourceNotFound(final UserNotFoundException exception,
 			final HttpServletRequest request) {
 
-		ApiError error = new ApiError();
-		error.setMessage(exception.getMessage());
-		
-		return error;
+		/*
+		 * ApiError error = new ApiError(); error.setMessage(exception.getMessage());
+		 */
+		return  setExceptionModel(exception);
 	}
 
+	
+	@ExceptionHandler(EmailExistException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ApiError  handleEmailExist(final EmailExistException exception,
+			final HttpServletRequest request) {
+
+		/*
+		 * ApiError error = new ApiError(); error.setMessage(exception.getMessage());
+		 * setExceptionModel(exception);
+		 */
+		return setExceptionModel(exception);
+	}
 	 
-	  
+	private ApiError setExceptionModel(Exception ex) {
+		ApiError error = new ApiError();
+		error.setMessage(ex.getMessage());
+		return error;
+	}
 
 
 

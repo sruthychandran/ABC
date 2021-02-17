@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abinbev.admin.exception.BadRequestAlertException;
-import com.abinbev.admin.exception.NotFoundException;
+import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
+import com.abinbev.admin.exception.CategoryServiceNotFoundException;
+
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
@@ -29,39 +31,73 @@ public class CategoryServiceController {
 	@Autowired
 	CategoryServiceService categoryService;
 
+	/**
+	 * In this method we can create a category service
+	 * @param categoryServiceDto
+	 * @return CategoryServiceResponseDto
+	 * @throws CategoryServiceCreationFailureException 
+	 */
 	@PostMapping("/createCategoryService")
-	public ResponseEntity<CategoryServiceResponseDto> createCategoryService(@RequestBody CategoryServiceDto categoryServiceDto) {
-		CategoryServiceResponseDto result =categoryService.saveCategoryService(categoryServiceDto);
+	public ResponseEntity<CategoryServiceResponseDto> createCategoryService(
+			@RequestBody CategoryServiceDto categoryServiceDto) throws CategoryServiceCreationFailureException {
+		CategoryServiceResponseDto result = categoryService.saveCategoryService(categoryServiceDto);
 		return ResponseEntity.ok().body(result);
 	}
 
+	/**
+	 *  In this method we can update a category service
+	 * @param categoryServiceDto
+	 * @return
+	 * @throws NotFoundException
+	 * @throws BadRequestAlertException
+	 */
 	@PutMapping("/updateCategoryService")
-	public ResponseEntity<CategoryServiceResponseDto> updateCategoryService(@RequestBody CategoryServiceDto categoryServiceDto) throws NotFoundException, BadRequestAlertException {
-		if(categoryServiceDto.getCategoryId() == null)
+	public ResponseEntity<CategoryServiceResponseDto> updateCategoryService(
+			@RequestBody CategoryServiceDto categoryServiceDto) throws CategoryServiceNotFoundException, BadRequestAlertException {
+		if (categoryServiceDto.getCategoryId() == null)
 			throw new BadRequestAlertException("Invalid CategoryId");
-		CategoryServiceResponseDto result =categoryService.updateCategoryService(categoryServiceDto);
+		CategoryServiceResponseDto result = categoryService.updateCategoryService(categoryServiceDto);
 		return ResponseEntity.ok().body(result);
-		
+
 	}
 
+	/**
+	 *  In this method we can get all category services
+	 * @return List<CategoryServiceResponseDto>
+	 */
 	@GetMapping("/getAllCategoryServices")
 	public ResponseEntity<List<CategoryServiceResponseDto>> getAllCategoryServices() {
-		
+
 		List<CategoryServiceResponseDto> result = categoryService.getAllCategoryServices();
 		return ResponseEntity.ok().body(result);
 	}
-	
+
+	/**
+	 *  In this method we can delete a category service
+	 * @param categoryId
+	 * @throws CategoryServiceNotFoundException 
+	 */
 	@GetMapping("/deleteCategoryService/{categoryId}")
-	public void deleteCategoryService(@PathVariable String categoryId) {
-		
+	public void deleteCategoryService(@PathVariable String categoryId) throws CategoryServiceNotFoundException {
+
 		categoryService.deleteCategoryService(categoryId);
-	
+
 	}
+
+	/**
+	 *  In this method we can get a category service by id
+	 * @param categoryId
+	 * @return
+	 * @throws BadRequestAlertException
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 */
 	@GetMapping("/getCategoryService/{categoryId}")
-	public ResponseEntity<CategoryServiceResponseDto> getCategoryServiceById(@PathVariable String categoryId) throws BadRequestAlertException, JsonMappingException, JsonProcessingException {
-		if(categoryId == null)
+	public ResponseEntity<CategoryServiceResponseDto> getCategoryServiceById(@PathVariable String categoryId)
+			throws BadRequestAlertException, JsonMappingException, JsonProcessingException {
+		if (categoryId == null)
 			throw new BadRequestAlertException("Invalid categoryId");
-		CategoryServiceResponseDto result = categoryService.findByCategoryId(categoryId);
+		CategoryServiceResponseDto result = categoryService.findCategoryService(categoryId);
 		return ResponseEntity.ok().body(result);
 	}
 }
