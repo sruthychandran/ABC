@@ -98,8 +98,8 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	@Override
 	public UserResponseDto updateUser(UserDto userDto) throws NotFoundException {
 		User user = toUser.transfer(userDto, User.class);
-		User existingUser=userDAO.findByUuid(userDto.getUuid());
-		
+		//User existingUser=userDAO.findByUuid(userDto.getUuid());
+		User existingUser=userDAO.findByEmail(userDto.getEmailId());
 		
 		if(existingUser == null ) {
 			throw new NotFoundException("user not found");

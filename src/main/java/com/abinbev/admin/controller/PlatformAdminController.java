@@ -43,7 +43,7 @@ public class PlatformAdminController {
 
 	@PutMapping("/updateUser")
 	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException,NotFoundException {
-		if(userDto.getUuid() == null)
+		if(userDto.getEmailId() == null)
 			throw new BadRequestAlertException("Invalid uuid");
 		UserResponseDto result = platformAdminService.updateUser(userDto);
 		return ResponseEntity.ok().body(result);

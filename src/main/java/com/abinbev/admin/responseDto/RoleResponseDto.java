@@ -23,4 +23,5 @@ public class RoleResponseDto {
 	private Date modifiedDate;
 	private String modifiedBy;
 	private String message;
+	private String userRole;
 }

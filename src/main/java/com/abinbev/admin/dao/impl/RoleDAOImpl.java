@@ -43,11 +43,12 @@ public class RoleDAOImpl implements  RoleDAO  {
 		role.setStatus("disable");
 		mongoTemplate.save(role);
 		
+		
 	}
 
 	@Override
 	public List<Role> getAllRoles() {
-		log.info("get Alllllllllllllllll");
+	
 		Query query = new Query();
 		query.addCriteria(Criteria.where("status").is(true));
 		return mongoTemplate.find(query, Role.class);

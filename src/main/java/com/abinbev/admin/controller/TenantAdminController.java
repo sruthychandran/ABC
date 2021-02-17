@@ -50,8 +50,8 @@ public class TenantAdminController {
 
 	@PutMapping("/updateUser")
 	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException, NotFoundException {
-		if(userDto.getUuid() == null)
-			throw new BadRequestAlertException("Invalid uuid");
+		if(userDto.getEmailId() == null)
+			throw new BadRequestAlertException("Invalid emailId");
 		UserResponseDto result = tenantAdminService.updateUser(userDto);
 		return ResponseEntity.ok().body(result);
 	}

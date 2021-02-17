@@ -31,7 +31,7 @@ public class CategoryService {
 	private String createdBy;
 	private Date modifiedDate;
 	private String modifiedBy;
-
+	private String userRole;
 
 	
 

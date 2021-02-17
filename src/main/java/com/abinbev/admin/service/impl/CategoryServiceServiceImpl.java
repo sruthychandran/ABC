@@ -67,7 +67,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		categoryService = categoryDAO.save(categoryService);
 
 		CategoryServiceResponseDto response= toCategoryServiceResponse.transfer(categoryService, CategoryServiceResponseDto.class);
-		response.setMessage(creationMessage); 
+		response.setMessage(updationMessage); 
 		return response;
 
 	}

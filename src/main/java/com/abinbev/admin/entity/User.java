@@ -20,12 +20,13 @@ import lombok.NoArgsConstructor;
 @Document
 public class User {
 	@Id
-	private String uuid;
+	private String emailId;
+	//private String uuid;
 	
 	private String firstName;
 	private String lastName;
 	
-	private String emailId;
+	
 	private Long phoneNo;
 	private String roleId;
 	

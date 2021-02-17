@@ -8,5 +8,5 @@ import lombok.Data;
 public class Category {
 	private String categoryId;
 	private List<String> moduleId;
-
+    
 }

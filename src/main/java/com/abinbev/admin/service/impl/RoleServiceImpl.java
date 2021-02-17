@@ -61,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public void deleteRole(String roleId) {
-
+		
 		roleDAO.deleteRole(roleId);
 
 	}
@@ -95,6 +95,7 @@ public class RoleServiceImpl implements RoleService {
 		}
 		Role role = toRole.transfer(roleDto, Role.class);
 		
+		
 
 		// role.setCreatedBy(existingRole.getCreatedBy());
 		role.setCreatedDate(existingRole.getCreatedDate());
@@ -110,10 +111,19 @@ public class RoleServiceImpl implements RoleService {
 		log.info("output updateRole : {}", response);
 		return response;
 
+		
 	}
 
 	
-
+	@Override
+	public RoleResponseDto findByRoleId(String roleId) throws JsonMappingException, JsonProcessingException{
+		Role role =roleDAO.findByRoleId(roleId);
+	
+		RoleResponseDto response =   mapper.readValue(mapToJson(role), RoleResponseDto.class);
+		return response;
+	}
+	
+	
 	
 	private String mapToJson(Object object) throws JsonProcessingException {
 

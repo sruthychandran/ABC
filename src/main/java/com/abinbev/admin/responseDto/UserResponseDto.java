@@ -6,11 +6,18 @@ import java.util.List;
 import com.abinbev.admin.entity.Category;
 import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.RoleResponseDto.RoleResponseDtoBuilder;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserResponseDto {
-	private String uuid;
+//	private String uuid;
 	private String firstName;
 	private String lastName;
 	private String emailId;

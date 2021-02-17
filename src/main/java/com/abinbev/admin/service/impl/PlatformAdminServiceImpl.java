@@ -74,8 +74,8 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	@Override
 	public UserResponseDto updateUser(UserDto userDto) throws NotFoundException {
 		User user = toUser.transfer(userDto, User.class);
-		User existingUser = userDAO.findByUuid(userDto.getUuid());
-
+	
+		User existingUser = userDAO.findByEmail(userDto.getEmailId());
 		if (existingUser == null) {
 			throw new NotFoundException("user not found");
 		}
@@ -102,6 +102,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 			UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 			userResponses.add(response);
 
+			
 		}
 
 		return userResponses;

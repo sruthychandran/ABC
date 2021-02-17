@@ -17,4 +17,6 @@ public interface RoleService {
 	public List<RoleResponseDto> getAllRoles();
 	
 	public RoleResponseDto updateRole(RoleDto RoleDto) throws NotFoundException, JsonMappingException, JsonProcessingException;
+
+	RoleResponseDto findByRoleId(String roleId) throws JsonMappingException, JsonProcessingException;
 }
