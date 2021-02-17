@@ -13,7 +13,9 @@ import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
 import com.abinbev.admin.utility.MapperUtil;
@@ -30,7 +32,12 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	MessageProperties messageProperties;
 
 	MapperUtil<UserDto, User> userMapper = new MapperUtil<>();
+
 	MapperUtil<User, UserResponseDto> userResponse = new MapperUtil<>();
+	
+	MapperUtil<PlatformAdminOnBoardingDto, User> platformAdminMapper = new MapperUtil<>();
+	
+	MapperUtil<User, PlatformAdminOnBoardingResponseDto> platformAdminResponse = new MapperUtil<>();
 
 	
 	/**
@@ -151,6 +158,32 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 			throw new UserNotFoundException(messageProperties.getUserNotfoundMessage());
 		}
 		return existingUser;
+	}
+
+	@Override
+	public PlatformAdminOnBoardingResponseDto savePlatformAdmin(PlatformAdminOnBoardingDto platformAdminOnBoardingDto) throws EmailExistException, UserCreationFailureException {
+		
+		PlatformAdminOnBoardingResponseDto response = null;
+		User user = platformAdminMapper.transfer(platformAdminOnBoardingDto, User.class);
+		if (emailExist(user.getEmailId())) {
+			throw new EmailExistException(messageProperties.getUserEmailExistMessage());
+		}
+		user.setCreatedDate(new Date());
+		user.setCreatedBy(user.getEmailId());
+		user.setStatus(messageProperties.getActiveStatus());
+		User userResponseObj = userDAO.save(user);
+		//log.info(userResponseObj.getCategories());
+		if (userResponseObj != null) {
+			response = platformAdminResponse.transfer(userResponseObj, PlatformAdminOnBoardingResponseDto.class);
+		
+			response.setMessage(messageProperties.getSaveMessage());
+			
+			
+		} else {
+			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
+		}
+
+		return response;
 	}
 
 }

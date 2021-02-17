@@ -25,8 +25,10 @@ import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
+import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
@@ -114,4 +116,21 @@ public class PlatformAdminController {
 		return ResponseEntity.ok().body(result);
 	}
 
+	
+	/**
+	 * In this method a platform admin is being created
+	 * @param userDto
+	 * @return UserResponseDto
+	 * @throws EmailExistException
+	 * @throws UserCreationFailureException 
+	 */
+	@PostMapping("/onboardPlatformAdmin")
+	public ResponseEntity<PlatformAdminOnBoardingResponseDto> createPlatformAdmin(@Valid @RequestBody PlatformAdminOnBoardingDto platformAdminOnBoardingDto) throws EmailExistException, UserCreationFailureException {
+	
+
+		PlatformAdminOnBoardingResponseDto result  = platformAdminService.savePlatformAdmin(platformAdminOnBoardingDto);
+
+		return ResponseEntity.ok().body(result);
+
+	}
 }
