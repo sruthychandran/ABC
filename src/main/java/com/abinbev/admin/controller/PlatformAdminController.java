@@ -127,9 +127,11 @@ public class PlatformAdminController {
 			@Valid @RequestBody PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
 			throws EmailExistException, UserCreationFailureException {
 
-		PlatformAdminOnBoardingResponseDto result = platformAdminService.savePlatformAdmin(platformAdminOnBoardingDto);
 
-		return ResponseEntity.ok().body(result);
+		PlatformAdminOnBoardingResponseDto platformAdminOnBoardingResponse  = platformAdminService.savePlatformAdmin(platformAdminOnBoardingDto);
+
+
+		return ResponseEntity.ok().body(platformAdminOnBoardingResponse);
 
 	}
 }

@@ -58,8 +58,8 @@ public class CategoryServiceController {
 			throws CategoryServiceNotFoundException, BadRequestAlertException, CategoryServiceUpdationFailureException {
 		if (categoryServiceDto.getCategoryId() == null)
 			throw new BadRequestAlertException("Invalid CategoryId");
-		CategoryServiceResponseDto result = categoryService.updateCategoryService(categoryServiceDto);
-		return ResponseEntity.ok().body(result);
+		CategoryServiceResponseDto categoryServiceResponse = categoryService.updateCategoryService(categoryServiceDto);
+		return ResponseEntity.ok().body(categoryServiceResponse);
 
 	}
 
@@ -71,8 +71,8 @@ public class CategoryServiceController {
 	@GetMapping("/getAllCategoryServices")
 	public ResponseEntity<List<CategoryServiceResponseDto>> getAllCategoryServices() {
 
-		List<CategoryServiceResponseDto> result = categoryService.getAllCategoryServices();
-		return ResponseEntity.ok().body(result);
+		List<CategoryServiceResponseDto> categoryServiceResponse = categoryService.getAllCategoryServices();
+		return ResponseEntity.ok().body(categoryServiceResponse);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class CategoryServiceController {
 			CategoryServiceNotFoundException {
 		if (categoryId == null)
 			throw new BadRequestAlertException("Invalid categoryId");
-		CategoryServiceResponseDto result = categoryService.findCategoryService(categoryId);
-		return ResponseEntity.ok().body(result);
+		CategoryServiceResponseDto categoryServiceResponse = categoryService.findCategoryService(categoryId);
+		return ResponseEntity.ok().body(categoryServiceResponse);
 	}
 }

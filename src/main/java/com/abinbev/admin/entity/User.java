@@ -28,6 +28,7 @@ public class User {
 	private String roleId;
 	private List<CategoryDto> categories;
 	private String status;
+	private String isPlatformSuperAdmin;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

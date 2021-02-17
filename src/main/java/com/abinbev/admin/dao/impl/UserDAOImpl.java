@@ -20,7 +20,8 @@ public class UserDAOImpl implements UserDAO {
 	MessageProperties messageProperties;
 	@Autowired
 	private MongoTemplate mongoTemplate;
-
+	
+	
 	@Override
 	public User save(User user) {
 		User createUserObj = mongoTemplate.save(user);

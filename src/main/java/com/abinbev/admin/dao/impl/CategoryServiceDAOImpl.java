@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.CategoryServiceDAO;
 import com.abinbev.admin.dao.RoleDAO;
 import com.abinbev.admin.entity.CategoryService;
@@ -29,6 +30,9 @@ public class CategoryServiceDAOImpl implements  CategoryServiceDAO  {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	MessageProperties messageProperties;
 
 	@Override
 	public CategoryService save(CategoryService CategoryService) {
@@ -41,7 +45,7 @@ public class CategoryServiceDAOImpl implements  CategoryServiceDAO  {
 	@Override
 	public List<CategoryService> getAllCategoryServices() {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("status").is(true));
+		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
 		return mongoTemplate.find(query, CategoryService.class);
 	}
 

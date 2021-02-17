@@ -77,6 +77,7 @@ public class RoleServiceImpl implements RoleService {
 		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
 
 		List<Role> roles = roleDAO.getAllRoles();
+		
 		try {
 			if (roles != null && !roles.isEmpty()) {
 				for (Role role : roles) {
