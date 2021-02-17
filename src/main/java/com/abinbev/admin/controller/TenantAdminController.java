@@ -22,6 +22,7 @@ import com.abinbev.admin.exception.EmailExistException;
 
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -60,10 +61,11 @@ public class TenantAdminController {
  * @param userDto
  * @return UserResponseDto
  * @throws BadRequestAlertException
+ * @throws UserUpdationFailureException 
  * @throws NotFoundException
  */
 	@PutMapping("/updateUser")
-	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException, UserNotFoundException {
+	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto) throws BadRequestAlertException, UserNotFoundException, UserUpdationFailureException {
 		if(userDto.getEmailId() == null)
 			throw new BadRequestAlertException("Invalid emailId");
 		UserResponseDto result = tenantAdminService.updateUser(userDto);

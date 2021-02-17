@@ -18,11 +18,10 @@ import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
-import com.abinbev.admin.responseDto.RoleResponseDto;
-import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.sun.jersey.api.NotFoundException;
 
 @RestController
 @RequestMapping("/categoryServices")
@@ -33,9 +32,10 @@ public class CategoryServiceController {
 
 	/**
 	 * In this method we can create a category service
+	 * 
 	 * @param categoryServiceDto
 	 * @return CategoryServiceResponseDto
-	 * @throws CategoryServiceCreationFailureException 
+	 * @throws CategoryServiceCreationFailureException
 	 */
 	@PostMapping("/createCategoryService")
 	public ResponseEntity<CategoryServiceResponseDto> createCategoryService(
@@ -45,16 +45,18 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 *  In this method we can update a category service
+	 * In this method we can update a category service
+	 * 
 	 * @param categoryServiceDto
 	 * @return
 	 * @throws NotFoundException
 	 * @throws BadRequestAlertException
-	 * @throws CategoryServiceUpdationFailureException 
+	 * @throws CategoryServiceUpdationFailureException
 	 */
 	@PutMapping("/updateCategoryService")
 	public ResponseEntity<CategoryServiceResponseDto> updateCategoryService(
-			@RequestBody CategoryServiceDto categoryServiceDto) throws CategoryServiceNotFoundException, BadRequestAlertException, CategoryServiceUpdationFailureException {
+			@RequestBody CategoryServiceDto categoryServiceDto)
+			throws CategoryServiceNotFoundException, BadRequestAlertException, CategoryServiceUpdationFailureException {
 		if (categoryServiceDto.getCategoryId() == null)
 			throw new BadRequestAlertException("Invalid CategoryId");
 		CategoryServiceResponseDto result = categoryService.updateCategoryService(categoryServiceDto);
@@ -63,7 +65,8 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 *  In this method we can get all category services
+	 * In this method we can get all category services
+	 * 
 	 * @return List<CategoryServiceResponseDto>
 	 */
 	@GetMapping("/getAllCategoryServices")
@@ -74,9 +77,10 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 *  In this method we can delete a category service
+	 * In this method we can delete a category service
+	 * 
 	 * @param categoryId
-	 * @throws CategoryServiceNotFoundException 
+	 * @throws CategoryServiceNotFoundException
 	 */
 	@GetMapping("/deleteCategoryService/{categoryId}")
 	public void deleteCategoryService(@PathVariable String categoryId) throws CategoryServiceNotFoundException {
@@ -86,16 +90,19 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 *  In this method we can get a category service by id
+	 * In this method we can get a category service by id
+	 * 
 	 * @param categoryId
 	 * @return
 	 * @throws BadRequestAlertException
 	 * @throws JsonMappingException
 	 * @throws JsonProcessingException
+	 * @throws CategoryServiceNotFoundException
 	 */
 	@GetMapping("/getCategoryService/{categoryId}")
 	public ResponseEntity<CategoryServiceResponseDto> getCategoryServiceById(@PathVariable String categoryId)
-			throws BadRequestAlertException, JsonMappingException, JsonProcessingException {
+			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
+			CategoryServiceNotFoundException {
 		if (categoryId == null)
 			throw new BadRequestAlertException("Invalid categoryId");
 		CategoryServiceResponseDto result = categoryService.findCategoryService(categoryId);

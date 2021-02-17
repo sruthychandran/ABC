@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.RoleCreationFailureException;
 import com.abinbev.admin.exception.RoleNotFoundException;
+import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.RoleService;
@@ -47,13 +48,14 @@ public class RoleController {
 	 * @param roleDto
 	 * @return RoleResponseDto
 	 * @throws BadRequestAlertException
+	 * @throws RoleUpdationFailureException 
 	 * @throws NotFoundException
 	 * @throws JsonMappingException
 	 * @throws JsonProcessingException
 	 */
 	@PutMapping("/updateRole")
 	public ResponseEntity<RoleResponseDto> updateRole(@RequestBody RoleDto roleDto)
-			throws BadRequestAlertException, RoleNotFoundException {
+			throws BadRequestAlertException, RoleNotFoundException, RoleUpdationFailureException {
 		if (roleDto.getRoleId() == null)
 			throw new BadRequestAlertException("Invalid RoleId");
 		RoleResponseDto result = roleService.updateRole(roleDto);

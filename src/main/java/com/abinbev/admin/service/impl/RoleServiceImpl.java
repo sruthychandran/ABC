@@ -12,13 +12,11 @@ import com.abinbev.admin.dao.RoleDAO;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.exception.RoleCreationFailureException;
 import com.abinbev.admin.exception.RoleNotFoundException;
+import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.utility.MapperUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,10 +33,6 @@ public class RoleServiceImpl implements RoleService {
 	MapperUtil<RoleDto, Role> roleMapper = new MapperUtil<>();
 	MapperUtil<Role, RoleResponseDto> roleResponse = new MapperUtil<>();
 
-	@Autowired
-	private ObjectMapper mapper;
-
-	
 	/**
 	 * In this method we can create a role
 	 */
@@ -84,38 +78,36 @@ public class RoleServiceImpl implements RoleService {
 
 		List<Role> roles = roleDAO.getAllRoles();
 		try {
-		if (roles != null && !roles.isEmpty()) {
-			for (Role role : roles) {
-				RoleResponseDto response = roleResponse.transfer(role, RoleResponseDto.class);
-				roleResponseList.add(response);
+			if (roles != null && !roles.isEmpty()) {
+				for (Role role : roles) {
+					RoleResponseDto response = roleResponse.transfer(role, RoleResponseDto.class);
+					roleResponseList.add(response);
 
+				}
 			}
-		}
-		return roleResponseList;
-		}
-		catch(Exception ex) {
+			return roleResponseList;
+		} catch (Exception ex) {
 			ex.printStackTrace();
-		}
-		finally {
+		} finally {
 			roleResponseList = null;
 		}
-		
+
 		return null;
-		
+
 	}
 
-	
 	/**
 	 * In this method we can update a role
+	 * 
+	 * @throws RoleUpdationFailureException
 	 */
 	@Override
-	public RoleResponseDto updateRole(RoleDto roleDto)
-			throws RoleNotFoundException {
+	public RoleResponseDto updateRole(RoleDto roleDto) throws RoleNotFoundException, RoleUpdationFailureException {
 		RoleResponseDto response = null;
 		Role existingRole = findRoleByRoleId(roleDto.getRoleId());
 
 		Role role = roleMapper.transfer(roleDto, Role.class);
-		
+
 		role.setId(existingRole.getId());
 
 		role.setCreatedDate(existingRole.getCreatedDate());
@@ -129,15 +121,13 @@ public class RoleServiceImpl implements RoleService {
 
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
-			// throw new
-			// roleCreationFailureException(messageProperties.getUserSaveFailureMessage());//roleupdateFailure
+			throw new RoleUpdationFailureException(messageProperties.getRoleUpdateFailureMessage());
 		}
 
 		return response;
 
 	}
 
-	
 	/**
 	 * In this method we can get a role by role id
 	 */
@@ -157,13 +147,6 @@ public class RoleServiceImpl implements RoleService {
 
 		}
 		return existingRole;
-
-	}
-
-	private String mapToJson(Object object) throws JsonProcessingException {
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		return objectMapper.writeValueAsString(object);
 
 	}
 

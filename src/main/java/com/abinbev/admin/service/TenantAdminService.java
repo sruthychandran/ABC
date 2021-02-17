@@ -5,6 +5,7 @@ import java.util.List;
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 
@@ -12,7 +13,7 @@ public interface TenantAdminService {
 
 	public UserResponseDto saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException;
 
-	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException;
+	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException;
 
 	public List<UserResponseDto> getAllUsers();
 

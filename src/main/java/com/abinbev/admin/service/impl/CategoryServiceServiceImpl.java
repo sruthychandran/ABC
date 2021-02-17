@@ -67,7 +67,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 		CategoryService categoryService = categoryServiceMapper.transfer(categoryServiceDto, CategoryService.class);
 
-		categoryService.setId(existingCategoryService.getCategoryId());
+		categoryService.setId(existingCategoryService.getId());
 		
 		categoryService.setCreatedDate(existingCategoryService.getCreatedDate());
 
@@ -92,9 +92,11 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	public List<CategoryServiceResponseDto> getAllCategoryServices() {
 		List<CategoryService> categoryServiceList = categoryDAO.getAllCategoryServices();
 		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<>();
+		if(categoryServiceResponseList != null && !categoryServiceResponseList .isEmpty() ) {
 		for (CategoryService result : categoryServiceList) {
 			categoryServiceResponseList
 					.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
+		}
 		}
 		return categoryServiceResponseList;
 
@@ -113,11 +115,12 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	}
 
 	/**
-	 * In this method we can find a category by its id
+	 * In this method we can find a category by categoryId
+	 * @throws CategoryServiceNotFoundException 
 	 */
 	@Override
-	public CategoryServiceResponseDto findCategoryService(String categoryId) {
-		CategoryService result = categoryDAO.findByCategoryId(categoryId);
+	public CategoryServiceResponseDto findCategoryService(String categoryId) throws CategoryServiceNotFoundException {
+		CategoryService result = findByCategoryId(categoryId);
 		CategoryServiceResponseDto response = categoryServiceResponse.transfer(result,
 				CategoryServiceResponseDto.class);
 		return response;

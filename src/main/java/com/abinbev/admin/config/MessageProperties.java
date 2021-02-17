@@ -39,6 +39,6 @@ public class MessageProperties {
 	String categoryServiceSaveFailureMessage;
 	@Value("${categoryService.update.failure}")
 	String categoryServiceUpdateFailureMessage;
-	@Value("${role.notfound}")
+	@Value("${categoryService.notfound}")
 	String CategoryServiceNotFoundMessage;
 }
