@@ -21,7 +21,7 @@ import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.EmailExistException;
-import com.abinbev.admin.exception.NotFoundException;
+
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;

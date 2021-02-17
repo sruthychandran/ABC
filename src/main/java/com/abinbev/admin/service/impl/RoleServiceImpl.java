@@ -83,6 +83,7 @@ public class RoleServiceImpl implements RoleService {
 		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
 
 		List<Role> roles = roleDAO.getAllRoles();
+		try {
 		if (roles != null && !roles.isEmpty()) {
 			for (Role role : roles) {
 				RoleResponseDto response = roleResponse.transfer(role, RoleResponseDto.class);
@@ -90,8 +91,17 @@ public class RoleServiceImpl implements RoleService {
 
 			}
 		}
-
 		return roleResponseList;
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			roleResponseList = null;
+		}
+		
+		return null;
+		
 	}
 
 	
@@ -120,7 +130,7 @@ public class RoleServiceImpl implements RoleService {
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
 			// throw new
-			// roleCreationFailureException(messageProperties.getUserSaveFailureMessage());
+			// roleCreationFailureException(messageProperties.getUserSaveFailureMessage());//roleupdateFailure
 		}
 
 		return response;

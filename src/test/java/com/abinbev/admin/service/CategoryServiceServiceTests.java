@@ -17,8 +17,10 @@ import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
+import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
+import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.EmailExistException;
-import com.abinbev.admin.exception.NotFoundException;
+
 import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
@@ -64,7 +66,7 @@ public class CategoryServiceServiceTests {
 	}
 
 	@Test
-	public void test_createCategoryServices_success() throws JsonMappingException, JsonProcessingException {
+	public void test_createCategoryServices_success() throws JsonMappingException, JsonProcessingException, CategoryServiceCreationFailureException {
 		CategoryServiceDto  categoryServiceDto = CategoryServiceDto.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
 				.moduleName("Notification Service").userRole("TA").build();
 		
@@ -92,7 +94,7 @@ public class CategoryServiceServiceTests {
 	
 	
 	  @Test public void test_updateCategoryService_success() throws
-	  JsonMappingException, JsonProcessingException, NotFoundException {
+	  JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException {
 			CategoryServiceDto  categoryServiceDto = CategoryServiceDto.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
 					.moduleName("Notification Service").userRole("TA").status("enable").build();
 			
@@ -129,7 +131,7 @@ public class CategoryServiceServiceTests {
 	  }
 	 
 	  @Test public void test_updateCategoryService_throws_exception() throws JsonMappingException,
-	  JsonProcessingException,NotFoundException {
+	  JsonProcessingException{
 		
 		  CategoryServiceDto  categoryServiceDto = CategoryServiceDto.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
 					.moduleName("Notification Service").userRole("TA").status("enable").build();
@@ -137,13 +139,13 @@ public class CategoryServiceServiceTests {
 		Mockito.when(categoryServiceDAO.findByCategoryId( categoryServiceDto.getCategoryId())).thenReturn(null);
 
 		
-		NotFoundException thrown =assertThrows(NotFoundException.class, () ->
+		CategoryServiceNotFoundException thrown =assertThrows(CategoryServiceNotFoundException.class, () ->
 		  categoryServiceService.updateCategoryService(categoryServiceDto));
 		assertEquals("CategoryService not found",thrown.getMessage());
 	}
 	  
 	  @Test
-		public void test_getAllCategoryServices_success() throws JsonMappingException, JsonProcessingException, NotFoundException {
+		public void test_getAllCategoryServices_success() throws JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException {
 	
 		  CategoryService  categoryService1 = CategoryService.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
 					.moduleName("Notification service").userRole("TA").status("enable").createdDate(new Date()).build();

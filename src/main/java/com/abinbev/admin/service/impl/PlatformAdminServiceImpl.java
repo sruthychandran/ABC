@@ -47,10 +47,13 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		user.setCreatedBy(user.getEmailId());
 		user.setStatus(messageProperties.getActiveStatus());
 		User userResponseObj = userDAO.save(user);
+		//log.info(userResponseObj.getCategories());
 		if (userResponseObj != null) {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 		
 			response.setMessage(messageProperties.getSaveMessage());
+			
+			
 		} else {
 			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
 		}
@@ -93,13 +96,12 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
 			// throw new
-			// UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
+			// UserCreationFailureException(messageProperties.getUserSaveFailureMessage());//userupdatio
 		}
 
 		return response;
 
 	}
-
 	
 	/**
 	 * In this method platform admin can list all users
@@ -137,7 +139,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	 * In this method platform admin can get a user by email
 	 */
 	@Override
-	public UserResponseDto findByEmailId(String emailId) {
+	public UserResponseDto findByEmailId(String emailId) {//null
 		User user = userDAO.findByEmail(emailId);
 		UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
 		return response;

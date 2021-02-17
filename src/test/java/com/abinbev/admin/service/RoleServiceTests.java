@@ -19,7 +19,8 @@ import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.EmailExistException;
-import com.abinbev.admin.exception.NotFoundException;
+import com.abinbev.admin.exception.RoleCreationFailureException;
+import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -71,7 +72,7 @@ public class RoleServiceTests {
 	}
 
 	@Test
-	public void test_createRoles_success() throws JsonMappingException, JsonProcessingException {
+	public void test_createRoles_success() throws JsonMappingException, JsonProcessingException, RoleCreationFailureException {
 		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
 		Role role = Role.builder().roleId("EU").roleName("end user").status("enable").userRole("TA")
 				.createdDate(new Date()).build();
@@ -89,7 +90,7 @@ public class RoleServiceTests {
 	}
 
 	@Test
-	public void test_updateRoles_success() throws JsonMappingException, JsonProcessingException, NotFoundException {
+	public void test_updateRoles_success() throws JsonMappingException, JsonProcessingException, RoleNotFoundException {
 		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
 		
 		Role role = mapper.readValue(mapToJson(roleDto), Role.class);
@@ -119,19 +120,19 @@ public class RoleServiceTests {
 
 	@Test
 	public void test_updateRoles_throws_exception()
-			throws JsonMappingException, JsonProcessingException, NotFoundException {
+			throws JsonMappingException, JsonProcessingException {
 
 		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
 
 		Mockito.when(roleDAO.findByRoleId(roleDto.getRoleId())).thenReturn(null);
 
-		NotFoundException thrown = assertThrows(NotFoundException.class, () -> roleService.updateRole(roleDto));
+		RoleNotFoundException thrown = assertThrows(RoleNotFoundException.class, () -> roleService.updateRole(roleDto));
 		assertEquals("Role not found", thrown.getMessage());
 	}
 
 	
 	@Test
-	public void test_getAllRoles() throws JsonMappingException, JsonProcessingException, NotFoundException {
+	public void test_getAllRoles() throws JsonMappingException, JsonProcessingException, RoleNotFoundException {
 		Role role1 = Role.builder().roleId("EU").roleName("end user").status("enable").userRole("TA")
 				.createdDate(new Date()).build();
 		Role role2 = Role.builder().roleId("TA").roleName("tenant admin").status("enable").userRole("TA")
