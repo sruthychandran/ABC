@@ -29,7 +29,7 @@ public class RoleController {
 	RoleService roleService;
 
 	/**
-	 * 
+	 *  In this method we can create a role
 	 * @param roleDto
 	 * @return RoleResponseDto
 	 * @throws RoleCreationFailureException
@@ -43,7 +43,7 @@ public class RoleController {
 	}
 
 	/**
-	 * 
+	 * In this method we can update a role
 	 * @param roleDto
 	 * @return RoleResponseDto
 	 * @throws BadRequestAlertException
@@ -61,7 +61,7 @@ public class RoleController {
 	}
 
 	/**
-	 * 
+	 * In this method we can list all roles
 	 * @return List<RoleResponseDto>
 	 * @throws BadRequestAlertException
 	 */
@@ -72,7 +72,7 @@ public class RoleController {
 	}
 
 	/**
-	 * 
+	 * In this method we can delete a role
 	 * @param roleId
 	 * 
 	 * @throws BadRequestAlertException
@@ -88,7 +88,7 @@ public class RoleController {
 	}
 
 	/**
-	 * 
+	 * In this method we can get a role by id
 	 * @param roleId
 	 * @return RoleResponseDto
 	 * @throws BadRequestAlertException

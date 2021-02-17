@@ -32,6 +32,9 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	MapperUtil<UserDto, User> userMapper = new MapperUtil<>();
 	MapperUtil<User, UserResponseDto> userResponse = new MapperUtil<>();
 
+	/**
+	 * In this method tenant admin can create a user
+	 */
 	@Override
 	public UserResponseDto saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException {
 		UserResponseDto response = null;
@@ -65,6 +68,9 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 		return false;
 	}
 
+	/**
+	 * In this method tenant admin can update a user
+	 */
 	@Override
 	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException {
 		UserResponseDto response = null;
@@ -92,6 +98,9 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
 	}
 
+	/**
+	 * In this method tenant admin can list all users
+	 */
 	@Override
 	public List<UserResponseDto> getAllUsers() {
 
@@ -108,6 +117,10 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 		return userResponses;
 	}
 
+	
+	/**
+	 * In this method tenant admin can delete a user
+	 */
 	@Override
 	public void deleteUser(String emailId) throws UserNotFoundException {
 		User user = findUserByEmail(emailId);
@@ -117,6 +130,9 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
 	}
 
+	/**
+	 * In this method tenant admin can find a user by mail id
+	 */
 	@Override
 	public UserResponseDto findByEmailId(String emailId) {
 		User user = userDAO.findByEmail(emailId);

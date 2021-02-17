@@ -32,7 +32,7 @@ public class CategoryServiceController {
 	CategoryServiceService categoryService;
 
 	/**
-	 * 
+	 * In this method we can create a category service
 	 * @param categoryServiceDto
 	 * @return CategoryServiceResponseDto
 	 * @throws CategoryServiceCreationFailureException 
@@ -45,7 +45,7 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 * 
+	 *  In this method we can update a category service
 	 * @param categoryServiceDto
 	 * @return
 	 * @throws NotFoundException
@@ -63,7 +63,7 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 * 
+	 *  In this method we can get all category services
 	 * @return List<CategoryServiceResponseDto>
 	 */
 	@GetMapping("/getAllCategoryServices")
@@ -74,7 +74,7 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 * 
+	 *  In this method we can delete a category service
 	 * @param categoryId
 	 * @throws CategoryServiceNotFoundException 
 	 */
@@ -86,7 +86,7 @@ public class CategoryServiceController {
 	}
 
 	/**
-	 * 
+	 *  In this method we can get a category service by id
 	 * @param categoryId
 	 * @return
 	 * @throws BadRequestAlertException

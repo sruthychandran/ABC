@@ -32,6 +32,9 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	MapperUtil<CategoryServiceDto, CategoryService> categoryServiceMapper = new MapperUtil<>();
 	MapperUtil<CategoryService, CategoryServiceResponseDto> categoryServiceResponse = new MapperUtil<>();
 
+	/**
+	 * In this method we create a category service
+	 */
 	@Override
 	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceCreationFailureException {
@@ -52,6 +55,9 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		return response;
 	}
 
+	/**
+	 * In this method we update a category service
+	 */
 	@Override
 	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
@@ -79,6 +85,9 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 	}
 
+	/**
+	 * In this method we list all the category services
+	 */
 	@Override
 	public List<CategoryServiceResponseDto> getAllCategoryServices() {
 		List<CategoryService> categoryServiceList = categoryDAO.getAllCategoryServices();
@@ -91,6 +100,9 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 	}
 
+	/**
+	 * In this method we delete category service
+	 */
 	@Override
 	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException {
 		CategoryService existingCategoryService = findByCategoryId(categoryId);
@@ -100,6 +112,9 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 	}
 
+	/**
+	 * In this method we can find a category by its id
+	 */
 	@Override
 	public CategoryServiceResponseDto findCategoryService(String categoryId) {
 		CategoryService result = categoryDAO.findByCategoryId(categoryId);

@@ -19,6 +19,7 @@ import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
+import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.exception.EmailExistException;
 
 import com.abinbev.admin.requestDto.CategoryDto;
@@ -94,7 +95,7 @@ public class CategoryServiceServiceTests {
 	
 	
 	  @Test public void test_updateCategoryService_success() throws
-	  JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException {
+	  JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
 			CategoryServiceDto  categoryServiceDto = CategoryServiceDto.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
 					.moduleName("Notification Service").userRole("TA").status("enable").build();
 			

@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PlatformAdminCategoryDto {
 	private String categoryId;
-	private List<ModuleDto> moduleId;
+	private List<ModuleDto> modules;
 
 }

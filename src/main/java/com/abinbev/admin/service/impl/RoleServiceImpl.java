@@ -38,6 +38,10 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private ObjectMapper mapper;
 
+	
+	/**
+	 * In this method we can create a role
+	 */
 	@Override
 	public RoleResponseDto saveRole(RoleDto roleDto) throws RoleCreationFailureException {
 		RoleResponseDto response = null;
@@ -57,6 +61,9 @@ public class RoleServiceImpl implements RoleService {
 
 	}
 
+	/**
+	 * In this method we can delete a role
+	 */
 	@Override
 	public void deleteRole(String roleId) throws RoleNotFoundException {
 
@@ -67,6 +74,9 @@ public class RoleServiceImpl implements RoleService {
 
 	}
 
+	/**
+	 * In this method we can list all roles
+	 */
 	@Override
 	public List<RoleResponseDto> getAllRoles() {
 
@@ -94,6 +104,10 @@ public class RoleServiceImpl implements RoleService {
 		
 	}
 
+	
+	/**
+	 * In this method we can update a role
+	 */
 	@Override
 	public RoleResponseDto updateRole(RoleDto roleDto)
 			throws RoleNotFoundException {
@@ -123,6 +137,10 @@ public class RoleServiceImpl implements RoleService {
 
 	}
 
+	
+	/**
+	 * In this method we can get a role by role id
+	 */
 	@Override
 	public RoleResponseDto getRole(String roleId) throws RoleNotFoundException {
 		Role existingRole = findRoleByRoleId(roleId);
