@@ -183,7 +183,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		user.setCreatedBy(user.getEmailId());
 		user.setStatus(messageProperties.getActiveStatus());
 		User userResponseObj = userDAO.save(user);
-		//log.info(userResponseObj.getCategories());
+		
 		if (userResponseObj != null) {
 			response = platformAdminResponse.transfer(userResponseObj, PlatformAdminOnBoardingResponseDto.class);
 		

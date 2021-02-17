@@ -21,6 +21,7 @@ import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.RoleCreationFailureException;
 import com.abinbev.admin.exception.RoleNotFoundException;
+import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -90,7 +91,7 @@ public class RoleServiceTests {
 	}
 
 	@Test
-	public void test_updateRoles_success() throws JsonMappingException, JsonProcessingException, RoleNotFoundException {
+	public void test_updateRoles_success() throws JsonMappingException, JsonProcessingException, RoleNotFoundException, RoleUpdationFailureException {
 		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
 		
 		Role role = mapper.readValue(mapToJson(roleDto), Role.class);

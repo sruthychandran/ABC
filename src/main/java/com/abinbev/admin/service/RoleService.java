@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.abinbev.admin.exception.RoleCreationFailureException;
 import com.abinbev.admin.exception.RoleNotFoundException;
+import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 
@@ -15,7 +16,7 @@ public interface RoleService {
 
 	public List<RoleResponseDto> getAllRoles();
 
-	public RoleResponseDto updateRole(RoleDto RoleDto) throws RoleNotFoundException;
+	public RoleResponseDto updateRole(RoleDto RoleDto) throws RoleNotFoundException, RoleUpdationFailureException;
 
 	RoleResponseDto getRole(String roleId) throws RoleNotFoundException;
 }

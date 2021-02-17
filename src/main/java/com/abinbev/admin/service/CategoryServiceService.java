@@ -20,5 +20,5 @@ public interface CategoryServiceService {
 
 	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException;
 
-	public CategoryServiceResponseDto findCategoryService(String categoryId);
+	public CategoryServiceResponseDto findCategoryService(String categoryId) throws CategoryServiceNotFoundException;
 }

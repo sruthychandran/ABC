@@ -13,6 +13,7 @@ import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.TenantAdminService;
@@ -70,9 +71,10 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
 	/**
 	 * In this method tenant admin can update a user
+	 * @throws UserUpdationFailureException 
 	 */
 	@Override
-	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException {
+	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 
@@ -90,8 +92,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
-			// throw new
-			// UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
+			throw new UserUpdationFailureException(messageProperties.getUserUpdateFailureMessage());
 		}
 
 		return response;
