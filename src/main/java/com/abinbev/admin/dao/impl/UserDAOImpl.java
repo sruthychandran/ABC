@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.responseDto.UserResponseDto;
@@ -15,7 +16,8 @@ import com.abinbev.admin.responseDto.UserResponseDto;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
-
+	@Autowired
+	MessageProperties messageProperties;
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
@@ -31,21 +33,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<User> getAllUsers() {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("status").is(true));
+		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
 		return mongoTemplate.find(query, User.class);
 	}
 
-	/*
-	 * @Override public void deleteUser(String emailId) {
-	 * 
-	 * Query query = new Query();
-	 * query.addCriteria(Criteria.where("emailId").is(emailId)); User user =
-	 * mongoTemplate.findOne(query, User.class);
-	 * 
-	 * user.setStatus("disable"); mongoTemplate.save(user);
-	 * 
-	 * }
-	 */
+	
 	@Override
 	public User findByEmail(String emailId) {
 		Query query = new Query();

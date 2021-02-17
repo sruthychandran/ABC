@@ -19,6 +19,6 @@ public interface TenantAdminService {
 
 	public void deleteUser(String uuid) throws UserNotFoundException;
 
-	UserResponseDto findByEmailId(String emailId);
+	UserResponseDto findByEmailId(String emailId) throws UserNotFoundException;
 
 }

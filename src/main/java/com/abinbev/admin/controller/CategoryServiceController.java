@@ -21,7 +21,6 @@ import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.sun.jersey.api.NotFoundException;
 
 @RestController
 @RequestMapping("/categoryServices")

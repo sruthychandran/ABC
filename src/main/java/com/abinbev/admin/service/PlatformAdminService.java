@@ -2,16 +2,11 @@ package com.abinbev.admin.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
-
 import com.abinbev.admin.exception.UserUpdationFailureException;
-
 import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
-
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
@@ -28,7 +23,7 @@ public interface PlatformAdminService {
 
 	UserResponseDto findByEmailId(String emailId) throws UserNotFoundException;
 
-	public PlatformAdminOnBoardingResponseDto savePlatformAdmin(
-			 PlatformAdminOnBoardingDto platformAdminOnBoardingDto) throws EmailExistException, UserCreationFailureException;
+	public PlatformAdminOnBoardingResponseDto savePlatformAdmin(PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
+			throws EmailExistException, UserCreationFailureException;
 
 }

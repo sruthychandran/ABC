@@ -71,7 +71,8 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
 	/**
 	 * In this method tenant admin can update a user
-	 * @throws UserUpdationFailureException 
+	 * 
+	 * @throws UserUpdationFailureException
 	 */
 	@Override
 	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
@@ -118,7 +119,6 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 		return userResponses;
 	}
 
-	
 	/**
 	 * In this method tenant admin can delete a user
 	 */
@@ -133,10 +133,12 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
 	/**
 	 * In this method tenant admin can find a user by mail id
+	 * 
+	 * @throws UserNotFoundException
 	 */
 	@Override
-	public UserResponseDto findByEmailId(String emailId) {
-		User user = userDAO.findByEmail(emailId);
+	public UserResponseDto findByEmailId(String emailId) throws UserNotFoundException {
+		User user = findUserByEmail(emailId);
 		UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
 		return response;
 	}

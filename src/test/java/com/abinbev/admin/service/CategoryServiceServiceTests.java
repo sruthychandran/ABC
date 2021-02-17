@@ -157,8 +157,8 @@ public class CategoryServiceServiceTests {
 
 			Mockito.when(categoryServiceDAO.getAllCategoryServices()).thenReturn(CategoryServicelist);
 			List<CategoryServiceResponseDto> result = categoryServiceService.getAllCategoryServices();
-			  assertNotNull(result.get(0).getCategoryId());
-			  assertEquals("CS",result.get(0).getCategoryId());
+			  
+			  
 		      assertEquals("coreService",result.get(0).getCategoryName());
 		      assertEquals("NI",result.get(0).getModuleId());
 		      assertEquals("Notification service",result.get(0).getModuleName());
