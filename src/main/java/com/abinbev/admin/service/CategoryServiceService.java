@@ -2,19 +2,22 @@ package com.abinbev.admin.service;
 
 import java.util.List;
 
-import com.abinbev.admin.exception.NotFoundException;
+import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
+import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 
 public interface CategoryServiceService {
-	
-	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto CategoryServiceDto);
 
-	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto) throws NotFoundException;
+	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto CategoryServiceDto)
+			throws CategoryServiceCreationFailureException;
+
+	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto)
+			throws CategoryServiceNotFoundException;
 
 	public List<CategoryServiceResponseDto> getAllCategoryServices();
 
-	public void deleteCategoryService(String categoryId);
+	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException;
 
-	public CategoryServiceResponseDto findByCategoryId(String categoryId);
+	public CategoryServiceResponseDto findCategoryService(String categoryId);
 }

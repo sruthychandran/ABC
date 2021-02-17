@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Document
 public class Role {
 	@Id
+	private String id;
 	private String roleId;
 	private String roleName;
 	private String status;

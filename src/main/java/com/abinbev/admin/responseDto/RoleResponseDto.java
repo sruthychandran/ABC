@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleResponseDto {
+	private String id;
 	private String roleId;
 	private String roleName;
 	private String status;

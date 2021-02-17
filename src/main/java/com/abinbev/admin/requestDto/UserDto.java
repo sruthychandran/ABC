@@ -3,22 +3,20 @@ package com.abinbev.admin.requestDto;
 import java.util.Date;
 import java.util.List;
 
-
-
-import com.abinbev.admin.entity.Category;
-import com.abinbev.admin.entity.User;
-import com.abinbev.admin.entity.User.UserBuilder;
+import javax.validation.constraints.NotNull;
 
 import lombok.Builder;
 import lombok.Data;
+
 @Data
 @Builder
-	
+
 public class UserDto {
-	
-	//private String uuid;
+	public String id;
+	@NotNull(message = "first name is mandatory")
 	private String firstName;
 	private String lastName;
+	@NotNull(message = "email is mandatory")
 	private String emailId;
 	private Long phoneNo;
 	private String roleId;
@@ -28,7 +26,5 @@ public class UserDto {
 	private String createdBy;
 	private Date modifiedDate;
 	private String modifiedBy;
-	
-	
 
 }

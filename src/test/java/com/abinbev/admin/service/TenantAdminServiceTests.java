@@ -11,8 +11,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
-import com.abinbev.admin.exception.DuplicateEmailException;
+import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.NotFoundException;
+import com.abinbev.admin.exception.UserCreationFailureException;
+import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
@@ -64,7 +66,7 @@ public class TenantAdminServiceTests{
 
 	@Test
 	public void test_createUserWithDifferentEmailIds()
-			throws JsonMappingException, JsonProcessingException, DuplicateEmailException {
+			throws JsonMappingException, JsonProcessingException, EmailExistException, UserCreationFailureException {
 
 		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
 				.phoneNo(8089587001l).roleId("TA").status("enable").createdDate(new Date())
@@ -116,7 +118,7 @@ public class TenantAdminServiceTests{
 
 	@Test
 	public void test_createUserWithExistingEmail()
-			throws JsonMappingException, JsonProcessingException, DuplicateEmailException {
+			throws JsonMappingException, JsonProcessingException, EmailExistException, UserCreationFailureException {
 
 		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
 				.phoneNo(8089587001l).roleId("EU").status("enable").createdDate(new Date()).createdBy("abi@gmail.com")
@@ -136,13 +138,13 @@ public class TenantAdminServiceTests{
 				.build();
 
 		Mockito.when(userDAO.findByEmail(user2.getEmailId())).thenReturn(new User());
-		assertThrows(DuplicateEmailException.class, () -> platformAdminService.saveUser(user2));
+		assertThrows(EmailExistException.class, () -> platformAdminService.saveUser(user2));
 
 	}
 
 	@Test
 	public void test_updateUser_success()
-			throws JsonMappingException, JsonProcessingException, DuplicateEmailException, NotFoundException {
+			throws JsonMappingException, JsonProcessingException, EmailExistException, NotFoundException, UserNotFoundException {
 		
 		 
 		  UserResponseDto userResponse1 = UserResponseDto.builder().firstName("rafeek").lastName("ks")

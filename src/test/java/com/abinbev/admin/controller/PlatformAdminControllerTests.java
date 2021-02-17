@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,11 +55,20 @@ public class PlatformAdminControllerTests {
 	@Test
 
 	public void createUsers() throws Exception {
+		
+		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("enable").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com")
+				.categories(
+						Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList("NI")).build()))
+				.build();
 
-		UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
-				.phoneNo(8089587001l).build();
+		/*
+		 * UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
+		 * "rafeeq088@gmail.com") .phoneNo(8089587001l).build();
+		 */
 		  
-		  UserResponseDto userDTO = mapper.readValue(mapToJson(user1), UserResponseDto.class);
+		  UserResponseDto userDTO = mapper.readValue(mapToJson(userDto1), UserResponseDto.class);
 		  
 		  ObjectMapper mapper=new ObjectMapper();
 
@@ -77,8 +87,8 @@ public class PlatformAdminControllerTests {
 		UserResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), UserResponseDto.class);
 	
 		assertEquals("rafeeq088@gmail.com", result.getEmailId());
-		//assertEquals("PLS", result.getCategories().get(0).getCategoryId());
-		//assertEquals("NI", result.getCategories().get(0).getModuleId().get(0));
+	    assertEquals("PLS", result.getCategories().get(0).getCategoryId());
+		assertEquals("NI", result.getCategories().get(0).getModuleId().get(0));
 		
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}

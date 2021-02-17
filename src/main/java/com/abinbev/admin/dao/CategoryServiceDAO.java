@@ -16,7 +16,6 @@ public CategoryService	save(CategoryService CategoryService) ;
 
 public List<CategoryService> getAllCategoryServices();
 
-public void deleteCategoryService(String categoryId);
 
 public CategoryService findByCategoryId(String categoryId);
 

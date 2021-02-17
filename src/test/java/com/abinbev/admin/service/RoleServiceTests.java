@@ -18,7 +18,7 @@ import com.abinbev.admin.dao.RoleDAO;
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.User;
-import com.abinbev.admin.exception.DuplicateEmailException;
+import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryDto;
 import com.abinbev.admin.requestDto.RoleDto;

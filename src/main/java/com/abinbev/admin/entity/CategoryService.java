@@ -1,20 +1,15 @@
 package com.abinbev.admin.entity;
 
-
-
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.abinbev.admin.entity.User.UserBuilder;
-import com.abinbev.admin.requestDto.CategoryServiceDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Document
 public class CategoryService {
 	@Id
+	private String id;
 	private String categoryId;
 	private String categoryName;
 	private String moduleId;
@@ -32,7 +28,5 @@ public class CategoryService {
 	private Date modifiedDate;
 	private String modifiedBy;
 	private String userRole;
-
-	
 
 }

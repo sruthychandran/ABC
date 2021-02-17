@@ -5,22 +5,20 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.RoleDAO;
 import com.abinbev.admin.entity.Role;
-import com.abinbev.admin.entity.User;
-import com.abinbev.admin.exception.NotFoundException;
+import com.abinbev.admin.exception.RoleCreationFailureException;
+import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
-import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.utility.MapperUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,108 +26,117 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RoleServiceImpl implements RoleService {
 
-	@Value("${message.create}")
-	String creationMessage;
-	@Value("${message.update}")
-	String updationMessage;
-	@Value("${message.delete}")
-	String deletionMessage;
+	@Autowired
+	MessageProperties messageProperties;
 
 	@Autowired
 	RoleDAO roleDAO;
 
-	MapperUtil<RoleDto, Role> toRole = new MapperUtil<>();
-	MapperUtil<Role, RoleResponseDto> toRoleResponse = new MapperUtil<>();
-	
+	MapperUtil<RoleDto, Role> roleMapper = new MapperUtil<>();
+	MapperUtil<Role, RoleResponseDto> roleResponse = new MapperUtil<>();
 
 	@Autowired
 	private ObjectMapper mapper;
-	
+
 	@Override
-	public RoleResponseDto saveRole(RoleDto roleDto) {
-		Role role = toRole.transfer(roleDto, Role.class);
-		role.setStatus("enable");
-		// role.setCreatedBy(existingRole.getCreatedBy());
+	public RoleResponseDto saveRole(RoleDto roleDto) throws RoleCreationFailureException {
+		RoleResponseDto response = null;
+		Role role = roleMapper.transfer(roleDto, Role.class);
+		role.setStatus(messageProperties.getActiveStatus());
 		role.setCreatedDate(new Date());
-		role = roleDAO.save(role);
-		RoleResponseDto response = toRoleResponse.transfer(role, RoleResponseDto.class);
-		response.setMessage(creationMessage);
+		Role roleResponseObj = roleDAO.save(role);
+		if (roleResponseObj != null) {
+
+			response = roleResponse.transfer(roleResponseObj, RoleResponseDto.class);
+			response.setMessage(messageProperties.getSaveMessage());
+		} else {
+			throw new RoleCreationFailureException(messageProperties.getUserSaveFailureMessage());
+		}
+
 		return response;
 
-		
 	}
 
 	@Override
-	public void deleteRole(String roleId) {
-		
-		roleDAO.deleteRole(roleId);
+	public void deleteRole(String roleId) throws RoleNotFoundException {
+
+		Role role = findRoleByRoleId(roleId);
+
+		role.setStatus(messageProperties.getInactiveStatus());
+		roleDAO.save(role);
 
 	}
 
 	@Override
 	public List<RoleResponseDto> getAllRoles() {
 
-		List<RoleResponseDto> roleResponses = new ArrayList<RoleResponseDto>();
+		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
 
 		List<Role> roles = roleDAO.getAllRoles();
+		if (roles != null && !roles.isEmpty()) {
+			for (Role role : roles) {
+				RoleResponseDto response = roleResponse.transfer(role, RoleResponseDto.class);
+				roleResponseList.add(response);
 
-		for (Role role : roles) {
-			RoleResponseDto response = toRoleResponse.transfer(role, RoleResponseDto.class);
-			roleResponses.add(response);
-
+			}
 		}
 
-		return roleResponses;
+		return roleResponseList;
 	}
 
 	@Override
-	public RoleResponseDto updateRole(RoleDto roleDto) throws NotFoundException, JsonMappingException, JsonProcessingException {
-		log.info("enter in to updateRole : {}", roleDto);
+	public RoleResponseDto updateRole(RoleDto roleDto)
+			throws RoleNotFoundException {
+		RoleResponseDto response = null;
+		Role existingRole = findRoleByRoleId(roleDto.getRoleId());
 
+		Role role = roleMapper.transfer(roleDto, Role.class);
 		
-		Role existingRole = roleDAO.findByRoleId(roleDto.getRoleId());
-		
-		if (existingRole == null) {
-			throw new NotFoundException("Role not found");
-			
-		}
-		Role role = toRole.transfer(roleDto, Role.class);
-		
-		
+		role.setId(existingRole.getId());
 
-		// role.setCreatedBy(existingRole.getCreatedBy());
 		role.setCreatedDate(existingRole.getCreatedDate());
 
-		// role.setModifiedBy();
 		role.setModifiedDate(new Date());
 
-		role = roleDAO.save(role);
-		
-		RoleResponseDto response =   mapper.readValue(mapToJson(role), RoleResponseDto.class);
-		//RoleResponseDto response = toRoleResponse.transfer(role, RoleResponseDto.class);
-		response.setMessage(updationMessage);
-		log.info("output updateRole : {}", response);
+		Role roleResponseObj = roleDAO.save(role);
+
+		if (roleResponseObj != null) {
+			response = roleResponse.transfer(roleResponseObj, RoleResponseDto.class);
+
+			response.setMessage(messageProperties.getUpdationMessage());
+		} else {
+			// throw new
+			// roleCreationFailureException(messageProperties.getUserSaveFailureMessage());
+		}
+
 		return response;
 
-		
 	}
 
-	
 	@Override
-	public RoleResponseDto findByRoleId(String roleId) throws JsonMappingException, JsonProcessingException{
-		Role role =roleDAO.findByRoleId(roleId);
-	
-		RoleResponseDto response =   mapper.readValue(mapToJson(role), RoleResponseDto.class);
+	public RoleResponseDto getRole(String roleId) throws RoleNotFoundException {
+		Role existingRole = findRoleByRoleId(roleId);
+
+		RoleResponseDto response = roleResponse.transfer(existingRole, RoleResponseDto.class);
 		return response;
 	}
-	
-	
-	
+
+	private Role findRoleByRoleId(String roleId) throws RoleNotFoundException {
+		Role existingRole = roleDAO.findByRoleId(roleId);
+
+		if (existingRole == null) {
+			throw new RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
+
+		}
+		return existingRole;
+
+	}
+
 	private String mapToJson(Object object) throws JsonProcessingException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(object);
 
 	}
-	
+
 }
