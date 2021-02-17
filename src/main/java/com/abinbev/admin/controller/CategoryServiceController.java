@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
-
+import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
@@ -50,10 +50,11 @@ public class CategoryServiceController {
 	 * @return
 	 * @throws NotFoundException
 	 * @throws BadRequestAlertException
+	 * @throws CategoryServiceUpdationFailureException 
 	 */
 	@PutMapping("/updateCategoryService")
 	public ResponseEntity<CategoryServiceResponseDto> updateCategoryService(
-			@RequestBody CategoryServiceDto categoryServiceDto) throws CategoryServiceNotFoundException, BadRequestAlertException {
+			@RequestBody CategoryServiceDto categoryServiceDto) throws CategoryServiceNotFoundException, BadRequestAlertException, CategoryServiceUpdationFailureException {
 		if (categoryServiceDto.getCategoryId() == null)
 			throw new BadRequestAlertException("Invalid CategoryId");
 		CategoryServiceResponseDto result = categoryService.updateCategoryService(categoryServiceDto);

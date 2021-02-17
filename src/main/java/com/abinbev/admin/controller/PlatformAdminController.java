@@ -24,6 +24,7 @@ import com.abinbev.admin.exception.EmailExistException;
 
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
@@ -64,10 +65,11 @@ public class PlatformAdminController {
 	 * @throws BadRequestAlertException
 	 * @throws NotFoundException
 	 * @throws UserNotFoundException 
+	 * @throws UserUpdationFailureException 
 	 */
 	@PutMapping("/updateUser")
 	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto)
-			throws BadRequestAlertException, UserNotFoundException {
+			throws BadRequestAlertException, UserNotFoundException, UserUpdationFailureException {
 		if (userDto.getEmailId() == null)
 			throw new BadRequestAlertException("Invalid uuid");
 		UserResponseDto result = platformAdminService.updateUser(userDto);
@@ -96,7 +98,7 @@ public class PlatformAdminController {
 
 	@GetMapping("/getUser/{emailId}")
 	public ResponseEntity<UserResponseDto> getUserByEmailId(@PathVariable String emailId)
-			throws JsonMappingException, JsonProcessingException {
+			throws JsonMappingException, JsonProcessingException, UserNotFoundException {
 
 		UserResponseDto result = platformAdminService.findByEmailId(emailId);
 		return ResponseEntity.ok().body(result);

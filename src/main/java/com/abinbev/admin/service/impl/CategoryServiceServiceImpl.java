@@ -13,6 +13,7 @@ import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
+import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
@@ -53,7 +54,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 	@Override
 	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto)
-			throws CategoryServiceNotFoundException {
+			throws CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
 
 		CategoryServiceResponseDto response = null;
 		CategoryService existingCategoryService = findByCategoryId(categoryServiceDto.getCategoryId());
@@ -61,6 +62,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		CategoryService categoryService = categoryServiceMapper.transfer(categoryServiceDto, CategoryService.class);
 
 		categoryService.setId(existingCategoryService.getCategoryId());
+		
 		categoryService.setCreatedDate(existingCategoryService.getCreatedDate());
 
 		categoryService.setModifiedDate(new Date());
@@ -70,8 +72,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
-			// throw new
-			// categoryServiceFailureException(messageProperties.getUserSaveFailureMessage());
+			 throw new CategoryServiceUpdationFailureException(messageProperties.getCategoryServiceUpdateFailureMessage());
 		}
 
 		return response;

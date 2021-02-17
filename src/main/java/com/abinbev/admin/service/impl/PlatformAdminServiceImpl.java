@@ -13,6 +13,7 @@ import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
+import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
@@ -43,13 +44,11 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		user.setCreatedBy(user.getEmailId());
 		user.setStatus(messageProperties.getActiveStatus());
 		User userResponseObj = userDAO.save(user);
-		//log.info(userResponseObj.getCategories());
 		if (userResponseObj != null) {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
-		
+
 			response.setMessage(messageProperties.getSaveMessage());
-			
-			
+
 		} else {
 			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
 		}
@@ -69,13 +68,13 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	}
 
 	@Override
-	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException {
+	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 
 		User existingUser = findUserByEmail(userDto.getEmailId());
-		
-        user.setId(existingUser.getId());
+
+		user.setId(existingUser.getId());
 		user.setCreatedBy(existingUser.getCreatedBy());
 		user.setCreatedDate(existingUser.getCreatedDate());
 		user.setStatus(existingUser.getStatus());
@@ -87,13 +86,13 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
-			// throw new
-			// UserCreationFailureException(messageProperties.getUserSaveFailureMessage());//userupdatio
+			throw new UserUpdationFailureException(messageProperties.getUserUpdateFailureMessage());
 		}
 
 		return response;
 
 	}
+
 //java doc
 	@Override
 	public List<UserResponseDto> getAllUsers() {
@@ -101,14 +100,22 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		List<UserResponseDto> userResponses = new ArrayList<UserResponseDto>();
 
 		List<User> users = userDAO.getAllUsers();
+		try {
+			if (users != null && !users.isEmpty()) {
+				for (User user : users) {
+					UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
+					userResponses.add(response);
 
-		for (User user : users) {
-			UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
-			userResponses.add(response);
+				}
+			}
+			return userResponses;
+		} catch (Exception ex) {
 
+		} finally {
+			userResponses = null;
 		}
 
-		return userResponses;
+		return null;
 	}
 
 	@Override
@@ -121,8 +128,8 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	}
 
 	@Override
-	public UserResponseDto findByEmailId(String emailId) {//null
-		User user = userDAO.findByEmail(emailId);
+	public UserResponseDto findByEmailId(String emailId) throws UserNotFoundException {
+		User user = findUserByEmail(emailId);
 		UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
 		return response;
 	}

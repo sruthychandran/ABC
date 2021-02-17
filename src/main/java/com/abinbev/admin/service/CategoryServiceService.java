@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
+import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 
@@ -13,7 +14,7 @@ public interface CategoryServiceService {
 			throws CategoryServiceCreationFailureException;
 
 	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto)
-			throws CategoryServiceNotFoundException;
+			throws CategoryServiceNotFoundException, CategoryServiceUpdationFailureException;
 
 	public List<CategoryServiceResponseDto> getAllCategoryServices();
 

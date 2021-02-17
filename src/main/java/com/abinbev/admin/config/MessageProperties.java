@@ -22,6 +22,8 @@ public class MessageProperties {
 	String inactiveStatus;
 	@Value("${user.save.failure}")
 	String userSaveFailureMessage;
+	@Value("${user.update.failure}")
+	String userUpdateFailureMessage;
 	@Value("${user.email.exist}")
 	String userEmailExistMessage;
 	@Value("${user.notfound}")
@@ -31,8 +33,12 @@ public class MessageProperties {
 	String roleNotfoundMessage;
 	@Value("${role.save.failure}")
 	String roleSaveFailureMessage;
+	@Value("${role.update.failure}")
+	String roleUpdateFailureMessage;
 	@Value("${categoryService.save.failure}")
 	String categoryServiceSaveFailureMessage;
+	@Value("${categoryService.update.failure}")
+	String categoryServiceUpdateFailureMessage;
 	@Value("${role.notfound}")
 	String CategoryServiceNotFoundMessage;
 }
