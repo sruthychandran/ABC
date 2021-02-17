@@ -70,6 +70,7 @@ public class RoleController {
 	@GetMapping("/getAllRoles")
 	public ResponseEntity<List<RoleResponseDto>> getAllRoles() throws BadRequestAlertException {
 		List<RoleResponseDto> result = roleService.getAllRoles();
+	
 		return ResponseEntity.ok().body(result);
 	}
 

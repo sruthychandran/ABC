@@ -91,9 +91,10 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	@Override
 	public List<CategoryServiceResponseDto> getAllCategoryServices() {
 		List<CategoryService> categoryServiceList = categoryDAO.getAllCategoryServices();
+	
 		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<>();
-		if(categoryServiceResponseList != null && !categoryServiceResponseList .isEmpty() ) {
-		for (CategoryService result : categoryServiceList) {
+		if(categoryServiceList != null) {
+			for (CategoryService result : categoryServiceList) {
 			categoryServiceResponseList
 					.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
 		}
