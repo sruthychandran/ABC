@@ -76,7 +76,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	}
 		user.setCreatedDate(new Date());
 		user.setCreatedBy(user.getEmailId());
-		user.setStatus("enabled");
+		user.setStatus("enable");
 		user = userDAO.save(user);
 		UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
 		response.setMessage(creationMessage);

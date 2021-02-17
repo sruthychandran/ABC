@@ -14,6 +14,7 @@ import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
+import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.MapperUtil;
 
@@ -38,7 +39,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto categoryServiceDto) {
 
 		CategoryService categoryService = toCategoryService.transfer(categoryServiceDto, CategoryService.class);
-		categoryService.setStatus("enabled");
+		categoryService.setStatus("enable");
 		categoryService.setCreatedDate(new Date());
 		//categoryService.setCreatedBy();
 		categoryService = categoryDAO.save(categoryService);
@@ -87,6 +88,13 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	public void deleteCategoryService(String categoryId) {
 		categoryDAO.deleteCategoryService(categoryId);
 
+	}
+
+	@Override
+	public CategoryServiceResponseDto findByCategoryId(String categoryId) {
+		CategoryService result =categoryDAO.findByCategoryId(categoryId); 
+		CategoryServiceResponseDto response = toCategoryServiceResponse.transfer(result, CategoryServiceResponseDto.class);
+		return response;
 	}
 
 }

@@ -55,9 +55,17 @@ public class RoleController {
 	@GetMapping("/deleteRole/{roleId}")
 	public ResponseEntity<Void> deleteRole(@PathVariable String roleId)throws BadRequestAlertException {
 		if(roleId == null)
-			throw new BadRequestAlertException("Invalid uuid");
+			throw new BadRequestAlertException("Invalid roleId");
 		roleService.deleteRole(roleId);
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("/getRole/{roleId}")
+	public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable String roleId) throws BadRequestAlertException, JsonMappingException, JsonProcessingException {
+		if(roleId == null)
+			throw new BadRequestAlertException("Invalid roleId");
+		RoleResponseDto result = roleService.findByRoleId(roleId);
+		return ResponseEntity.ok().body(result);
 	}
 
 }

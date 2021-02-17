@@ -20,5 +20,7 @@ public interface PlatformAdminService {
 	 public void deleteUser(String uuid);
      
 	 public void test();
+
+	UserResponseDto findByEmailId(String emailId);
 	
 }

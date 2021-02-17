@@ -45,7 +45,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"roleId\" : \"EUtt\",\n\"roleName\" : \"End User\"\n}",
+							"raw": "{\n\"roleId\" : \"EU\",\n\"roleName\" : \"End User\",\n\"userRole\":\"TA\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -105,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"categoryId\" : \"EES\",\n    \"categoryName\" :\"Core Services\",\n    \"moduleId\" : \"AT\",\n    \"moduleName\":\"Audit Trail Service \"\n    \n}\n\n",
+							"raw": "{\n    \"categoryId\" : \"EES\",\n    \"categoryName\" :\"Core Services\",\n    \"moduleId\" : \"AT\",\n    \"moduleName\":\"Audit Trail Service \",\n    \"userRole\":\"TA\"\n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -135,7 +135,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"roleId\" : \"E\",\n\"roleName\" : \"End User\",\n\"status\" : true\n}",
+							"raw": "{\n\"roleId\" : \"EU\",\n\"roleName\" : \"End User\",\n\"userRole\":\"TA\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -328,6 +328,72 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getRoleByRoleId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/roles/getRole/EU",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"roles",
+								"getRole",
+								"EU"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoryServiceById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/categoryServices/getCategoryService/EES",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"categoryServices",
+								"getCategoryService",
+								"EES"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserByEmail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/platform-admin/getUser/abdul.rfff@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"platform-admin",
+								"getUser",
+								"abdul.rfff@gmail.com"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -396,27 +462,6 @@
 					"response": []
 				},
 				{
-					"name": "GetAllRoles",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/admin/tenant-admin/getAllRoles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"admin",
-								"tenant-admin",
-								"getAllRoles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "GetAllUsers",
 					"request": {
 						"method": "GET",
@@ -454,126 +499,6 @@
 								"tenant-admin",
 								"deleteUser",
 								"602b29313c22861b594ab807"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createRole",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"roleId\" : \"tii\",\n\"roleName\" : \"End User\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/admin/tenant-admin/createRole",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"admin",
-								"tenant-admin",
-								"createRole"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "updateRole",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\"roleId\" : \"E\",\n\"roleName\" : \"End User\",\n\"status\" : true\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/admin/tenant-admin/updateRole",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"admin",
-								"tenant-admin",
-								"updateRole"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createCategoryService",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"categoryId\" : \"EES\",\n    \"categoryName\" :\"Core Services\",\n    \"moduleId\" : \"AT\",\n    \"moduleName\":\"Audit Trail Service \"\n    \n}\n\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/admin/tenant-admin/createCategoryService",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"admin",
-								"tenant-admin",
-								"createCategoryService"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "updateCategoryService",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"categoryId\" : \"CS\",\n    \"categoryName\" :\"Core Services\",\n    \"moduleId\" : \"AT\",\n    \"moduleName\":\"Audit Trail Service \",\n    \"status\":\"true\"\n}\n\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/admin/tenant-admin/updateCategoryService",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"admin",
-								"tenant-admin",
-								"updateCategoryService"
 							]
 						}
 					},

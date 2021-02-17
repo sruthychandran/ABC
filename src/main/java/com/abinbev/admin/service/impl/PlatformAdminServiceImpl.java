@@ -114,6 +114,15 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		userDAO.deleteUser(uuid);
 	}
 	
+	
+	@Override
+	public UserResponseDto findByEmailId(String emailId) {
+	User user=	userDAO.findByEmail(emailId);
+	UserResponseDto response = toUserResponse.transfer(user, UserResponseDto.class);
+	return response;
+	}
+	
+	
 	public void test() {
 		userDAO.deleteAll();
 	}

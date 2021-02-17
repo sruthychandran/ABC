@@ -15,4 +15,6 @@ public interface CategoryServiceService {
 	public List<CategoryServiceResponseDto> getAllCategoryServices();
 
 	public void deleteCategoryService(String categoryId);
+
+	public CategoryServiceResponseDto findByCategoryId(String categoryId);
 }

@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public RoleResponseDto saveRole(RoleDto roleDto) {
 		Role role = toRole.transfer(roleDto, Role.class);
-		role.setStatus("enabled");
+		role.setStatus("enable");
 		// role.setCreatedBy(existingRole.getCreatedBy());
 		role.setCreatedDate(new Date());
 		role = roleDAO.save(role);

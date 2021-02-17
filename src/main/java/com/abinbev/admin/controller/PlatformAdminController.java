@@ -23,8 +23,11 @@ import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
 @RequestMapping("/platform-admin")
@@ -71,6 +74,12 @@ public class PlatformAdminController {
 		return ResponseEntity.ok().build();
 	}
 
+	@GetMapping("/getUser/{emailId}")
+	public ResponseEntity<UserResponseDto> getUserByEmailId(@PathVariable String emailId) throws JsonMappingException, JsonProcessingException {
+		
+		UserResponseDto result = platformAdminService.findByEmailId(emailId);
+		return ResponseEntity.ok().body(result);
+	}
 
 
 
