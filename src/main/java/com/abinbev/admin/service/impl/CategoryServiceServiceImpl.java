@@ -28,21 +28,21 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	@Autowired
 	CategoryServiceDAO categoryDAO;
 
-	MapperUtil<CategoryServiceDto, CategoryService> toCategoryService = new MapperUtil<>();
-	MapperUtil<CategoryService, CategoryServiceResponseDto> toCategoryServiceResponse = new MapperUtil<>();
+	MapperUtil<CategoryServiceDto, CategoryService> categoryServiceMapper = new MapperUtil<>();
+	MapperUtil<CategoryService, CategoryServiceResponseDto> categoryServiceResponse = new MapperUtil<>();
 
 	@Override
 	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceCreationFailureException {
 		CategoryServiceResponseDto response = null;
-		CategoryService categoryService = toCategoryService.transfer(categoryServiceDto, CategoryService.class);
+		CategoryService categoryService = categoryServiceMapper.transfer(categoryServiceDto, CategoryService.class);
 		categoryService.setStatus(messageProperties.getActiveStatus());
 		categoryService.setCreatedDate(new Date());
 		CategoryService categoryServiceObj = categoryDAO.save(categoryService);
 
 		if (categoryServiceObj != null) {
 
-			response = toCategoryServiceResponse.transfer(categoryServiceObj, CategoryServiceResponseDto.class);
+			response = categoryServiceResponse.transfer(categoryServiceObj, CategoryServiceResponseDto.class);
 			response.setMessage(messageProperties.getSaveMessage());
 		} else {
 			throw new CategoryServiceCreationFailureException(messageProperties.getCategoryServiceNotFoundMessage());
@@ -58,7 +58,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		CategoryServiceResponseDto response = null;
 		CategoryService existingCategoryService = findByCategoryId(categoryServiceDto.getCategoryId());
 
-		CategoryService categoryService = toCategoryService.transfer(categoryServiceDto, CategoryService.class);
+		CategoryService categoryService = categoryServiceMapper.transfer(categoryServiceDto, CategoryService.class);
 
 		categoryService.setId(existingCategoryService.getCategoryId());
 		categoryService.setCreatedDate(existingCategoryService.getCreatedDate());
@@ -66,7 +66,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		categoryService.setModifiedDate(new Date());
 		CategoryService categoryServiceObj = categoryDAO.save(categoryService);
 		if (categoryServiceObj != null) {
-			response = toCategoryServiceResponse.transfer(categoryServiceObj, CategoryServiceResponseDto.class);
+			response = categoryServiceResponse.transfer(categoryServiceObj, CategoryServiceResponseDto.class);
 
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
@@ -84,7 +84,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<>();
 		for (CategoryService result : categoryServiceList) {
 			categoryServiceResponseList
-					.add(toCategoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
+					.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
 		}
 		return categoryServiceResponseList;
 
@@ -102,7 +102,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	@Override
 	public CategoryServiceResponseDto findCategoryService(String categoryId) {
 		CategoryService result = categoryDAO.findByCategoryId(categoryId);
-		CategoryServiceResponseDto response = toCategoryServiceResponse.transfer(result,
+		CategoryServiceResponseDto response = categoryServiceResponse.transfer(result,
 				CategoryServiceResponseDto.class);
 		return response;
 	}

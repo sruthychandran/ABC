@@ -20,6 +20,8 @@ public class CategoryServiceDto {
 	private String categoryName;
 	private String moduleId;
 	private String moduleName;
+	private String subModuleId;
+	private String subModuleName;
 	private String status;
 	private Date createdDate;
 	private String createdBy;

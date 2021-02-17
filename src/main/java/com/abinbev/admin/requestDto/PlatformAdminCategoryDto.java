@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDto {
+public class PlatformAdminCategoryDto {
 	private String categoryId;
-	private List<ModuleDto> modules;
+	private List<ModuleDto> moduleId;
 
 }
