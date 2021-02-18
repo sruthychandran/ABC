@@ -69,7 +69,7 @@ public class CategoryServiceServiceTests {
 	@Test
 	public void test_createCategoryServices_success() throws JsonMappingException, JsonProcessingException, CategoryServiceCreationFailureException {
 		CategoryServiceDto  categoryServiceDto = CategoryServiceDto.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
-				.moduleName("Notification Service").userRole("TA").build();
+				.moduleName("Notification Service").userRole("TA").status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
 		
 		CategoryService categoryService = mapper.readValue(mapToJson(categoryServiceDto), CategoryService.class);
 		categoryService.setStatus("enable");
@@ -86,6 +86,8 @@ public class CategoryServiceServiceTests {
 		assertEquals("Notification Service",result.getModuleName());
 		assertEquals("enable",result.getStatus());
 		assertEquals("TA",result.getUserRole());
+		assertEquals("TA-Add",result.getSubModuleId());
+		assertEquals("Tenant Addition",result.getSubModuleName());
 		assertNotNull(result.getCreatedDate());
 		assertEquals("created successfully",result.getMessage());
 		
@@ -97,7 +99,7 @@ public class CategoryServiceServiceTests {
 	  @Test public void test_updateCategoryService_success() throws
 	  JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
 			CategoryServiceDto  categoryServiceDto = CategoryServiceDto.builder().categoryId("CS").categoryName("coreService").moduleId("NI")
-					.moduleName("Notification Service").userRole("TA").status("enable").build();
+					.moduleName("Notification Service").userRole("TA").status("active").build();
 			
 			CategoryService categoryService =mapper.readValue(mapToJson(categoryServiceDto), CategoryService.class); 
 			categoryService.setCreatedDate(new Date());
@@ -123,10 +125,10 @@ public class CategoryServiceServiceTests {
 	      assertEquals("TA",updatedCategoryService.getUserRole());
 	      assertEquals("enable",updatedCategoryService.getStatus());
 	      assertNotNull(updatedCategoryService.getCreatedDate());
-			//assertEquals("abi@gmail.com",returnedUser.getCreatedBy());
+			
 		 assertEquals("updated successfully", updatedCategoryService.getMessage());
 		 assertNotNull(updatedCategoryService.getModifiedDate());
-			//assertEquals("abi@gmail.com",returnedUser.getModifiedBy());
+
 		  
 	  
 	  }
@@ -142,7 +144,7 @@ public class CategoryServiceServiceTests {
 		
 		CategoryServiceNotFoundException thrown =assertThrows(CategoryServiceNotFoundException.class, () ->
 		  categoryServiceService.updateCategoryService(categoryServiceDto));
-		assertEquals("CategoryService not found",thrown.getMessage());
+		assertEquals("Category Service not found",thrown.getMessage());
 	}
 	  
 	  @Test
@@ -176,5 +178,6 @@ public class CategoryServiceServiceTests {
 		      assertNotNull(result.get(1).getCreatedDate());
 		  
 	  }
+	
 
 }

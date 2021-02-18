@@ -51,55 +51,51 @@ public class PlatformAdminControllerTests {
 	@Autowired
 	private ObjectMapper mapper;
 
-	/*
-	 * @Test
-	 * 
-	 * public void createUsers() throws Exception {
-	 * 
-	 * UserDto userDto1 =
-	 * UserDto.builder().firstName("rafeek").lastName("ks").emailId(
-	 * "rafeeq088@gmail.com")
-	 * .phoneNo(8089587001l).roleId("TA").status("enable").createdDate(new Date())
-	 * .createdBy("rafeeq088@gmail.com") .categories(
-	 * Arrays.asList(CategoryDto.builder().categoryId("PLS").moduleId(Arrays.asList(
-	 * "NI")).build())) .build();
-	 * 
-	 * 
-	 * UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
-	 * "rafeeq088@gmail.com") .phoneNo(8089587001l).build();
-	 * 
-	 * 
-	 * UserResponseDto userDTO = mapper.readValue(mapToJson(userDto1),
-	 * UserResponseDto.class);
-	 * 
-	 * ObjectMapper mapper=new ObjectMapper();
-	 * 
-	 * 
-	 * String inputInJson = this.mapToJson(userDTO); String URI =
-	 * "/platform-admin/createUser";
-	 * 
-	 * Mockito.when(platformAdminService.saveUser(Mockito.any(UserDto.class))).
-	 * thenReturn(userDTO);
-	 * 
-	 * RequestBuilder requestBuilder =
-	 * MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
-	 * .content(inputInJson).contentType(MediaType.APPLICATION_JSON);
-	 * 
-	 * MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-	 * MockHttpServletResponse response = mvcResult.getResponse();
-	 * 
-	 * UserResponseDto result =
-	 * mapper.readValue(mvcResult.getResponse().getContentAsString(),
-	 * UserResponseDto.class);
-	 * 
-	 * assertEquals("rafeeq088@gmail.com", result.getEmailId()); assertEquals("PLS",
-	 * result.getCategories().get(0).getCategoryId()); assertEquals("NI",
-	 * result.getCategories().get(0).getModuleId().get(0));
-	 * 
-	 * assertEquals(HttpStatus.OK.value(), response.getStatus()); }
-	 * 
-	 * private String mapToJson(Object object) throws JsonProcessingException {
-	 * ObjectMapper objectMapper = new ObjectMapper(); return
-	 * objectMapper.writeValueAsString(object); }
-	 */
+	
+	  @Test
+	  
+	  public void createUsers() throws Exception {
+	  
+	  UserDto userDto1 =
+	  UserDto.builder().firstName("rafeek").lastName("ks").emailId(
+	  "rafeeq088@gmail.com")
+	  .phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+	  .createdBy("rafeeq088@gmail.com") .build();
+	  
+	  
+	  UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId(
+	  "rafeeq088@gmail.com") .phoneNo(8089587001l).build();
+	  
+	  
+	  UserResponseDto userDTO = mapper.readValue(mapToJson(userDto1),
+	  UserResponseDto.class);
+	  
+	  ObjectMapper mapper=new ObjectMapper();
+	  
+	  
+	  String inputInJson = this.mapToJson(userDTO); String URI =
+	  "/platform-admin/createUser";
+	  
+	  Mockito.when(platformAdminService.saveUser(Mockito.any(UserDto.class))).
+	  thenReturn(userDTO);
+	  
+	  RequestBuilder requestBuilder =
+	  MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
+	  .content(inputInJson).contentType(MediaType.APPLICATION_JSON);
+	  
+	  MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+	  MockHttpServletResponse response = mvcResult.getResponse();
+	  
+	  UserResponseDto result =
+	  mapper.readValue(mvcResult.getResponse().getContentAsString(),
+	  UserResponseDto.class);
+	  
+	  assertEquals("rafeeq088@gmail.com", result.getEmailId()); 
+	  
+	  assertEquals(HttpStatus.OK.value(), response.getStatus()); }
+	  
+	  private String mapToJson(Object object) throws JsonProcessingException {
+	  ObjectMapper objectMapper = new ObjectMapper(); return
+	  objectMapper.writeValueAsString(object); }
+	 
 }

@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.User;
-import com.abinbev.admin.responseDto.UserResponseDto;
-
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -20,14 +18,12 @@ public class UserDAOImpl implements UserDAO {
 	MessageProperties messageProperties;
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	
-	
+
 	@Override
 	public User save(User user) {
 		User createUserObj = mongoTemplate.save(user);
-		
-		return  createUserObj;
-		
+
+		return createUserObj;
 
 	}
 
@@ -38,21 +34,16 @@ public class UserDAOImpl implements UserDAO {
 		return mongoTemplate.find(query, User.class);
 	}
 
-	
 	@Override
 	public User findByEmail(String emailId) {
 		Query query = new Query();
-		
+
 		query.addCriteria(Criteria.where("emailId").is(emailId));
 		return mongoTemplate.findOne(query, User.class);
 	}
-	
-	
-	
+
 	public void deleteAll() {
-		 mongoTemplate.remove(new Query(),User.class);
+		mongoTemplate.remove(new Query(), User.class);
 	}
-
-
 
 }
