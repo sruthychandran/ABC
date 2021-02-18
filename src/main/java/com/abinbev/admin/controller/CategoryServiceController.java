@@ -1,5 +1,6 @@
 package com.abinbev.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,12 +82,15 @@ public class CategoryServiceController {
 	 * @param categoryId
 	 * @throws CategoryServiceNotFoundException
 	 */
-	@GetMapping("/deleteCategoryService/{categoryId}")
-	public void deleteCategoryService(@PathVariable String categoryId) throws CategoryServiceNotFoundException {
-
-		categoryService.deleteCategoryService(categoryId);
-
-	}
+	
+	  @GetMapping("/deleteCategoryService/{categoryId}") public void
+	  deleteCategoryService(@PathVariable String categoryId) throws
+	  CategoryServiceNotFoundException {
+	  
+	  categoryService.deleteCategoryService(categoryId);
+	  
+	  }
+	 
 
 	/**
 	 * In this method we can get a category service by id
@@ -98,13 +102,21 @@ public class CategoryServiceController {
 	 * @throws JsonProcessingException
 	 * @throws CategoryServiceNotFoundException
 	 */
-	@GetMapping("/getCategoryService/{categoryId}")
-	public ResponseEntity<CategoryServiceResponseDto> getCategoryServiceById(@PathVariable String categoryId)
-			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
-			CategoryServiceNotFoundException {
-		if (categoryId == null)
-			throw new BadRequestAlertException("Invalid categoryId");
-		CategoryServiceResponseDto categoryServiceResponse = categoryService.findCategoryService(categoryId);
-		return ResponseEntity.ok().body(categoryServiceResponse);
+	
+	  @GetMapping("/getCategoryService/{id}") public
+	  ResponseEntity<CategoryServiceResponseDto>
+	  getCategoryServiceById(@PathVariable String id) throws
+	  BadRequestAlertException, JsonMappingException, JsonProcessingException,
+	  CategoryServiceNotFoundException { if (id == null) throw new
+	  BadRequestAlertException("Invalid categoryId"); CategoryServiceResponseDto
+	  categoryServiceResponse = categoryService.findById(id);
+	  return ResponseEntity.ok().body(categoryServiceResponse); }
+	 
+	@GetMapping("/test/{categoryId}")
+	public HashMap<String,List<Object>> getModulesByCategoryId(@PathVariable  String categoryId){
+		
+		
+		return categoryService.findModulesByCategoryId(categoryId);
+		
 	}
 }

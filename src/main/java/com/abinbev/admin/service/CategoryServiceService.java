@@ -1,5 +1,6 @@
 package com.abinbev.admin.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
@@ -20,5 +21,7 @@ public interface CategoryServiceService {
 
 	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException;
 
-	public CategoryServiceResponseDto findCategoryService(String categoryId) throws CategoryServiceNotFoundException;
+	public CategoryServiceResponseDto findById(String id) throws CategoryServiceNotFoundException;
+
+	public HashMap<String, List<Object>> findModulesByCategoryId(String categoryId);
 }

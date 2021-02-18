@@ -2,15 +2,23 @@ package com.abinbev.admin.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHandler {
+	
+	@Value("${status.create.failure}")
+	String cretionFailureStatus;
+	
+	@Value("${status.update.failure}")
+	String updationFailureStatus;
 
 	@ExceptionHandler(BadRequestAlertException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -45,7 +53,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 	}
 
 	@ExceptionHandler(EmailExistException.class)
-	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ResponseStatus(value = HttpStatus.CONFLICT)
 	public @ResponseBody ApiError handleEmailExist(final EmailExistException exception,
 			final HttpServletRequest request) {
 

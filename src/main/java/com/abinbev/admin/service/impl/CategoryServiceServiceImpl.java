@@ -2,7 +2,13 @@ package com.abinbev.admin.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +21,7 @@ import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
+import com.abinbev.admin.requestDto.TestModuleDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.MapperUtil;
@@ -64,7 +71,6 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 		CategoryServiceResponseDto response = null;
 		CategoryService existingCategoryService = categoryDAO.findById(categoryServiceDto.getId());
-		
 
 		if (existingCategoryService == null) {
 			throw new CategoryServiceNotFoundException(messageProperties.getCategoryServiceNotFoundMessage());
@@ -73,7 +79,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		CategoryService categoryService = categoryServiceMapper.transfer(categoryServiceDto, CategoryService.class);
 
 		categoryService.setId(existingCategoryService.getId());
-		
+
 		categoryService.setCreatedDate(existingCategoryService.getCreatedDate());
 
 		categoryService.setModifiedDate(new Date());
@@ -83,7 +89,8 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
-			 throw new CategoryServiceUpdationFailureException(messageProperties.getCategoryServiceUpdateFailureMessage());
+			throw new CategoryServiceUpdationFailureException(
+					messageProperties.getCategoryServiceUpdateFailureMessage());
 		}
 
 		return response;
@@ -96,13 +103,13 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	@Override
 	public List<CategoryServiceResponseDto> getAllCategoryServices() {
 		List<CategoryService> categoryServiceList = categoryDAO.getAllCategoryServices();
-	
+
 		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<>();
-		if(categoryServiceList != null) {
+		if (categoryServiceList != null) {
 			for (CategoryService result : categoryServiceList) {
-			categoryServiceResponseList
-					.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
-		}
+				categoryServiceResponseList
+						.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
+			}
 		}
 		return categoryServiceResponseList;
 
@@ -111,34 +118,64 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	/**
 	 * In this method we delete category service
 	 */
-	@Override
-	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException {
-		CategoryService existingCategoryService = findByCategoryId(categoryId);
 
+	@Override
+	public void deleteCategoryService(String id) throws CategoryServiceNotFoundException {
+		CategoryService existingCategoryService = categoryDAO.findById(id);
+		if (existingCategoryService == null) {
+			throw new CategoryServiceNotFoundException(messageProperties.getCategoryServiceNotFoundMessage());
+		}
 		existingCategoryService.setStatus(messageProperties.getInactiveStatus());
 		categoryDAO.save(existingCategoryService);
 
 	}
 
 	/**
-	 * In this method we can find a category by categoryId
-	 * @throws CategoryServiceNotFoundException 
+	 * In this method we can find a category by id
+	 * 
+	 * @throws CategoryServiceNotFoundException
 	 */
+
 	@Override
-	public CategoryServiceResponseDto findCategoryService(String categoryId) throws CategoryServiceNotFoundException {
-		CategoryService result = findByCategoryId(categoryId);
+	public CategoryServiceResponseDto findById(String id) throws CategoryServiceNotFoundException {
+		CategoryService result = categoryDAO.findById(id);
 		CategoryServiceResponseDto response = categoryServiceResponse.transfer(result,
 				CategoryServiceResponseDto.class);
 		return response;
 	}
 
-	private CategoryService findByCategoryId(String categoryId) throws CategoryServiceNotFoundException {
-		CategoryService existingCategoryService = categoryDAO.findByCategoryId(categoryId);
+	
+	@Override
+	public HashMap<String, List<Object>> findModulesByCategoryId(String categoryId) {
+		// getCategoryById
+		// check whether module exist
+		// yes= add moduleDetails,
+		// check whether submodule exist,
+		// yes= add subModuleDetails
+		// loop continued
 
-		if (existingCategoryService == null) {
-			throw new CategoryServiceNotFoundException(messageProperties.getCategoryServiceNotFoundMessage());
-		}
-		return existingCategoryService;
+		List<CategoryService> categoryServiceList = categoryDAO.findByCategoryId(categoryId);
+		/*
+		 * for(CategoryService categoryList : categoryServiceList ) { TestModuleDto tMD
+		 * = new TestModuleDto(); if(categoryList.getModuleId() != null) { if() {
+		 * 
+		 * } new TestModuleDto(categoryList.getModuleId(),categoryList.getModuleName());
+		 * }
+		 * 
+		 * }
+		 */
+
+		List<CategoryService> distinctElements = categoryServiceList.stream()
+				.filter(distinctByKey(cust -> cust.getModuleId())).collect(Collectors.toList());
+
+		System.out.println("ffffffffffffffffffffff" + distinctElements);
+		return null;
+	}
+
+	// Utility function
+	public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+		Map<Object, Boolean> map = new ConcurrentHashMap<>();
+		return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
 	}
 
 }

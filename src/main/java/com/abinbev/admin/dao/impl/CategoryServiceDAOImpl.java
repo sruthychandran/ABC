@@ -37,10 +37,10 @@ public class CategoryServiceDAOImpl implements CategoryServiceDAO {
 	}
 
 	@Override
-	public CategoryService findByCategoryId(String categoryId) {
+	public List<CategoryService> findByCategoryId(String categoryId) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("categoryId").is(categoryId));
-		return mongoTemplate.findOne(query, CategoryService.class);
+		return mongoTemplate.find(query, CategoryService.class);
 
 	}
 	@Override

@@ -17,7 +17,7 @@ public CategoryService	save(CategoryService CategoryService) ;
 public List<CategoryService> getAllCategoryServices();
 
 
-public CategoryService findByCategoryId(String categoryId);
+public List<CategoryService> findByCategoryId(String categoryId);
 
 public CategoryService findById(String id);
 
