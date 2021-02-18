@@ -63,7 +63,12 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 			throws CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
 
 		CategoryServiceResponseDto response = null;
-		CategoryService existingCategoryService = findByCategoryId(categoryServiceDto.getCategoryId());
+		CategoryService existingCategoryService = categoryDAO.findById(categoryServiceDto.getId());
+		
+
+		if (existingCategoryService == null) {
+			throw new CategoryServiceNotFoundException(messageProperties.getCategoryServiceNotFoundMessage());
+		}
 
 		CategoryService categoryService = categoryServiceMapper.transfer(categoryServiceDto, CategoryService.class);
 

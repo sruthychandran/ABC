@@ -19,6 +19,8 @@ public List<CategoryService> getAllCategoryServices();
 
 public CategoryService findByCategoryId(String categoryId);
 
+public CategoryService findById(String id);
+
 
 
 }
