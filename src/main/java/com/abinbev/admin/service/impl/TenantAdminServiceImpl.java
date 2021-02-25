@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.abinbev.admin.config.MessageProperties;
@@ -104,19 +107,34 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	 * In this method tenant admin can list all users
 	 */
 	@Override
-	public List<UserResponseDto> getAllUsers() {
+	public Page<UserResponseDto> getAllUsers(Pageable pageable) {
+		Page<UserResponseDto> userResponsePage = null;
 
 		List<UserResponseDto> userResponses = new ArrayList<UserResponseDto>();
 
-		List<User> users = userDAO.getAllUsers();
+		Page<User> users = userDAO.getAllUsers(pageable);
+		
+		
+		try {
+			if (users != null && !users.isEmpty()) {
+				for (User user : users.getContent()) {
+					UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
+					userResponses.add(response);
 
-		for (User user : users) {
-			UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
-			userResponses.add(response);
+				}
+				
+				userResponsePage = new PageImpl<UserResponseDto>(userResponses, pageable, users.getContent().size());
+			
+			}
+		
+			return userResponsePage;
+		} catch (Exception ex) {
 
+		} finally {
+			userResponsePage = null;
 		}
 
-		return userResponses;
+		return null;
 	}
 
 	/**

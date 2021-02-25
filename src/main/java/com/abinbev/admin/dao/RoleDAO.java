@@ -1,22 +1,19 @@
 package com.abinbev.admin.dao;
 
-
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.abinbev.admin.entity.Role;
 
+public interface RoleDAO {
 
+	public Role save(Role role);
 
+	public void deleteRole(String roleId);
 
-
-
-public interface RoleDAO  {
-
-	public Role save(Role role) ;
-	
-	public void deleteRole(String roleId) ;
-	
-	public List<Role> getAllRoles();
+	public Page<Role> getAllRoles(Pageable pageable);
 
 	Role findByRoleId(String roleId);
 

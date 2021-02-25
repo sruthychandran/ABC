@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.abinbev.admin.config.MessageProperties;
@@ -15,6 +18,7 @@ import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
+import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.utility.MapperUtil;
 
@@ -40,7 +44,6 @@ public class RoleServiceImpl implements RoleService {
 	public RoleResponseDto saveRole(RoleDto roleDto) throws RoleCreationFailureException {
 		RoleResponseDto response = null;
 		Role role = roleMapper.transfer(roleDto, Role.class);
-		System.out.println("Role isssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"+role);
 		role.setStatus(messageProperties.getActiveStatus());
 		role.setCreatedDate(new Date());
 		Role roleResponseObj = roleDAO.save(role);
@@ -73,12 +76,14 @@ public class RoleServiceImpl implements RoleService {
 	 * In this method we can list all roles
 	 */
 	@Override
-	public List<RoleResponseDto> getAllRoles() {
+	public Page<RoleResponseDto> getAllRoles(Pageable pageable) {
+
+		Page<RoleResponseDto> roleResponsePage = null;
 
 		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
 
-		List<Role> roles = roleDAO.getAllRoles();
-		
+		Page<Role> roles = roleDAO.getAllRoles(pageable);
+
 		try {
 			if (roles != null && !roles.isEmpty()) {
 				for (Role role : roles) {
@@ -86,12 +91,16 @@ public class RoleServiceImpl implements RoleService {
 					roleResponseList.add(response);
 
 				}
+
+				roleResponsePage = new PageImpl<RoleResponseDto>(roleResponseList, pageable, roles.getContent().size());
+
 			}
-			return roleResponseList;
+
+			return roleResponsePage;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			roleResponseList = null;
+			roleResponsePage = null;
 		}
 
 		return null;
@@ -107,7 +116,7 @@ public class RoleServiceImpl implements RoleService {
 	public RoleResponseDto updateRole(RoleDto roleDto) throws RoleNotFoundException, RoleUpdationFailureException {
 		RoleResponseDto response = null;
 		Role existingRole = roleDAO.findById(roleDto.getId());
-		if(existingRole == null ) {
+		if (existingRole == null) {
 			throw new RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
 		}
 
@@ -116,7 +125,7 @@ public class RoleServiceImpl implements RoleService {
 		role.setId(existingRole.getId());
 
 		role.setCreatedDate(existingRole.getCreatedDate());
-		
+
 		role.setStatus(existingRole.getStatus());
 		role.setModifiedDate(new Date());
 
