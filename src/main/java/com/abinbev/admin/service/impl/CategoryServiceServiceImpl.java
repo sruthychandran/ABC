@@ -11,6 +11,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.abinbev.admin.config.MessageProperties;
@@ -25,6 +28,7 @@ import com.abinbev.admin.requestDto.TestModuleDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.MapperUtil;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,17 +105,20 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	 * In this method we list all the category services
 	 */
 	@Override
-	public List<CategoryServiceResponseDto> getAllCategoryServices() {
-		List<CategoryService> categoryServiceList = categoryDAO.getAllCategoryServices();
+	public Page<CategoryServiceResponseDto> getAllCategoryServices(Pageable pageable) {
+		Page<CategoryService> categoryServicePage = categoryDAO.getAllCategoryServices(pageable);
 
-		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<>();
-		if (categoryServiceList != null) {
-			for (CategoryService result : categoryServiceList) {
+		List<CategoryServiceResponseDto> categoryServiceResponseList =new ArrayList<CategoryServiceResponseDto>();
+		if (categoryServicePage.getContent() != null) {
+			for (CategoryService result : categoryServicePage.getContent()) {
 				categoryServiceResponseList
 						.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
 			}
 		}
-		return categoryServiceResponseList;
+		
+		
+		Page<CategoryServiceResponseDto> categoryResponsePage = new PageImpl<CategoryServiceResponseDto>(categoryServiceResponseList, pageable, categoryServicePage.getContent().size());
+		return categoryResponsePage;
 
 	}
 

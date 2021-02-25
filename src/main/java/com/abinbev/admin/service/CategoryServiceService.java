@@ -3,6 +3,9 @@ package com.abinbev.admin.service;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
@@ -17,7 +20,7 @@ public interface CategoryServiceService {
 	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceNotFoundException, CategoryServiceUpdationFailureException;
 
-	public List<CategoryServiceResponseDto> getAllCategoryServices();
+	public Page<CategoryServiceResponseDto> getAllCategoryServices(Pageable pageable);
 
 	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException;
 

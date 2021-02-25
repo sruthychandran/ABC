@@ -3,9 +3,12 @@ package com.abinbev.admin.dao.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.abinbev.admin.config.MessageProperties;
@@ -30,10 +33,16 @@ public class CategoryServiceDAOImpl implements CategoryServiceDAO {
 	}
 
 	@Override
-	public List<CategoryService> getAllCategoryServices() {
-		Query query = new Query();
+	public Page<CategoryService> getAllCategoryServices(Pageable pageable) {
+		Query query = new Query().with(pageable);
 		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
-		return mongoTemplate.find(query, CategoryService.class);
+		List<CategoryService> categoryServiceList= mongoTemplate.find(query, CategoryService.class);
+		Page<CategoryService> categoryPage = PageableExecutionUtils.getPage(
+				categoryServiceList,
+		        pageable,
+		        () -> mongoTemplate.count(query, CategoryService.class));
+	
+	return categoryPage;
 	}
 
 	@Override
@@ -43,6 +52,7 @@ public class CategoryServiceDAOImpl implements CategoryServiceDAO {
 		return mongoTemplate.find(query, CategoryService.class);
 
 	}
+
 	@Override
 	public CategoryService findById(String id) {
 		Query query = new Query();
