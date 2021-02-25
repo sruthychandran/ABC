@@ -16,11 +16,8 @@ import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
-
 import com.abinbev.admin.exception.UserUpdationFailureException;
-
 import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
-
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
@@ -42,12 +39,11 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	MapperUtil<UserDto, User> userMapper = new MapperUtil<>();
 
 	MapperUtil<User, UserResponseDto> userResponse = new MapperUtil<>();
-	
+
 	MapperUtil<PlatformAdminOnBoardingDto, User> platformAdminMapper = new MapperUtil<>();
-	
+
 	MapperUtil<User, PlatformAdminOnBoardingResponseDto> platformAdminResponse = new MapperUtil<>();
 
-	
 	/**
 	 * In this method platform admin can create a user
 	 */
@@ -85,7 +81,6 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		return false;
 	}
 
-	
 	/**
 	 * In this method platform admin can update a user
 	 */
@@ -115,7 +110,6 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
 	}
 
-	
 	/**
 	 * In this method platform admin can list all users
 	 */
@@ -152,7 +146,6 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		return null;
 	}
 
-	
 	/**
 	 * In this method platform admin can delete a user
 	 */
@@ -184,8 +177,9 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	}
 
 	@Override
-	public PlatformAdminOnBoardingResponseDto savePlatformAdmin(PlatformAdminOnBoardingDto platformAdminOnBoardingDto) throws EmailExistException, UserCreationFailureException {
-		
+	public PlatformAdminOnBoardingResponseDto savePlatformAdmin(PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
+			throws EmailExistException, UserCreationFailureException {
+
 		PlatformAdminOnBoardingResponseDto response = null;
 		User user = platformAdminMapper.transfer(platformAdminOnBoardingDto, User.class);
 		if (emailExist(user.getEmailId())) {
@@ -195,13 +189,12 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		user.setCreatedBy(user.getEmailId());
 		user.setStatus(messageProperties.getActiveStatus());
 		User userResponseObj = userDAO.save(user);
-		
+
 		if (userResponseObj != null) {
 			response = platformAdminResponse.transfer(userResponseObj, PlatformAdminOnBoardingResponseDto.class);
-		
+
 			response.setMessage(messageProperties.getSaveMessage());
-			
-			
+
 		} else {
 			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
 		}

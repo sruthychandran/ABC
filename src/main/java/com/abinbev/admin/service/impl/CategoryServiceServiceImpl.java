@@ -2,13 +2,7 @@ package com.abinbev.admin.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,16 +13,13 @@ import org.springframework.stereotype.Service;
 import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.CategoryServiceDAO;
 import com.abinbev.admin.entity.CategoryService;
-import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
-
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.MapperUtil;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -108,16 +99,16 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	public Page<CategoryServiceResponseDto> getAllCategoryServices(Pageable pageable) {
 		Page<CategoryService> categoryServicePage = categoryDAO.getAllCategoryServices(pageable);
 
-		List<CategoryServiceResponseDto> categoryServiceResponseList =new ArrayList<CategoryServiceResponseDto>();
+		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<CategoryServiceResponseDto>();
 		if (categoryServicePage.getContent() != null) {
 			for (CategoryService result : categoryServicePage.getContent()) {
 				categoryServiceResponseList
 						.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
 			}
 		}
-		
-		
-		Page<CategoryServiceResponseDto> categoryResponsePage = new PageImpl<CategoryServiceResponseDto>(categoryServiceResponseList, pageable, categoryServicePage.getContent().size());
+
+		Page<CategoryServiceResponseDto> categoryResponsePage = new PageImpl<CategoryServiceResponseDto>(
+				categoryServiceResponseList, pageable, categoryServicePage.getContent().size());
 		return categoryResponsePage;
 
 	}
@@ -151,5 +142,4 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		return response;
 	}
 
-	
 }

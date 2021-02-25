@@ -18,11 +18,8 @@ import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
-import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.utility.MapperUtil;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 
@@ -44,6 +41,7 @@ public class RoleServiceImpl implements RoleService {
 	public RoleResponseDto saveRole(RoleDto roleDto) throws RoleCreationFailureException {
 		RoleResponseDto response = null;
 		Role role = roleMapper.transfer(roleDto, Role.class);
+
 		role.setStatus(messageProperties.getActiveStatus());
 		role.setCreatedDate(new Date());
 		Role roleResponseObj = roleDAO.save(role);
@@ -68,6 +66,7 @@ public class RoleServiceImpl implements RoleService {
 		Role role = findRoleByRoleId(roleId);
 
 		role.setStatus(messageProperties.getInactiveStatus());
+		role.setModifiedDate(new Date());
 		roleDAO.save(role);
 
 	}

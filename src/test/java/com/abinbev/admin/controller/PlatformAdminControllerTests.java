@@ -74,7 +74,7 @@ public class PlatformAdminControllerTests {
 	  
 	  
 	  String inputInJson = this.mapToJson(userDTO); String URI =
-	  "/platform-admin/createUser";
+	  "/platform-admin/v1/createUser";
 	  
 	  Mockito.when(platformAdminService.saveUser(Mockito.any(UserDto.class))).
 	  thenReturn(userDTO);

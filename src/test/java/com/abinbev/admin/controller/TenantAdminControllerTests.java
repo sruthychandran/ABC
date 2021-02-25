@@ -45,7 +45,7 @@ public class TenantAdminControllerTests {
 		UserResponseDto userDTO = mapper.readValue(mapToJson(user), UserResponseDto.class);
 
 		String inputInJson = this.mapToJson(userDTO);
-		String URI = "/tenant-admin/createUser";
+		String URI = "/tenant-admin/v1/createUser";
 
 		Mockito.when(tenantAdminService.saveUser(Mockito.any(UserDto.class))).thenReturn(userDTO);
 

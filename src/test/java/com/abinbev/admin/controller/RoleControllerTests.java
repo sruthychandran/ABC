@@ -65,7 +65,7 @@ public class RoleControllerTests {
 
 
 		String inputInJson = this.mapToJson(roleDto);
-		String URI = "/roles/createRole";
+		String URI = "/roles/v1/createRole";
 
 		Mockito.when(roleService.saveRole(Mockito.any(RoleDto.class))).thenReturn(roleResponseDto);
 
