@@ -18,8 +18,6 @@ import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.utility.MapperUtil;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
 
 public class RoleServiceImpl implements RoleService {
@@ -40,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
 	public RoleResponseDto saveRole(RoleDto roleDto) throws RoleCreationFailureException {
 		RoleResponseDto response = null;
 		Role role = roleMapper.transfer(roleDto, Role.class);
-		System.out.println("Role isssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"+role);
+
 		role.setStatus(messageProperties.getActiveStatus());
 		role.setCreatedDate(new Date());
 		Role roleResponseObj = roleDAO.save(role);
@@ -65,6 +63,7 @@ public class RoleServiceImpl implements RoleService {
 		Role role = findRoleByRoleId(roleId);
 
 		role.setStatus(messageProperties.getInactiveStatus());
+		role.setModifiedDate(new Date());
 		roleDAO.save(role);
 
 	}
@@ -78,7 +77,7 @@ public class RoleServiceImpl implements RoleService {
 		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
 
 		List<Role> roles = roleDAO.getAllRoles();
-		
+
 		try {
 			if (roles != null && !roles.isEmpty()) {
 				for (Role role : roles) {
@@ -107,7 +106,7 @@ public class RoleServiceImpl implements RoleService {
 	public RoleResponseDto updateRole(RoleDto roleDto) throws RoleNotFoundException, RoleUpdationFailureException {
 		RoleResponseDto response = null;
 		Role existingRole = roleDAO.findById(roleDto.getId());
-		if(existingRole == null ) {
+		if (existingRole == null) {
 			throw new RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
 		}
 
@@ -116,7 +115,7 @@ public class RoleServiceImpl implements RoleService {
 		role.setId(existingRole.getId());
 
 		role.setCreatedDate(existingRole.getCreatedDate());
-		
+
 		role.setStatus(existingRole.getStatus());
 		role.setModifiedDate(new Date());
 

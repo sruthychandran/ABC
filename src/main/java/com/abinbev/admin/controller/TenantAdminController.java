@@ -25,7 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
-@RequestMapping("/tenant-admin")
+@RequestMapping("/tenant-admin/v1")
 public class TenantAdminController {
 
 	@Autowired

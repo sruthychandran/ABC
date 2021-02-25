@@ -67,9 +67,9 @@ public class RoleServiceTests {
 
 		Role role = mapper.readValue(mapToJson(roleDto), Role.class);
 
-		RoleResponseDto saved = RoleResponseDto.builder().roleId("EU").roleName("end user").createdDate(new Date())
+		RoleResponseDto saved = RoleResponseDto.builder().id("qwerty").roleId("EU").roleName("end user").createdDate(new Date())
 				.status("enable").userRole("TA").build();
-		Mockito.when(roleDAO.findByRoleId(saved.getRoleId())).thenReturn(role);
+		Mockito.when(roleDAO.findById(saved.getId())).thenReturn(role);
 		saved.setRoleId("EU");
 		saved.setRoleName("Role updated");
 		saved.setModifiedDate(new Date());
@@ -89,7 +89,7 @@ public class RoleServiceTests {
 	}
 
 	@Test
-	public void test_updateRoles_throws_exception() throws JsonMappingException, JsonProcessingException {
+	public void test_updateRoles_throws_exception() throws JsonMappingException, JsonProcessingException ,RoleNotFoundException{
 
 		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
 
@@ -126,6 +126,40 @@ public class RoleServiceTests {
 		assertNotNull(result.get(1).getCreatedDate());
 		assertEquals("TA", result.get(1).getUserRole());
 
+	}
+	
+	@Test
+	public void test_deleteRoles_success() throws JsonMappingException, JsonProcessingException, RoleNotFoundException {
+		
+	
+		    
+		    Role role = Role.builder().id("qwerty").roleId("EU").roleName("end user").roleDescription("roleDescription").status("active").build();
+		    
+		    Mockito.when(roleDAO.findByRoleId("EU")).thenReturn(role);
+		    
+		    role.setStatus("inactive");
+		    
+		    Role updatedRole = Role.builder().id("qwerty").roleId("EU").roleName("end user").roleDescription("roleDescription").status("inactive").build();
+		    
+		    Mockito.when(roleDAO.save(role)).thenReturn(updatedRole);
+		    
+		     roleService.deleteRole("EU");
+		
+		
+		
+		
+	
+
+				
+				/*
+				 * assertNotNull(updatedRole.getId());
+				 * assertEquals("end user",updatedRole.getRoleName()); assertEquals("inactive",
+				 * updatedRole.getStatus());
+				 */
+				
+				 
+		
+		
 	}
 
 }
