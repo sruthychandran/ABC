@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.RoleDAO;
+import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.entity.Role;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,13 @@ public class RoleDAOImpl implements RoleDAO {
 		Query query = new Query();
 
 		query.addCriteria(Criteria.where("roleId").is(roleId));
+		return mongoTemplate.findOne(query, Role.class);
+	}
+
+	@Override
+	public Role findById(String id) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(id));
 		return mongoTemplate.findOne(query, Role.class);
 	}
 

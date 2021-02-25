@@ -24,7 +24,9 @@ import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
+import com.abinbev.admin.requestDto.TestCategoryDto;
 import com.abinbev.admin.requestDto.TestModuleDto;
+import com.abinbev.admin.requestDto.TestSubModuleDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.MapperUtil;
@@ -151,7 +153,6 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		return response;
 	}
 
-	
 	@Override
 	public HashMap<String, List<Object>> findModulesByCategoryId(String categoryId) {
 		// getCategoryById
@@ -160,22 +161,56 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		// check whether submodule exist,
 		// yes= add subModuleDetails
 		// loop continued
-
+		TestCategoryDto tcd = new TestCategoryDto();
+		List<TestModuleDto> tmdList = new ArrayList<>();
 		List<CategoryService> categoryServiceList = categoryDAO.findByCategoryId(categoryId);
+		TestModuleDto tmd = new TestModuleDto();
+		for (CategoryService categoryList : categoryServiceList) {
+
+			if (categoryList.getModuleId() != null) {
+			
+				tmd.setModuleId(categoryList.getModuleId());
+				tmd.setModuleName(categoryList.getModuleName());
+				if (tmdList.contains(tmd)) {
+					int t = tmdList.indexOf(tmd);
+					tmd = tmdList.get(t);
+					System.out.println("ffffffffffffffffffffff" + t);
+				} else {
+					tmdList.add(tmd);
+					System.out.println("GGGGGGGGGGGGGGGGGGGGggFALSE");
+				}
+
+				if (categoryList.getSubModuleId() != null) {
+					System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                  TestSubModuleDto tsmd =  new TestSubModuleDto();
+                  tsmd.setSubModuleId(categoryList.getSubModuleId());
+                  tsmd.setSubModuleName(categoryList.getSubModuleName());
+                   if(tmd.getSubModules() != null) {
+                	   System.out.println("qwertyuiop>>>>>>>>>>>>>>>>>>"+tmd.getSubModules().size());
+                   }
+                  //tmd.getSubModules().add(tsmd);
+				}
+
+			}
+
+		}
+
 		/*
-		 * for(CategoryService categoryList : categoryServiceList ) { TestModuleDto tMD
-		 * = new TestModuleDto(); if(categoryList.getModuleId() != null) { if() {
+		 * List<CategoryService> distinctElements = categoryServiceList.stream()
+		 * .filter(distinctByKey(cust ->
+		 * cust.getModuleId())).collect(Collectors.toList());
 		 * 
-		 * } new TestModuleDto(categoryList.getModuleId(),categoryList.getModuleName());
-		 * }
+		 * Map<String, List<CategoryService>> groupByModuleIdMap =
+		 * categoryServiceList.stream().collect(Collectors.groupingBy(CategoryService::
+		 * getModuleId));
 		 * 
-		 * }
+		 * groupByModuleIdMap.keySet(); for( String g:groupByModuleIdMap.keySet()) {
+		 * List<CategoryService> d = groupByModuleIdMap.get(g); for(CategoryService c :
+		 * d) { c. } }
 		 */
 
-		List<CategoryService> distinctElements = categoryServiceList.stream()
-				.filter(distinctByKey(cust -> cust.getModuleId())).collect(Collectors.toList());
+		 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrr"+tmd );
 
-		System.out.println("ffffffffffffffffffffff" + distinctElements);
 		return null;
 	}
 

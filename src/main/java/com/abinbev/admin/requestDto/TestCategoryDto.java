@@ -15,8 +15,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestSubModuleDto {
-	private String subModuleId;
-	private String subModuleName;
+public class TestCategoryDto {
+	private String categoryId;
+	private String categoryName;
+	private List<TestModuleDto> subModules;
 
 }
