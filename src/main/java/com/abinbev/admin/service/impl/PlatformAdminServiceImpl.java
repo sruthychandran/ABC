@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.abinbev.admin.config.MessageProperties;
@@ -16,6 +19,7 @@ import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
@@ -111,24 +115,32 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	 */
 
 	@Override
-	public List<UserResponseDto> getAllUsers() {
+	public Page<UserResponseDto> getAllUsers(Pageable pageable) {
+		
+		Page<UserResponseDto> userResponsePage = null;
 
 		List<UserResponseDto> userResponses = new ArrayList<UserResponseDto>();
 
-		List<User> users = userDAO.getAllUsers();
+		Page<User> users = userDAO.getAllUsers(pageable);
+		
+		
 		try {
 			if (users != null && !users.isEmpty()) {
-				for (User user : users) {
+				for (User user : users.getContent()) {
 					UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
 					userResponses.add(response);
 
 				}
+				
+				userResponsePage = new PageImpl<UserResponseDto>(userResponses, pageable, users.getContent().size());
+			
 			}
-			return userResponses;
+		
+			return userResponsePage;
 		} catch (Exception ex) {
 
 		} finally {
-			userResponses = null;
+			userResponsePage = null;
 		}
 
 		return null;

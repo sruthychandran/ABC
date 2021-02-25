@@ -28,8 +28,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
-@RequestMapping("/roles/v1")
-public class RoleController {
+@RequestMapping("/roles/v2")
+public class RoleController2 {
 
 	@Autowired
 	RoleService roleService;

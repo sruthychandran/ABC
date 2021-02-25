@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.abinbev.admin.config.MessageProperties;
@@ -72,11 +75,13 @@ public class RoleServiceImpl implements RoleService {
 	 * In this method we can list all roles
 	 */
 	@Override
-	public List<RoleResponseDto> getAllRoles() {
+	public Page<RoleResponseDto> getAllRoles(Pageable pageable) {
+
+		Page<RoleResponseDto> roleResponsePage = null;
 
 		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
 
-		List<Role> roles = roleDAO.getAllRoles();
+		Page<Role> roles = roleDAO.getAllRoles(pageable);
 
 		try {
 			if (roles != null && !roles.isEmpty()) {
@@ -85,12 +90,16 @@ public class RoleServiceImpl implements RoleService {
 					roleResponseList.add(response);
 
 				}
+
+				roleResponsePage = new PageImpl<RoleResponseDto>(roleResponseList, pageable, roles.getContent().size());
+
 			}
-			return roleResponseList;
+
+			return roleResponsePage;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			roleResponseList = null;
+			roleResponsePage = null;
 		}
 
 		return null;

@@ -1,6 +1,7 @@
 package com.abinbev.admin.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.abinbev.admin.exception.RoleCreationFailureException;
 import com.abinbev.admin.exception.RoleNotFoundException;
@@ -14,9 +15,9 @@ public interface RoleService {
 
 	public void deleteRole(String roleId) throws RoleNotFoundException;
 
-	public List<RoleResponseDto> getAllRoles();
-
 	public RoleResponseDto updateRole(RoleDto RoleDto) throws RoleNotFoundException, RoleUpdationFailureException;
 
 	RoleResponseDto getRole(String roleId) throws RoleNotFoundException;
+
+	Page<RoleResponseDto> getAllRoles(Pageable pageable);
 }
