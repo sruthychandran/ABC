@@ -24,9 +24,7 @@ import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
-import com.abinbev.admin.requestDto.TestCategoryDto;
-import com.abinbev.admin.requestDto.TestModuleDto;
-import com.abinbev.admin.requestDto.TestSubModuleDto;
+
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.MapperUtil;
@@ -153,71 +151,5 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		return response;
 	}
 
-	@Override
-	public HashMap<String, List<Object>> findModulesByCategoryId(String categoryId) {
-		// getCategoryById
-		// check whether module exist
-		// yes= add moduleDetails,
-		// check whether submodule exist,
-		// yes= add subModuleDetails
-		// loop continued
-		TestCategoryDto tcd = new TestCategoryDto();
-		List<TestModuleDto> tmdList = new ArrayList<>();
-		List<CategoryService> categoryServiceList = categoryDAO.findByCategoryId(categoryId);
-		TestModuleDto tmd = new TestModuleDto();
-		for (CategoryService categoryList : categoryServiceList) {
-
-			if (categoryList.getModuleId() != null) {
-			
-				tmd.setModuleId(categoryList.getModuleId());
-				tmd.setModuleName(categoryList.getModuleName());
-				if (tmdList.contains(tmd)) {
-					int t = tmdList.indexOf(tmd);
-					tmd = tmdList.get(t);
-					System.out.println("ffffffffffffffffffffff" + t);
-				} else {
-					tmdList.add(tmd);
-					System.out.println("GGGGGGGGGGGGGGGGGGGGggFALSE");
-				}
-
-				if (categoryList.getSubModuleId() != null) {
-					System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-                  TestSubModuleDto tsmd =  new TestSubModuleDto();
-                  tsmd.setSubModuleId(categoryList.getSubModuleId());
-                  tsmd.setSubModuleName(categoryList.getSubModuleName());
-                   if(tmd.getSubModules() != null) {
-                	   System.out.println("qwertyuiop>>>>>>>>>>>>>>>>>>"+tmd.getSubModules().size());
-                   }
-                  //tmd.getSubModules().add(tsmd);
-				}
-
-			}
-
-		}
-
-		/*
-		 * List<CategoryService> distinctElements = categoryServiceList.stream()
-		 * .filter(distinctByKey(cust ->
-		 * cust.getModuleId())).collect(Collectors.toList());
-		 * 
-		 * Map<String, List<CategoryService>> groupByModuleIdMap =
-		 * categoryServiceList.stream().collect(Collectors.groupingBy(CategoryService::
-		 * getModuleId));
-		 * 
-		 * groupByModuleIdMap.keySet(); for( String g:groupByModuleIdMap.keySet()) {
-		 * List<CategoryService> d = groupByModuleIdMap.get(g); for(CategoryService c :
-		 * d) { c. } }
-		 */
-
-		 System.out.println("rrrrrrrrrrrrrrrrrrrrrrrr"+tmd );
-
-		return null;
-	}
-
-	// Utility function
-	public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
-		Map<Object, Boolean> map = new ConcurrentHashMap<>();
-		return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-	}
-
+	
 }

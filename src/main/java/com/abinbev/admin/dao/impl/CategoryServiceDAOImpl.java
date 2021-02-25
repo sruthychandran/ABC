@@ -34,6 +34,8 @@ public class CategoryServiceDAOImpl implements CategoryServiceDAO {
 
 	@Override
 	public Page<CategoryService> getAllCategoryServices(Pageable pageable) {
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+pageable.getPageNumber());
+		System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"+pageable.getPageSize());
 		Query query = new Query().with(pageable);
 		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
 		List<CategoryService> categoryServiceList= mongoTemplate.find(query, CategoryService.class);

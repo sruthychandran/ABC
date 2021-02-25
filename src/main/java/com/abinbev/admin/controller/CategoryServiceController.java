@@ -124,11 +124,13 @@ public class CategoryServiceController {
 	  categoryServiceResponse = categoryService.findById(id);
 	  return ResponseEntity.ok().body(categoryServiceResponse); }
 	 
-	@GetMapping("/test/{categoryId}")
-	public HashMap<String,List<Object>> getModulesByCategoryId(@PathVariable  String categoryId){
-		
-		
-		return categoryService.findModulesByCategoryId(categoryId);
-		
-	}
+	/*
+	 * @GetMapping("/test/{categoryId}") public HashMap<String,List<Object>>
+	 * getModulesByCategoryId(@PathVariable String categoryId){
+	 * 
+	 * 
+	 * return categoryService.findModulesByCategoryId(categoryId);
+	 * 
+	 * }
+	 */
 }
