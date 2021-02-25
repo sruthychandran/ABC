@@ -1,9 +1,8 @@
 package com.abinbev.admin.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -36,6 +35,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RestController
 @RequestMapping("/platform-admin/v1")
 public class PlatformAdminController {
+	
+	static Logger log = Logger.getLogger(CategoryServiceController.class);
+
 
 	@Autowired
 	PlatformAdminService platformAdminService;
@@ -52,6 +54,7 @@ public class PlatformAdminController {
 	public ResponseEntity<UserResponseDto> createUsers(@Valid @RequestBody UserDto userDto)
 			throws EmailExistException, UserCreationFailureException {
 
+		log.debug("Request to create user " + userDto);
 		UserResponseDto result = platformAdminService.saveUser(userDto);
 
 		return ResponseEntity.ok().body(result);
@@ -71,6 +74,8 @@ public class PlatformAdminController {
 	@PutMapping("/updateUser")
 	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto)
 			throws BadRequestAlertException, UserNotFoundException, UserUpdationFailureException {
+		
+		log.debug("Request to update user " + userDto);
 		if (userDto.getEmailId() == null)
 			throw new BadRequestAlertException("Invalid uuid");
 		UserResponseDto result = platformAdminService.updateUser(userDto);
@@ -88,7 +93,7 @@ public class PlatformAdminController {
 			@RequestParam(required = false, defaultValue = "10") int size,
 			@RequestParam(required = false, defaultValue = "desc") String sort,
 			@RequestParam(required = false, defaultValue = "id") String sortBy) throws BadRequestAlertException {
-		
+		log.debug("Request to get all users ");
 		Pageable pageable = PageRequest.of(page, size,
 				Sort.by(sort.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy));
 
@@ -106,7 +111,7 @@ public class PlatformAdminController {
 	 */
 	@GetMapping("/deleteUser/{emailId}")
 	public ResponseEntity<Void> deleteUser(@PathVariable String emailId) throws UserNotFoundException {
-
+		log.debug("Request to delete a user " + emailId);
 		platformAdminService.deleteUser(emailId);
 		return ResponseEntity.ok().build();
 	}
@@ -122,7 +127,7 @@ public class PlatformAdminController {
 	@GetMapping("/getUser/{emailId}")
 	public ResponseEntity<UserResponseDto> getUserByEmailId(@PathVariable String emailId)
 			throws JsonMappingException, JsonProcessingException, UserNotFoundException {
-
+		log.debug("Request to get a user " + emailId);
 		UserResponseDto result = platformAdminService.findByEmailId(emailId);
 		return ResponseEntity.ok().body(result);
 	}
@@ -139,7 +144,7 @@ public class PlatformAdminController {
 	public ResponseEntity<PlatformAdminOnBoardingResponseDto> createPlatformAdmin(
 			@Valid @RequestBody PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
 			throws EmailExistException, UserCreationFailureException {
-
+		log.debug("Request to onboard patform Admin");
 
 		PlatformAdminOnBoardingResponseDto platformAdminOnBoardingResponse  = platformAdminService.savePlatformAdmin(platformAdminOnBoardingDto);
 

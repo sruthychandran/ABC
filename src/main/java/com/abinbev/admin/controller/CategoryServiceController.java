@@ -1,9 +1,8 @@
 package com.abinbev.admin.controller;
 
-import java.util.HashMap;
-import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +31,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/categoryServices")
 public class CategoryServiceController {
 
+	static Logger log = Logger.getLogger(CategoryServiceController.class);
+
 	@Autowired
 	CategoryServiceService categoryService;
 
@@ -45,6 +46,7 @@ public class CategoryServiceController {
 	@PostMapping("/createCategoryService")
 	public ResponseEntity<CategoryServiceResponseDto> createCategoryService(
 			@RequestBody CategoryServiceDto categoryServiceDto) throws CategoryServiceCreationFailureException {
+		log.debug("Request to create category service " + categoryServiceDto);
 		CategoryServiceResponseDto result = categoryService.saveCategoryService(categoryServiceDto);
 		return ResponseEntity.ok().body(result);
 	}
@@ -62,6 +64,9 @@ public class CategoryServiceController {
 	public ResponseEntity<CategoryServiceResponseDto> updateCategoryService(
 			@RequestBody CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceNotFoundException, BadRequestAlertException, CategoryServiceUpdationFailureException {
+
+		log.debug("Request to update category service " + categoryServiceDto);
+
 		if (categoryServiceDto.getCategoryId() == null)
 			throw new BadRequestAlertException("Invalid CategoryId");
 		CategoryServiceResponseDto categoryServiceResponse = categoryService.updateCategoryService(categoryServiceDto);
@@ -75,12 +80,12 @@ public class CategoryServiceController {
 	 * @return List<CategoryServiceResponseDto>
 	 */
 	@GetMapping("/getAllCategoryServices")
-	public ResponseEntity<Page<CategoryServiceResponseDto>> getAllCategoryServices(@RequestParam(required = false, defaultValue = "0") int page,
+	public ResponseEntity<Page<CategoryServiceResponseDto>> getAllCategoryServices(
+			@RequestParam(required = false, defaultValue = "0") int page,
 			@RequestParam(required = false, defaultValue = "10") int size,
 			@RequestParam(required = false, defaultValue = "desc") String sort,
-			@RequestParam(required = false, defaultValue = "id") String sortBy)
- {
-
+			@RequestParam(required = false, defaultValue = "id") String sortBy) {
+		log.debug("Request to get all category services");
 		Pageable pageable = PageRequest.of(page, size,
 				Sort.by(sort.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy));
 
@@ -94,15 +99,14 @@ public class CategoryServiceController {
 	 * @param categoryId
 	 * @throws CategoryServiceNotFoundException
 	 */
-	
-	  @GetMapping("/deleteCategoryService/{categoryId}") public void
-	  deleteCategoryService(@PathVariable String categoryId) throws
-	  CategoryServiceNotFoundException {
-	  
-	  categoryService.deleteCategoryService(categoryId);
-	  
-	  }
-	 
+
+	@GetMapping("/deleteCategoryService/{categoryId}")
+	public void deleteCategoryService(@PathVariable String categoryId) throws CategoryServiceNotFoundException {
+
+		log.debug("Request to delete a category service " + categoryId);
+		categoryService.deleteCategoryService(categoryId);
+
+	}
 
 	/**
 	 * In this method we can get a category service by id
@@ -114,16 +118,19 @@ public class CategoryServiceController {
 	 * @throws JsonProcessingException
 	 * @throws CategoryServiceNotFoundException
 	 */
-	
-	  @GetMapping("/getCategoryService/{id}") public
-	  ResponseEntity<CategoryServiceResponseDto>
-	  getCategoryServiceById(@PathVariable String id) throws
-	  BadRequestAlertException, JsonMappingException, JsonProcessingException,
-	  CategoryServiceNotFoundException { if (id == null) throw new
-	  BadRequestAlertException("Invalid categoryId"); CategoryServiceResponseDto
-	  categoryServiceResponse = categoryService.findById(id);
-	  return ResponseEntity.ok().body(categoryServiceResponse); }
-	 
+
+	@GetMapping("/getCategoryService/{id}")
+	public ResponseEntity<CategoryServiceResponseDto> getCategoryServiceById(@PathVariable String id)
+			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
+			CategoryServiceNotFoundException {
+		log.debug("Request to get a category service " + id);
+		
+		if (id == null)
+			throw new BadRequestAlertException("Invalid categoryId");
+		CategoryServiceResponseDto categoryServiceResponse = categoryService.findById(id);
+		return ResponseEntity.ok().body(categoryServiceResponse);
+	}
+
 	/*
 	 * @GetMapping("/test/{categoryId}") public HashMap<String,List<Object>>
 	 * getModulesByCategoryId(@PathVariable String categoryId){

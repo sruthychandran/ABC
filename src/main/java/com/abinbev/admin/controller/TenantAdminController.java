@@ -1,7 +1,6 @@
 package com.abinbev.admin.controller;
 
-import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -33,6 +32,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/tenant-admin")
 public class TenantAdminController {
 
+	static Logger log = Logger.getLogger(RoleController2.class); 
+	
 	@Autowired
 	TenantAdminService tenantAdminService;
 
@@ -47,6 +48,8 @@ public class TenantAdminController {
 	@PostMapping("/createUser")
 	public ResponseEntity<UserResponseDto> createUsers(@RequestBody UserDto userDto)
 			throws EmailExistException, UserCreationFailureException {
+		
+		log.debug("Request to create user " + userDto);
 		UserResponseDto result = tenantAdminService.saveUser(userDto);
 
 		return ResponseEntity.ok().body(result);
@@ -64,6 +67,8 @@ public class TenantAdminController {
 	@PutMapping("/updateUser")
 	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto)
 			throws BadRequestAlertException, UserNotFoundException, UserUpdationFailureException {
+	
+		log.debug("Request to update user " + userDto);
 		if (userDto.getEmailId() == null)
 			throw new BadRequestAlertException("Invalid emailId");
 		UserResponseDto result = tenantAdminService.updateUser(userDto);
@@ -82,6 +87,7 @@ public class TenantAdminController {
 			@RequestParam(required = false, defaultValue = "desc") String sort,
 			@RequestParam(required = false, defaultValue = "id") String sortBy) throws BadRequestAlertException {
 		
+		log.debug("Request to get all users ");
 		Pageable pageable = PageRequest.of(page, size,
 				Sort.by(sort.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy));
 
@@ -101,6 +107,7 @@ public class TenantAdminController {
 	@GetMapping("/deleteUser/{emailId}")
 	public ResponseEntity<Void> deleteUser(@PathVariable String emailId) throws UserNotFoundException {
 
+		log.debug("Request to delete a user " + emailId);
 		tenantAdminService.deleteUser(emailId);
 		return ResponseEntity.ok().build();
 	}
@@ -115,7 +122,7 @@ public class TenantAdminController {
 	 */
 	@GetMapping("/getUser/{emailId}")
 	public ResponseEntity<UserResponseDto> getUserByEmailId(@PathVariable String emailId) throws UserNotFoundException {
-
+		log.debug("Request to get a user " + emailId);
 		UserResponseDto result = tenantAdminService.findByEmailId(emailId);
 		return ResponseEntity.ok().body(result);
 	}
