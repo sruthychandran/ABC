@@ -26,5 +26,5 @@ public interface CategoryServiceService {
 
 	public CategoryServiceResponseDto findById(String id) throws CategoryServiceNotFoundException;
 
-	public HashMap<String, List<Object>> findModulesByCategoryId(String categoryId);
+	//public HashMap<String, List<Object>> findModulesByCategoryId(String categoryId);
 }

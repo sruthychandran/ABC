@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -74,7 +75,7 @@ public class CategoryServiceController {
 	 * @return List<CategoryServiceResponseDto>
 	 */
 	@GetMapping("/getAllCategoryServices")
-	public ResponseEntity<List<CategoryServiceResponseDto>> getAllCategoryServices(@RequestParam(required = false, defaultValue = "0") int page,
+	public ResponseEntity<Page<CategoryServiceResponseDto>> getAllCategoryServices(@RequestParam(required = false, defaultValue = "0") int page,
 			@RequestParam(required = false, defaultValue = "10") int size,
 			@RequestParam(required = false, defaultValue = "desc") String sort,
 			@RequestParam(required = false, defaultValue = "id") String sortBy)
@@ -83,7 +84,7 @@ public class CategoryServiceController {
 		Pageable pageable = PageRequest.of(page, size,
 				Sort.by(sort.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy));
 
-		List<CategoryServiceResponseDto> categoryServiceResponse = categoryService.getAllCategoryServices(pageable);
+		Page<CategoryServiceResponseDto> categoryServiceResponse = categoryService.getAllCategoryServices(pageable);
 		return ResponseEntity.ok().body(categoryServiceResponse);
 	}
 
@@ -123,11 +124,13 @@ public class CategoryServiceController {
 	  categoryServiceResponse = categoryService.findById(id);
 	  return ResponseEntity.ok().body(categoryServiceResponse); }
 	 
-	@GetMapping("/test/{categoryId}")
-	public HashMap<String,List<Object>> getModulesByCategoryId(@PathVariable  String categoryId){
-		
-		
-		return categoryService.findModulesByCategoryId(categoryId);
-		
-	}
+	/*
+	 * @GetMapping("/test/{categoryId}") public HashMap<String,List<Object>>
+	 * getModulesByCategoryId(@PathVariable String categoryId){
+	 * 
+	 * 
+	 * return categoryService.findModulesByCategoryId(categoryId);
+	 * 
+	 * }
+	 */
 }

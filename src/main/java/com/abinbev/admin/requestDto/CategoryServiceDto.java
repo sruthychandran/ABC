@@ -9,11 +9,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.abinbev.admin.requestDto.UserDto.UserDtoBuilder;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CategoryServiceDto {
 	private String id;
 	private String categoryId;

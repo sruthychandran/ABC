@@ -98,7 +98,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 			final HttpServletRequest request) {
 		ApiError error = new ApiError();
 		error.setMessage(exception.getMessage());
-		error.setCode(updationFailureStatus);
+		error.setCode(cretionFailureStatus);
 		return error;
 	}
 
