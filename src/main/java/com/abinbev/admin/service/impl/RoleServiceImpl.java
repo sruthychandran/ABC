@@ -21,7 +21,7 @@ import com.abinbev.admin.utility.MapperUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
+
 public class RoleServiceImpl implements RoleService {
 
 	@Autowired
@@ -40,6 +40,7 @@ public class RoleServiceImpl implements RoleService {
 	public RoleResponseDto saveRole(RoleDto roleDto) throws RoleCreationFailureException {
 		RoleResponseDto response = null;
 		Role role = roleMapper.transfer(roleDto, Role.class);
+		System.out.println("Role isssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"+role);
 		role.setStatus(messageProperties.getActiveStatus());
 		role.setCreatedDate(new Date());
 		Role roleResponseObj = roleDAO.save(role);
@@ -105,14 +106,18 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public RoleResponseDto updateRole(RoleDto roleDto) throws RoleNotFoundException, RoleUpdationFailureException {
 		RoleResponseDto response = null;
-		Role existingRole = findRoleByRoleId(roleDto.getRoleId());
+		Role existingRole = roleDAO.findById(roleDto.getId());
+		if(existingRole == null ) {
+			throw new RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
+		}
 
 		Role role = roleMapper.transfer(roleDto, Role.class);
 
 		role.setId(existingRole.getId());
 
 		role.setCreatedDate(existingRole.getCreatedDate());
-
+		
+		role.setStatus(existingRole.getStatus());
 		role.setModifiedDate(new Date());
 
 		Role roleResponseObj = roleDAO.save(role);

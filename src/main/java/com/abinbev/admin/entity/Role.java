@@ -23,6 +23,9 @@ public class Role {
 	private String id;
 	private String roleId;
 	private String roleName;
+	private String roleDescription;
+	private List<String> platformServices;
+	private List<String> coreServices;
 	private String status;
 	private Date createdDate;
 	private String createdBy;
