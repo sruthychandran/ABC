@@ -99,34 +99,35 @@ public class RoleServiceTests {
 		assertEquals("Role not found", thrown.getMessage());
 	}
 
-	@Test
-	public void test_getAllRoles() throws JsonMappingException, JsonProcessingException, RoleNotFoundException {
-		Role role1 = Role.builder().roleId("EU").roleName("end user").status("enable").userRole("TA")
-				.createdDate(new Date()).build();
-		Role role2 = Role.builder().roleId("TA").roleName("tenant admin").status("enable").userRole("TA")
-				.createdDate(new Date()).build();
-
-		List<Role> roleList = Arrays.asList(role1, role2);
-
-		Mockito.when(roleDAO.getAllRoles()).thenReturn(roleList);
-		List<RoleResponseDto> result = roleService.getAllRoles();
-
-		assertEquals(result.size(), 2);
-		assertEquals("EU", result.get(0).getRoleId());
-		assertEquals("end user", result.get(0).getRoleName());
-		assertEquals("enable", result.get(0).getStatus());
-		assertNotNull(result.get(0).getCreatedDate());
-
-		assertEquals("TA", result.get(0).getUserRole());
-
-		assertEquals("TA", result.get(1).getRoleId());
-
-		assertEquals("tenant admin", result.get(1).getRoleName());
-		assertEquals("enable", result.get(1).getStatus());
-		assertNotNull(result.get(1).getCreatedDate());
-		assertEquals("TA", result.get(1).getUserRole());
-
-	}
+	/*
+	 * @Test public void test_getAllRoles() throws JsonMappingException,
+	 * JsonProcessingException, RoleNotFoundException { Role role1 =
+	 * Role.builder().roleId("EU").roleName("end user").status("enable").userRole(
+	 * "TA") .createdDate(new Date()).build(); Role role2 =
+	 * Role.builder().roleId("TA").roleName("tenant admin").status("enable").
+	 * userRole("TA") .createdDate(new Date()).build();
+	 * 
+	 * List<Role> roleList = Arrays.asList(role1, role2);
+	 * 
+	 * Mockito.when(roleDAO.getAllRoles()).thenReturn(roleList);
+	 * List<RoleResponseDto> result = roleService.getAllRoles();
+	 * 
+	 * assertEquals(result.size(), 2); assertEquals("EU",
+	 * result.get(0).getRoleId()); assertEquals("end user",
+	 * result.get(0).getRoleName()); assertEquals("enable",
+	 * result.get(0).getStatus()); assertNotNull(result.get(0).getCreatedDate());
+	 * 
+	 * assertEquals("TA", result.get(0).getUserRole());
+	 * 
+	 * assertEquals("TA", result.get(1).getRoleId());
+	 * 
+	 * assertEquals("tenant admin", result.get(1).getRoleName());
+	 * assertEquals("enable", result.get(1).getStatus());
+	 * assertNotNull(result.get(1).getCreatedDate()); assertEquals("TA",
+	 * result.get(1).getUserRole());
+	 * 
+	 * }
+	 */
 	
 	@Test
 	public void test_deleteRoles_success() throws JsonMappingException, JsonProcessingException, RoleNotFoundException {

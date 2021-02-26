@@ -186,32 +186,34 @@ public class PlatformAdminServiceTests {
 		assertEquals("User not found", thrown.getMessage());
 	}
 
-	@Test
-	public void test_getAllUsers_success() throws JsonMappingException, JsonProcessingException, NotFoundException {
-		User user1 = User.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
-				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
-				.createdBy("rafeeq088@gmail.com")
-
-				.build();
-		User user2 = User.builder().firstName("sruthy").lastName("kc").emailId("rskc@gmail.com").phoneNo(9496352903l)
-				.roleId("TA").status("active").createdDate(new Date()).createdBy("rskc@gmail.com")
-
-				.build();
-		List<User> userList = Arrays.asList(user1, user2);
-
-		Mockito.when(userDAO.getAllUsers()).thenReturn(userList);
-		List<UserResponseDto> result = platformAdminService.getAllUsers();
-		assertNotNull(result.get(0).getEmailId());
-		assertEquals("TA", result.get(0).getRoleId());
-		assertEquals("rafeeq088@gmail.com", result.get(0).getEmailId());
-		assertEquals("rafeek", result.get(0).getFirstName());
-		assertEquals("ks", result.get(0).getLastName());
-
-		assertEquals(8089587001l, result.get(0).getPhoneNo());
-		assertEquals("active", result.get(0).getStatus());
-		assertNotNull(result.get(0).getCreatedDate());
-		assertEquals("rafeeq088@gmail.com", result.get(0).getCreatedBy());
-
-	}
+	/*
+	 * @Test public void test_getAllUsers_success() throws JsonMappingException,
+	 * JsonProcessingException, NotFoundException { User user1 =
+	 * User.builder().firstName("rafeek").lastName("ks").emailId(
+	 * "rafeeq088@gmail.com")
+	 * .phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+	 * .createdBy("rafeeq088@gmail.com")
+	 * 
+	 * .build(); User user2 =
+	 * User.builder().firstName("sruthy").lastName("kc").emailId("rskc@gmail.com").
+	 * phoneNo(9496352903l) .roleId("TA").status("active").createdDate(new
+	 * Date()).createdBy("rskc@gmail.com")
+	 * 
+	 * .build(); List<User> userList = Arrays.asList(user1, user2);
+	 * 
+	 * Mockito.when(userDAO.getAllUsers()).thenReturn(userList);
+	 * List<UserResponseDto> result = platformAdminService.getAllUsers();
+	 * assertNotNull(result.get(0).getEmailId()); assertEquals("TA",
+	 * result.get(0).getRoleId()); assertEquals("rafeeq088@gmail.com",
+	 * result.get(0).getEmailId()); assertEquals("rafeek",
+	 * result.get(0).getFirstName()); assertEquals("ks",
+	 * result.get(0).getLastName());
+	 * 
+	 * assertEquals(8089587001l, result.get(0).getPhoneNo()); assertEquals("active",
+	 * result.get(0).getStatus()); assertNotNull(result.get(0).getCreatedDate());
+	 * assertEquals("rafeeq088@gmail.com", result.get(0).getCreatedBy());
+	 * 
+	 * }
+	 */
 
 }
