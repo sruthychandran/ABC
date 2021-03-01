@@ -142,4 +142,10 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		return response;
 	}
 
+	@Override
+	public CategoryServiceResponseDto findByCategoryId(String categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

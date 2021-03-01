@@ -111,7 +111,7 @@ public class CategoryServiceController {
 	/**
 	 * In this method we can get a category service by id
 	 * 
-	 * @param categoryId
+	 * @param id
 	 * @return
 	 * @throws BadRequestAlertException
 	 * @throws JsonMappingException
@@ -130,14 +130,30 @@ public class CategoryServiceController {
 		CategoryServiceResponseDto categoryServiceResponse = categoryService.findById(id);
 		return ResponseEntity.ok().body(categoryServiceResponse);
 	}
-
-	/*
-	 * @GetMapping("/test/{categoryId}") public HashMap<String,List<Object>>
-	 * getModulesByCategoryId(@PathVariable String categoryId){
+	
+	
+	/**
+	 * In this method we can get a category service by categoryId
 	 * 
-	 * 
-	 * return categoryService.findModulesByCategoryId(categoryId);
-	 * 
-	 * }
+	 * @param categoryId
+	 * @return
+	 * @throws BadRequestAlertException
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 * @throws CategoryServiceNotFoundException
 	 */
+
+	@GetMapping("/getCategoryService/{categoryId}")
+	public ResponseEntity<CategoryServiceResponseDto> getCategoryServiceByCategoryId(@PathVariable String categoryId)
+			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
+			CategoryServiceNotFoundException {
+		log.debug("Request to get a category service " + categoryId);
+		
+		if (categoryId == null)
+			throw new BadRequestAlertException("Invalid categoryId");
+		CategoryServiceResponseDto categoryServiceResponse = categoryService.findByCategoryId(categoryId);
+		return ResponseEntity.ok().body(categoryServiceResponse);
+	}
+
+
 }
