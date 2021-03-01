@@ -28,7 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
-@RequestMapping("/categoryServices")
+@RequestMapping("/categoryServices/v1")
 public class CategoryServiceController {
 
 	static Logger log = Logger.getLogger(CategoryServiceController.class);
@@ -100,11 +100,12 @@ public class CategoryServiceController {
 	 * @throws CategoryServiceNotFoundException
 	 */
 
-	@GetMapping("/deleteCategoryService/{categoryId}")
-	public void deleteCategoryService(@PathVariable String categoryId) throws CategoryServiceNotFoundException {
+	@GetMapping("/deleteCategoryService/{id}")
+	public void deleteCategoryService(@PathVariable String id) throws CategoryServiceNotFoundException {
 
-		log.debug("Request to delete a category service " + categoryId);
-		categoryService.deleteCategoryService(categoryId);
+		log.debug("Request to delete a category service " + id);
+		categoryService.deleteCategoryService(id);
+		
 
 	}
 

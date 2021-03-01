@@ -46,11 +46,14 @@ public class RoleServiceTests {
 	public void test_createRoles_success()
 			throws JsonMappingException, JsonProcessingException, RoleCreationFailureException {
 		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
+		
 		Role role = Role.builder().roleId("EU").roleName("end user").status("enable").userRole("TA")
 				.createdDate(new Date()).build();
 
 		Mockito.when(roleDAO.save(Mockito.any(Role.class))).thenReturn(role);
+		
 		RoleResponseDto returnedUser = roleService.saveRole(roleDto);
+		
 		assertNotNull(returnedUser.getRoleId());
 		assertEquals("EU", returnedUser.getRoleId());
 		assertEquals("end user", returnedUser.getRoleName());
@@ -59,6 +62,7 @@ public class RoleServiceTests {
 		assertEquals("created successfully", returnedUser.getMessage());
 
 	}
+	
 
 	@Test
 	public void test_updateRoles_success()
@@ -136,7 +140,7 @@ public class RoleServiceTests {
 		    
 		    Role role = Role.builder().id("qwerty").roleId("EU").roleName("end user").roleDescription("roleDescription").status("active").build();
 		    
-		    Mockito.when(roleDAO.findByRoleId("EU")).thenReturn(role);
+		    Mockito.when(roleDAO.findById("qwerty")).thenReturn(role);
 		    
 		    role.setStatus("inactive");
 		    

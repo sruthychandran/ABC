@@ -133,8 +133,7 @@ public class PlatformAdminServiceTests {
 		UserResponseDto userResponse1 = UserResponseDto.builder().firstName("rafeek").lastName("ks")
 				.emailId("rafeeq088@gmail.com").phoneNo(8089587001l).roleId("TA").status("enable")
 				.createdDate(new Date()).createdBy("rafeeq088@gmail.com").build();
-		assertNotNull(userResponse1.getEmailId());
-		assertEquals("rafeeq088@gmail.com", userResponse1.getEmailId());
+		
 
 		User retrievedUser = User.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
 				.phoneNo(8089587001l).roleId("TA").status("active").createdBy("rafeeq088@gmail.com").build();
@@ -146,7 +145,7 @@ public class PlatformAdminServiceTests {
 		Date createdDate = retrievedUser.getCreatedDate();
 		String createdBy = retrievedUser.getCreatedBy();
 
-		User user1 = User.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+		User user1 = User.builder().firstName("abdulrafeek").lastName("ks").emailId("rafeeq088@gmail.com")
 				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(createdDate)
 				.createdBy("rafeeq088@gmail.com").build();
 
@@ -160,7 +159,7 @@ public class PlatformAdminServiceTests {
 
 		assertEquals("TA", updatedUser.getRoleId());
 		assertEquals("rafeeq088@gmail.com", updatedUser.getEmailId());
-		assertEquals("rafeek", updatedUser.getFirstName());
+		assertEquals("abdulrafeek", updatedUser.getFirstName());
 		assertEquals("ks", updatedUser.getLastName());
 
 		assertEquals(8089587001l, updatedUser.getPhoneNo());

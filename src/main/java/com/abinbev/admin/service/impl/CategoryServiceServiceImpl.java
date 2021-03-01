@@ -51,7 +51,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 			response = categoryServiceResponse.transfer(categoryServiceObj, CategoryServiceResponseDto.class);
 			response.setMessage(messageProperties.getSaveMessage());
 		} else {
-			throw new CategoryServiceCreationFailureException(messageProperties.getCategoryServiceNotFoundMessage());
+			throw new CategoryServiceCreationFailureException(messageProperties.getCategoryServiceSaveFailureMessage());
 		}
 
 		return response;
@@ -136,10 +136,13 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 	@Override
 	public CategoryServiceResponseDto findById(String id) throws CategoryServiceNotFoundException {
-		CategoryService result = categoryDAO.findById(id);
-		CategoryServiceResponseDto response = categoryServiceResponse.transfer(result,
+		CategoryService existingCategoryService = categoryDAO.findById(id);
+		if (existingCategoryService == null) {
+			throw new CategoryServiceNotFoundException(messageProperties.getCategoryServiceNotFoundMessage());
+		}
+		CategoryServiceResponseDto categoryServiceResponseObj = categoryServiceResponse.transfer(existingCategoryService,
 				CategoryServiceResponseDto.class);
-		return response;
+		return categoryServiceResponseObj;
 	}
 
 }
