@@ -32,7 +32,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 
 	@ExceptionHandler(UserNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public @ResponseBody ApiError handleResourceNotFound(final UserNotFoundException exception,
+	public @ResponseBody ApiError handleUserNotFound(final UserNotFoundException exception,
 			final HttpServletRequest request) {
 
 		ApiError error = new ApiError();
@@ -43,7 +43,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 
 	@ExceptionHandler(RoleNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public @ResponseBody ApiError handleResourceRoleNotFound(final RoleNotFoundException exception,
+	public @ResponseBody ApiError handleRoleNotFound(final RoleNotFoundException exception,
 			final HttpServletRequest request) {
 		ApiError error = new ApiError();
 		error.setMessage(exception.getMessage());
@@ -53,7 +53,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 
 	@ExceptionHandler(CategoryServiceNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public @ResponseBody ApiError handleResourceCategoryNotFound(final CategoryServiceNotFoundException exception,
+	public @ResponseBody ApiError handleCategoryNotFound(final CategoryServiceNotFoundException exception,
 			final HttpServletRequest request) {
 		ApiError error = new ApiError();
 		error.setMessage(exception.getMessage());
@@ -124,7 +124,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 
 	@ExceptionHandler(CategoryServiceUpdationFailureException.class)
 
-	public @ResponseBody ApiError handleRoleUpdationFailure(final CategoryServiceUpdationFailureException exception,
+	public @ResponseBody ApiError handleCategoryUpdationFailure(final CategoryServiceUpdationFailureException exception,
 			final HttpServletRequest request) {
 		ApiError error = new ApiError();
 		error.setMessage(exception.getMessage());

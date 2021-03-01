@@ -1,8 +1,11 @@
 package com.abinbev.admin.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -13,6 +16,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import com.abinbev.admin.dao.PermissionDAO;
 import com.abinbev.admin.entity.Permission;
@@ -107,56 +113,26 @@ public class PermissionServiceTests {
 
 		List<Permission> permissionList = Arrays.asList(permission1, permission2);
 
-		/*
-		 * Mockito.when(permissionDAO.getAllPermissions()).thenReturn(permissionList);
-		 * List<PermissionResponseDto> result = permissionService.getAllPermissions();
-		 * 
-		 * assertEquals(result.size(), 2); assertEquals("EU",
-		 * result.get(0).getPermissionId()); assertEquals("end user",
-		 * result.get(0).getPermissionName()); assertEquals("enable",
-		 * result.get(0).getStatus()); assertNotNull(result.get(0).getCreatedDate());
-		 * 
-		 * assertEquals("TA", result.get(0).getUserPermission());
-		 * 
-		 * assertEquals("TA", result.get(1).getPermissionId());
-		 * 
-		 * assertEquals("tenant admin", result.get(1).getPermissionName());
-		 * assertEquals("enable", result.get(1).getStatus());
-		 * assertNotNull(result.get(1).getCreatedDate()); assertEquals("TA",
-		 * result.get(1).getUserPermission());
-		 */
+		Page<Permission> page = new PageImpl<>(permissionList);
+
+		Mockito.when(permissionDAO.getAllPermissions(PageRequest.of(0, 20))).thenReturn(page);
+
+		assertThat(permissionService.getAllPermissions(PageRequest.of(0, 20)).getTotalElements()).isEqualTo(2);
 
 	}
 	
 	@Test
 	public void test_deletePermissions_success() throws JsonMappingException, JsonProcessingException, PermissionNotFoundException {
 		
-	
-		    
 		    Permission permission = Permission.builder().id("qwerty").permissionId("EU").permissionName("end user").permissionDescription("permissionDescription").build();
 		    
 		    Mockito.when(permissionDAO.findByPermissionId("EU")).thenReturn(permission);
-	    
-		    Permission updatedPermission = Permission.builder().id("qwerty").permissionId("EU").permissionName("end user").permissionDescription("permissionDescription").build();
-		    
-		    Mockito.when(permissionDAO.save(permission)).thenReturn(updatedPermission);
-		    
-		     permissionService.deletePermission("EU");
-		
-		
-		
-		
-	
+			
+			permissionService.deletePermission(permission.getRoleId());
 
-				
-				/*
-				 * assertNotNull(updatedPermission.getId());
-				 * assertEquals("end user",updatedPermission.getPermissionName()); assertEquals("inactive",
-				 * updatedPermission.getStatus());
-				 */
-				
-				 
-		
+			verify(permissionDAO, times(1)).save(new Permission("qwerty", "EU", "end user", "permissionDescription", null, null, null, null, null));
+	
+	
 		
 	}
 
