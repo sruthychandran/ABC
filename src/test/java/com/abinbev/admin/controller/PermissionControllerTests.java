@@ -42,7 +42,7 @@ public class PermissionControllerTests {
     public void createPermissions() throws Exception {
 
 		
-		PermissionDto permissionDto = PermissionDto.builder().permissionId("AU").permissionName("Add User").permissionDescription("Can add a userbuild();"
+		PermissionDto permissionDto = PermissionDto.builder().permissionId("AU").permissionName("Add User").permissionDescription("Can add a user"
 				+ "").roleId("EU").build();
 		  
 		  PermissionResponseDto permissionResponseDto = mapper.readValue(mapToJson(permissionDto), PermissionResponseDto.class);
@@ -63,9 +63,9 @@ public class PermissionControllerTests {
 
 		PermissionResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), PermissionResponseDto.class);
 	
-		assertEquals("EU", result.getPermissionId());
-		assertEquals("End User", result.getPermissionName());
-		
+		assertEquals("AU", result.getPermissionId());
+		assertEquals("Add User", result.getPermissionName());
+		assertEquals("Can add a user",result.getPermissionDescription());
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
