@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.mockito.Mockito.times; 
 import static org.mockito.Mockito.verify;
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class CategoryServiceServiceTests {
 
