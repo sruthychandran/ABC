@@ -170,9 +170,6 @@ public class RoleServiceTests {
 		
 		Mockito.when(roleDAO.findByRoleId(role.getRoleId())).thenReturn(roleResponse);
 		roleService.deleteRole(role.getRoleId());
-
-		//verify(roleDAO, times(1)).save(new Role("qwerty", "EU", "end user", "roleDescription", null, null, "active", null, null, null, null, null));
-
 	}
 
 }

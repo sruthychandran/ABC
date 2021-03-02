@@ -40,7 +40,7 @@ public class PermissionServiceImpl implements PermissionService {
 	public PermissionResponseDto savePermission(PermissionDto permissionDto) throws PermissionCreationFailureException {
 		PermissionResponseDto response = null;
 		Permission permission = permissionMapper.transfer(permissionDto, Permission.class);
-
+		permission.setStatus(messageProperties.getActiveStatus());
 		permission.setCreatedDate(new Date());
 		Permission permissionResponseObj = permissionDAO.save(permission);
 		if (permissionResponseObj != null) {
@@ -59,12 +59,11 @@ public class PermissionServiceImpl implements PermissionService {
 	 * In this method we can delete a permission
 	 */
 	@Override
-	public void deletePermission(String permissionId) throws PermissionNotFoundException {
-
-		Permission permission = findPermissionByPermissionId(permissionId);
-
-		permission.setModifiedDate(new Date());
-		permissionDAO.save(permission);
+	public void deletePermission(String id) throws PermissionNotFoundException {
+		Permission existingPermission = permissionDAO.findById(id);
+		existingPermission.setStatus(messageProperties.getInactiveStatus());
+		existingPermission.setModifiedDate(new Date());
+		permissionDAO.save(existingPermission);
 
 	}
 

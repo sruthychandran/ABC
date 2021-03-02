@@ -86,11 +86,8 @@ public class PermissionServiceTests {
 		assertNotNull(updatedPermission.getPermissionId());
 		assertEquals("Permission updated", updatedPermission.getPermissionName());
 
-		//assertNotNull(updatedPermission.getCreatedDate());
-
 		assertEquals("updated successfully", updatedPermission.getMessage());
-		//assertNotNull(updatedPermission.getModifiedDate());
-
+		
 	}
 
 	@Test
@@ -101,7 +98,7 @@ public class PermissionServiceTests {
 		Mockito.when(permissionDAO.findByPermissionId(permissionDto.getPermissionId())).thenReturn(null);
 
 		PermissionNotFoundException thrown = assertThrows(PermissionNotFoundException.class, () -> permissionService.updatePermission(permissionDto));
-		//assertEquals("Permission not found", thrown.getMessage());
+		
 	}
 
 	@Test
@@ -126,14 +123,11 @@ public class PermissionServiceTests {
 		
 		    Permission permission = Permission.builder().id("qwerty").permissionId("EU").permissionName("end user").permissionDescription("permissionDescription").build();
 		    
-		    Mockito.when(permissionDAO.findByPermissionId("EU")).thenReturn(permission);
+		    Mockito.when(permissionDAO.findById("qwerty")).thenReturn(permission);
 			
-			permissionService.deletePermission(permission.getPermissionId());
+			permissionService.deletePermission(permission.getId());
 
-		//	verify(permissionDAO, times(1)).save(new Permission("qwerty", "EU", "end user", "permissionDescription", null, null, null, null, null));
-	
-	
-		
+			
 	}
 
 }

@@ -18,6 +18,7 @@ public class PermissionDto {
 	private String permissionId;
 	private String permissionName;
 	private String permissionDescription;
+	private String status;
 	private String roleId;
 	private String message;
 

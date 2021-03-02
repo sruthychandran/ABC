@@ -47,6 +47,8 @@ public class PermissionDAOImpl implements PermissionDAO {
 	public Page<Permission> getAllPermissions(Pageable pageable) {
 
 		Query query = new Query().with(pageable);
+		
+		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
 
 		List<Permission> permissionList = mongoTemplate.find(query, Permission.class);
 

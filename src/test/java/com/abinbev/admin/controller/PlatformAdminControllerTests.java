@@ -123,48 +123,6 @@ public class PlatformAdminControllerTests {
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
-	/*
-	 * @Test public void getCategoryservicesById_success() throws Exception {
-	 * 
-	 * CategoryServiceResponseDto categoryServiceResponseObj =
-	 * CategoryServiceResponseDto.builder().id("sdfghjkl")
-	 * .categoryId("CS").categoryName("coreServicev1").moduleId("NI").
-	 * moduleName("Notification Service")
-	 * .userRole("TA").status("active").subModuleId("TA-Add").
-	 * subModuleName("Tenant Addition") .createdDate(new Date(2021, 2, 1)).build();
-	 * 
-	 * ObjectMapper mapper = new ObjectMapper();
-	 * 
-	 * String URI = "/categoryServices/v1/getCategoryService/sdfghjkl";
-	 * 
-	 * Mockito.when(categoryService.findById("sdfghjkl")).thenReturn(
-	 * categoryServiceResponseObj);
-	 * 
-	 * RequestBuilder requestBuilder =
-	 * MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON)
-	 * .contentType(MediaType.APPLICATION_JSON);
-	 * 
-	 * MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-	 * MockHttpServletResponse response = mvcResult.getResponse();
-	 * 
-	 * CategoryServiceResponseDto result =
-	 * mapper.readValue(mvcResult.getResponse().getContentAsString(),
-	 * CategoryServiceResponseDto.class);
-	 * 
-	 * assertEquals("CS", result.getCategoryId()); assertEquals("coreServicev1",
-	 * result.getCategoryName()); assertEquals("NI", result.getModuleId());
-	 * assertEquals("Notification Service", result.getModuleName());
-	 * assertEquals("active", result.getStatus()); assertEquals("TA",
-	 * result.getUserRole()); assertEquals("TA-Add", result.getSubModuleId());
-	 * assertEquals("Tenant Addition", result.getSubModuleName());
-	 * assertNotNull(result.getCreatedDate());
-	 * 
-	 * assertEquals(HttpStatus.OK.value(), response.getStatus()); }
-	 */
-	
-	
-	
-	
 
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();

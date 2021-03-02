@@ -137,8 +137,6 @@ public class PlatformAdminServiceTests {
 				.phoneNo(8089587001l).roleId("TA").status("active").createdBy("rafeeq088@gmail.com").build();
 
 		Mockito.when(userDAO.findByEmail(userResponse1.getEmailId())).thenReturn(retrievedUser);
-		// Update the required fields of retrieved user
-		// The retrieved user must have the primarykey
 		assertNotNull(retrievedUser.getEmailId());
 		Date createdDate = retrievedUser.getCreatedDate();
 		String createdBy = retrievedUser.getCreatedBy();
@@ -151,9 +149,9 @@ public class PlatformAdminServiceTests {
 		Mockito.when(userDAO.save(Mockito.any(User.class))).thenReturn(user1);
 		UserResponseDto updatedUser = platformAdminService.updateUser(userDTO1);
 		assertNotNull(userResponse1.getEmailId());
-		// Verifying the created Date andcreated by are not modified in the db
+		
 		assertEquals(createdDate, updatedUser.getCreatedDate());
-		assertEquals(createdBy, updatedUser.getCreatedBy()); // assert all the updated values
+		assertEquals(createdBy, updatedUser.getCreatedBy()); 
 
 		assertEquals("TA", updatedUser.getRoleId());
 		assertEquals("rafeeq088@gmail.com", updatedUser.getEmailId());
@@ -215,10 +213,6 @@ public class PlatformAdminServiceTests {
 				.createdBy("rafeeq088@gmail.com").build();
 		
 		Mockito.when(userDAO.findByEmail(user.getEmailId())).thenReturn(response);
-	//	platformAdminService.deleteUser(user.getId());
-
-//		verify(userDAO, times(1)).save(new User("rafeek", "EU", "end user", "roleDescription", null, null, null, "active", null, null, null, null, null));
-
 		
 	}
 

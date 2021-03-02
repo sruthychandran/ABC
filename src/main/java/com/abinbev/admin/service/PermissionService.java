@@ -13,11 +13,11 @@ public interface PermissionService {
 
 	public PermissionResponseDto savePermission(PermissionDto PermissionDto) throws PermissionCreationFailureException;
 
-	public void deletePermission(String roleId) throws PermissionNotFoundException;
+	public void deletePermission(String permissionId) throws PermissionNotFoundException;
 
 	public PermissionResponseDto updatePermission(PermissionDto PermissionDto) throws PermissionNotFoundException, PermissionUpdationFailureException;
 
-	PermissionResponseDto getPermission(String roleId) throws PermissionNotFoundException;
+	PermissionResponseDto getPermission(String permissionId) throws PermissionNotFoundException;
 
 	Page<PermissionResponseDto> getAllPermissions(Pageable pageable);
 }

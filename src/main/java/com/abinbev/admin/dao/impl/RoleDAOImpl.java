@@ -58,6 +58,7 @@ public class RoleDAOImpl implements RoleDAO {
 	public Page<Role> getAllRoles(Pageable pageable) {
 
 		Query query = new Query().with(pageable);
+		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
 
 		List<Role> roleList = mongoTemplate.find(query, Role.class);
 

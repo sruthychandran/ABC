@@ -21,6 +21,7 @@ public class Permission {
 	private String permissionId;
 	private String permissionName;
 	private String permissionDescription;
+	private String status;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

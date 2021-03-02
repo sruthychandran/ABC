@@ -84,27 +84,23 @@ public class CategoryServiceServiceTests {
 		CategoryServiceCreationFailureException thrown = assertThrows(CategoryServiceCreationFailureException.class,
 				() -> categoryServiceService.saveCategoryService(categoryServiceDto));
 		assertEquals("Save Category Service operation is failed", thrown.getMessage());
-		// assertEquals("", thrown.getCode());
-
+		
 	}
 
 	@Test
 	public void test_updateCategoryService_success() throws JsonMappingException, JsonProcessingException,
 			CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
-		// input categoryServiceDto
-
+	
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().id("sdfghjkl").categoryId("CS")
 				.categoryName("coreService").moduleId("NI").moduleName("Notification Service1").userRole("TA")
 				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
 
-		// output for findById()
 		CategoryService categoryService = CategoryService.builder().id("sdfghjkl").categoryId("CS")
 				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
 				.status("active").createdDate(new Date(2021, 3, 1)).build();
 
 		Mockito.when(categoryServiceDAO.findById(categoryServiceDto.getId())).thenReturn(categoryService);
 		Date createdDate = categoryService.getCreatedDate();
-		// convert input categoryServiceDto to categoryServiceObj
 		CategoryService categoryServiceObj = mapper.readValue(mapToJson(categoryServiceDto), CategoryService.class);
 		categoryServiceObj.setCreatedDate(createdDate);
 		categoryServiceObj.setModifiedDate(new Date());
@@ -157,7 +153,6 @@ public class CategoryServiceServiceTests {
 	
 	
 	@Test
-
 	public void test_deleteCategoryService_success() throws JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException {
 		CategoryService categoryService = CategoryService.builder().id("sdfghjkl").categoryId("CS")
 				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
@@ -168,8 +163,6 @@ public class CategoryServiceServiceTests {
 		categoryService.setStatus("inactive");
 		
 		Mockito.when(categoryServiceDAO.save(Mockito.any(CategoryService.class))).thenReturn(categoryService);
-		
-
 		categoryServiceService.deleteCategoryService("sdfghjkl");
 
 		

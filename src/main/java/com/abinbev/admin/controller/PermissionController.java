@@ -100,15 +100,15 @@ public class PermissionController {
 	 * @throws BadRequestAlertException
 	 * @throws PermissionNotFoundException
 	 */
-	@GetMapping("/deletePermission/{permissionId}")
-	public ResponseEntity<Void> deletePermission(@PathVariable String permissionId)
+	@GetMapping("/deletePermission/{id}")
+	public ResponseEntity<Void> deletePermission(@PathVariable String id)
 			throws BadRequestAlertException, PermissionNotFoundException {
 		
 		
-		log.debug("Request to delete permission " + permissionId);
-		if (permissionId == null)
-			throw new BadRequestAlertException("Invalid permissionId");
-		permissionService.deletePermission(permissionId);
+		log.debug("Request to delete permission " + id);
+		if (id == null)
+			throw new BadRequestAlertException("Invalid id");
+		permissionService.deletePermission(id);
 		return ResponseEntity.ok().build();
 	}
 
