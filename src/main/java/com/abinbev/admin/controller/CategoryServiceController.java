@@ -67,8 +67,8 @@ public class CategoryServiceController {
 
 		log.debug("Request to update category service " + categoryServiceDto);
 
-		if (categoryServiceDto.getCategoryId() == null)
-			throw new BadRequestAlertException("Invalid CategoryId");
+		if (categoryServiceDto.getId() == null)
+			throw new BadRequestAlertException("Invalid Id");
 		CategoryServiceResponseDto categoryServiceResponse = categoryService.updateCategoryService(categoryServiceDto);
 		return ResponseEntity.ok().body(categoryServiceResponse);
 
@@ -132,13 +132,5 @@ public class CategoryServiceController {
 		return ResponseEntity.ok().body(categoryServiceResponse);
 	}
 
-	/*
-	 * @GetMapping("/test/{categoryId}") public HashMap<String,List<Object>>
-	 * getModulesByCategoryId(@PathVariable String categoryId){
-	 * 
-	 * 
-	 * return categoryService.findModulesByCategoryId(categoryId);
-	 * 
-	 * }
-	 */
+	
 }

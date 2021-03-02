@@ -67,8 +67,8 @@ public class RoleController {
 			throws BadRequestAlertException, RoleNotFoundException, RoleUpdationFailureException {
 		log.debug("Request to update role " + roleDto);
 		
-		if (roleDto.getRoleId() == null)
-			throw new BadRequestAlertException("Invalid RoleId");
+		if (roleDto.getId() == null)
+			throw new BadRequestAlertException("Invalid Id");
 		RoleResponseDto result = roleService.updateRole(roleDto);
 		return ResponseEntity.ok().body(result);
 	}

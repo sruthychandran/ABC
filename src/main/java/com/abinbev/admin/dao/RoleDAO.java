@@ -11,7 +11,7 @@ public interface RoleDAO {
 
 	public Role save(Role role);
 
-	public void deleteRole(String roleId);
+	public void deleteRole(Role role);
 
 	public Page<Role> getAllRoles(Pageable pageable);
 

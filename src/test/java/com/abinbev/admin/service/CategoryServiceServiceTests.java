@@ -144,7 +144,7 @@ public class CategoryServiceServiceTests {
 
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().id("sdfghjkl").categoryId("CS")
 				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("enable").build();
+				.status("active").build();
 		Mockito.when(categoryServiceDAO.findById(categoryServiceDto.getId())).thenReturn(new CategoryService() );
 		
 		Mockito.when(categoryServiceDAO.save(Mockito.any(CategoryService.class))).thenReturn(null);
@@ -157,6 +157,7 @@ public class CategoryServiceServiceTests {
 	
 	
 	@Test
+
 	public void test_deleteCategoryService_success() throws JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException {
 		CategoryService categoryService = CategoryService.builder().id("sdfghjkl").categoryId("CS")
 				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")

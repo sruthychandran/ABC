@@ -81,9 +81,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		return false;
 	}
 
-	/**
-	 * In this method platform admin can update a user
-	 */
+	
 	@Override
 	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
 		UserResponseDto response = null;
