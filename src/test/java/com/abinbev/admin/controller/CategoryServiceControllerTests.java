@@ -28,7 +28,7 @@ import com.abinbev.admin.service.RoleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(controllers = {CategoryServiceController.class })
+@WebMvcTest(controllers = { CategoryServiceController.class })
 
 public class CategoryServiceControllerTests {
 
@@ -47,20 +47,19 @@ public class CategoryServiceControllerTests {
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().categoryId("CS")
 				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
 				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
-		
 
-		CategoryServiceResponseDto categoryServiceResponseObj = CategoryServiceResponseDto.builder().id("sdfghjkl").categoryId("CS")
-				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").createdDate(new Date(2021,2,1)).build();
-		
-		
-		
+		CategoryServiceResponseDto categoryServiceResponseObj = CategoryServiceResponseDto.builder().id("sdfghjkl")
+				.categoryId("CS").categoryName("coreService").moduleId("NI").moduleName("Notification Service")
+				.userRole("TA").status("active").subModuleId("TA-Add").subModuleName("Tenant Addition")
+				.createdDate(new Date(2021, 2, 1)).build();
+
 		ObjectMapper mapper = new ObjectMapper();
 
 		String inputInJson = this.mapToJson(categoryServiceDto);
 		String URI = "/categoryServices/v1/createCategoryService";
 
-		Mockito.when(categoryService.saveCategoryService(Mockito.any(CategoryServiceDto.class))).thenReturn(categoryServiceResponseObj);
+		Mockito.when(categoryService.saveCategoryService(Mockito.any(CategoryServiceDto.class)))
+				.thenReturn(categoryServiceResponseObj);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
 				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
@@ -68,7 +67,8 @@ public class CategoryServiceControllerTests {
 		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = mvcResult.getResponse();
 
-		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), CategoryServiceResponseDto.class);
+		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(),
+				CategoryServiceResponseDto.class);
 
 		assertEquals("CS", result.getCategoryId());
 		assertEquals("coreService", result.getCategoryName());
@@ -89,20 +89,19 @@ public class CategoryServiceControllerTests {
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().id("sdfghjkl").categoryId("CS")
 				.categoryName("coreServicev1").moduleId("NI").moduleName("Notification Service").userRole("TA")
 				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
-		
 
-		CategoryServiceResponseDto categoryServiceResponseObj = CategoryServiceResponseDto.builder().id("sdfghjkl").categoryId("CS")
-				.categoryName("coreServicev1").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").createdDate(new Date(2021,2,1)).build();
-		
-		
-		
+		CategoryServiceResponseDto categoryServiceResponseObj = CategoryServiceResponseDto.builder().id("sdfghjkl")
+				.categoryId("CS").categoryName("coreServicev1").moduleId("NI").moduleName("Notification Service")
+				.userRole("TA").status("active").subModuleId("TA-Add").subModuleName("Tenant Addition")
+				.createdDate(new Date(2021, 2, 1)).build();
+
 		ObjectMapper mapper = new ObjectMapper();
 
 		String inputInJson = this.mapToJson(categoryServiceDto);
 		String URI = "/categoryServices/v1/updateCategoryService";
 
-		Mockito.when(categoryService.updateCategoryService(Mockito.any(CategoryServiceDto.class))).thenReturn(categoryServiceResponseObj);
+		Mockito.when(categoryService.updateCategoryService(Mockito.any(CategoryServiceDto.class)))
+				.thenReturn(categoryServiceResponseObj);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URI).accept(MediaType.APPLICATION_JSON)
 				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
@@ -110,7 +109,8 @@ public class CategoryServiceControllerTests {
 		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = mvcResult.getResponse();
 
-		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), CategoryServiceResponseDto.class);
+		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(),
+				CategoryServiceResponseDto.class);
 
 		assertEquals("CS", result.getCategoryId());
 		assertEquals("coreServicev1", result.getCategoryName());
@@ -124,22 +124,17 @@ public class CategoryServiceControllerTests {
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
-	
+
 	@Test
 	public void getCategoryservicesById_success() throws Exception {
 
-		
-		
+		CategoryServiceResponseDto categoryServiceResponseObj = CategoryServiceResponseDto.builder().id("sdfghjkl")
+				.categoryId("CS").categoryName("coreServicev1").moduleId("NI").moduleName("Notification Service")
+				.userRole("TA").status("active").subModuleId("TA-Add").subModuleName("Tenant Addition")
+				.createdDate(new Date(2021, 2, 1)).build();
 
-		CategoryServiceResponseDto categoryServiceResponseObj = CategoryServiceResponseDto.builder().id("sdfghjkl").categoryId("CS")
-				.categoryName("coreServicev1").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").createdDate(new Date(2021,2,1)).build();
-		
-		
-		
 		ObjectMapper mapper = new ObjectMapper();
 
-		
 		String URI = "/categoryServices/v1/getCategoryService/sdfghjkl";
 
 		Mockito.when(categoryService.findById("sdfghjkl")).thenReturn(categoryServiceResponseObj);
@@ -150,7 +145,8 @@ public class CategoryServiceControllerTests {
 		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = mvcResult.getResponse();
 
-		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), CategoryServiceResponseDto.class);
+		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(),
+				CategoryServiceResponseDto.class);
 
 		assertEquals("CS", result.getCategoryId());
 		assertEquals("coreServicev1", result.getCategoryName());
@@ -164,17 +160,12 @@ public class CategoryServiceControllerTests {
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
-	
-	
-	
+
 	@Test
 	public void deleteCategoryservicesById_success() throws Exception {
-ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
 
-		
 		String URI = "/categoryServices/v1/deleteCategoryService/sdfghjkl";
-
-		
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON);
@@ -182,13 +173,11 @@ ObjectMapper mapper = new ObjectMapper();
 		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = mvcResult.getResponse();
 
-		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), CategoryServiceResponseDto.class);
-		
+		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(),
+				CategoryServiceResponseDto.class);
+
 	}
-	
-	
-	
-	
+
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(object);
