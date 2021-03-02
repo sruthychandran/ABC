@@ -21,21 +21,21 @@ public class SpringFoxConfig extends WebMvcConfigurationSupport {
 	    return new Docket(DocumentationType.SWAGGER_2)
 	        .groupName("Admin v1")
 	        .select()
-	            .apis(RequestHandlerSelectors.basePackage("com.abinbev.admin.controller.v1"))
+	            .apis(RequestHandlerSelectors.basePackage("com.abinbev.admin.controller"))
 	            .paths(PathSelectors.ant("/*/v1/*"))
 	        .build()
-	        .apiInfo(new ApiInfoBuilder().version("1.0").title("PlatformAdminController API").description("Documentation Admin Service API v1.0").build());
+	        .apiInfo(new ApiInfoBuilder().version("1.0").title("Admin API").description("Documentation Admin Service API v1.0").build());
 	}
 	@Bean
 	public Docket api12() {
 	    return new Docket(DocumentationType.SWAGGER_2)
 	        .groupName("Admin v2")
 	        .select()
-	            .apis(RequestHandlerSelectors.basePackage("com.abinbev.admin.controller.v2"))
+	            .apis(RequestHandlerSelectors.basePackage("com.abinbev.admin.controller"))
 	        
 	            .paths(PathSelectors.ant("/*/v2/*"))
 	        .build()
-	        .apiInfo(new ApiInfoBuilder().version("2.0").title("PlatformAdminController API").description("Documentation Admin Service API v2.0").build());
+	        .apiInfo(new ApiInfoBuilder().version("2.0").title("Admin API").description("Documentation Admin Service API v2.0").build());
 	}
 	
 	
