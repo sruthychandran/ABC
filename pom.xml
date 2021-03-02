@@ -43,16 +43,20 @@
 		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-test</artifactId> 
 			<scope>test</scope> </dependency> -->
 
+		<!--   Starter for using MongoDB document-oriented database and Spring Data MongoDB  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 
+		<!-- Spice up your java: Automatic Resource Management, automatic generation of getters, setters, equals, hashCode and toString, and more!  -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -92,6 +96,8 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 
+
+		<!-- JSON API documentation for spring based applications starts here -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -105,6 +111,8 @@
 			<version>2.9.2</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- ends here -->
 
 		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
 		<dependency>
@@ -139,6 +147,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M1</version>
 			</plugin>
+			
+			<!-- The JaCoCo Maven Plugin provides the JaCoCo runtime agent to your tests and allows basic report creation -->
+			<!-- Starts here -->
+			
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -159,6 +171,8 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- ends here -->
 		</plugins>
 
 	</build>
