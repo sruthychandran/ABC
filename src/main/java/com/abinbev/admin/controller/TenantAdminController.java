@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/tenant-admin/v1")
 public class TenantAdminController {
 
-	static Logger log = Logger.getLogger(RoleController2.class); 
+	static Logger log = Logger.getLogger(TenantAdminController.class); 
 	
 	@Autowired
 	TenantAdminService tenantAdminService;
@@ -70,7 +70,7 @@ public class TenantAdminController {
 	
 		log.debug("Request to update user " + userDto);
 		if (userDto.getEmailId() == null)
-			throw new BadRequestAlertException("Invalid emailId");
+			throw new BadRequestAlertException("Invalid email");
 		UserResponseDto result = tenantAdminService.updateUser(userDto);
 		return ResponseEntity.ok().body(result);
 	}

@@ -1,7 +1,11 @@
 package com.abinbev.admin.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,10 +20,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.abinbev.admin.entity.User;
+import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
-import com.abinbev.admin.service.PlatformAdminService;
 import com.abinbev.admin.service.TenantAdminService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,9 +43,16 @@ public class TenantAdminControllerTests {
 
 	public void createUsers() throws Exception {
 
-		User user = User.builder().firstName("rafeek").build();
+		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com").build();
 
-		UserResponseDto userDTO = mapper.readValue(mapToJson(user), UserResponseDto.class);
+		UserDto user1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).build();
+
+		UserResponseDto userDTO = mapper.readValue(mapToJson(userDto1), UserResponseDto.class);
+
+		ObjectMapper mapper = new ObjectMapper();
 
 		String inputInJson = this.mapToJson(userDTO);
 		String URI = "/tenant-admin/v1/createUser";
@@ -52,11 +62,56 @@ public class TenantAdminControllerTests {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
 				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
 
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		MockHttpServletResponse response = result.getResponse();
+		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
 
-		String outputInJson = response.getContentAsString();
-		
+		MockHttpServletResponse response = mvcResult.getResponse();
+
+		UserResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), UserResponseDto.class);
+
+		assertEquals("rafeeq088@gmail.com", result.getEmailId());
+
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
+	}
+
+	@Test
+	void updateUsers_throws_BadRequestAlertException() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks").phoneNo(8089587001l).roleId("TA")
+				.status("active").createdDate(new Date()).createdBy("rafeeq088@gmail.com").build();
+
+		mockMvc.perform(put("/tenant-admin/v1/updateUser").contentType("application/json")
+				.content(mapper.writeValueAsString(userDto1))).andExpect(status().isBadRequest())
+				.andExpect(result -> assertTrue(result.getResolvedException() instanceof BadRequestAlertException))
+				.andExpect(result -> assertEquals("Invalid email", result.getResolvedException().getMessage()));
+	}
+
+	@Test
+	public void updateUsers_success() throws Exception {
+
+		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com").build();
+
+		UserResponseDto userResponseObj = UserResponseDto.builder().firstName("rafeek").lastName("ks")
+				.emailId("rafeeq088@gmail.com").phoneNo(8089587001l).roleId("TA").status("active")
+				.createdDate(new Date()).createdBy("rafeeq088@gmail.com").build();
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String inputInJson = this.mapToJson(userDto1);
+		String URI = "/tenant-admin/v1/updateUser";
+
+		Mockito.when(tenantAdminService.updateUser(Mockito.any(UserDto.class))).thenReturn(userResponseObj);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URI).accept(MediaType.APPLICATION_JSON)
+				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+		MockHttpServletResponse response = mvcResult.getResponse();
+
+		UserResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), UserResponseDto.class);
+		assertEquals("rafeeq088@gmail.com", result.getEmailId());
+
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 

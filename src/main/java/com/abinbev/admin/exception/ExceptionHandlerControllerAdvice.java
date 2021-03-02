@@ -18,6 +18,17 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 
 	@Value("${status.update.failure}")
 	String updationFailureStatus;
+	
+	
+	@Value("${status.role.notfound}")
+	String roleNotFoundStatus;
+	
+	
+	@Value("${status.user.notfound}")
+	String userNotFoundStatus;
+	
+	@Value("${status.categoryservice.notfound}")
+	String categoryServiceNotFoundStatus;
 
 	@ExceptionHandler(BadRequestAlertException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -36,6 +47,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 			final HttpServletRequest request) {
 
 		ApiError error = new ApiError();
+		error.setCode(userNotFoundStatus);
 		error.setMessage(exception.getMessage());
 
 		return error;
@@ -46,6 +58,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 	public @ResponseBody ApiError handleRoleNotFound(final RoleNotFoundException exception,
 			final HttpServletRequest request) {
 		ApiError error = new ApiError();
+		error.setCode(roleNotFoundStatus);
 		error.setMessage(exception.getMessage());
 
 		return error;
@@ -56,6 +69,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 	public @ResponseBody ApiError handleCategoryNotFound(final CategoryServiceNotFoundException exception,
 			final HttpServletRequest request) {
 		ApiError error = new ApiError();
+		error.setCode(categoryServiceNotFoundStatus);
 		error.setMessage(exception.getMessage());
 
 		return error;
