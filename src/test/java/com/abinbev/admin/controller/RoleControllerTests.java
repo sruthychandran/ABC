@@ -29,9 +29,11 @@ import com.abinbev.admin.service.RoleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 @WebMvcTest(controllers = { RoleController.class })
 
 public class RoleControllerTests {
+
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -39,8 +41,10 @@ public class RoleControllerTests {
 	@MockBean
 	private RoleService roleService;
 
+
 	@Autowired
 	private ObjectMapper mapper;
+
 
 	@Test
 	public void createRoles() throws Exception {
@@ -139,6 +143,7 @@ public class RoleControllerTests {
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
+
 	/*
 	 * @Test public void deleteCategoryservicesById_success() throws Exception {
 	 * 
@@ -179,4 +184,5 @@ public class RoleControllerTests {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(object);
 	}
+
 }

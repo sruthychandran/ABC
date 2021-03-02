@@ -10,6 +10,7 @@ import lombok.Data;
 @Configuration
 @PropertySource("classpath:message.properties")
 public class MessageProperties {
+	
 	@Value("${message.create}")
 	String saveMessage;
 	@Value("${message.update}")
@@ -35,6 +36,14 @@ public class MessageProperties {
 	String roleSaveFailureMessage;
 	@Value("${role.update.failure}")
 	String roleUpdateFailureMessage;
+	
+	@Value("${permission.notfound}")
+	String permissionNotfoundMessage;
+	@Value("${permission.save.failure}")
+	String permissionSaveFailureMessage;
+	@Value("${permission.update.failure}")
+	String permissionUpdateFailureMessage;
+	
 	@Value("${categoryService.save.failure}")
 	String categoryServiceSaveFailureMessage;
 	@Value("${categoryService.update.failure}")

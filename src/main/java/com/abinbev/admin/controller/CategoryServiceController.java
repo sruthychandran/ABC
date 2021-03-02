@@ -105,14 +105,13 @@ public class CategoryServiceController {
 
 		log.debug("Request to delete a category service " + id);
 		categoryService.deleteCategoryService(id);
-		
 
 	}
 
 	/**
 	 * In this method we can get a category service by id
 	 * 
-	 * @param categoryId
+	 * @param id
 	 * @return
 	 * @throws BadRequestAlertException
 	 * @throws JsonMappingException
@@ -125,12 +124,11 @@ public class CategoryServiceController {
 			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
 			CategoryServiceNotFoundException {
 		log.debug("Request to get a category service " + id);
-		
+
 		if (id == null)
 			throw new BadRequestAlertException("Invalid categoryId");
 		CategoryServiceResponseDto categoryServiceResponse = categoryService.findById(id);
 		return ResponseEntity.ok().body(categoryServiceResponse);
 	}
 
-	
 }

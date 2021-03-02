@@ -77,7 +77,7 @@ public class PlatformAdminController {
 		
 		log.debug("Request to update user " + userDto);
 		if (userDto.getEmailId() == null)
-			throw new BadRequestAlertException("Invalid uuid");
+			throw new BadRequestAlertException("Invalid email");
 		UserResponseDto result = platformAdminService.updateUser(userDto);
 		return ResponseEntity.ok().body(result);
 	}

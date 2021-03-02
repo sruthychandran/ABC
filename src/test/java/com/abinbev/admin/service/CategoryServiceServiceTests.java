@@ -208,40 +208,5 @@ public class CategoryServiceServiceTests {
 	}
 	
 	
-	/*
-	 * @Test public void test_getAllCategoryServices_success() throws
-	 * JsonMappingException, JsonProcessingException,
-	 * CategoryServiceNotFoundException {
-	 * 
-	 * CategoryService categoryService1 =
-	 * CategoryService.builder().categoryId("CS").categoryName("coreService")
-	 * .moduleId("NI").moduleName("Notification service").userRole("TA").status(
-	 * "enable") .createdDate(new Date()).build(); CategoryService categoryService2
-	 * = CategoryService.builder().categoryId("PS").categoryName("productService")
-	 * .moduleId("xyz").moduleName("service1").userRole("TA").status("enable").
-	 * createdDate(new Date()).build();
-	 * 
-	 * List<CategoryService> CategoryServicelist = Arrays.asList(categoryService1,
-	 * categoryService2);
-	 * 
-	 * Mockito.when(categoryServiceDAO.getAllCategoryServices()).thenReturn(
-	 * CategoryServicelist); List<CategoryServiceResponseDto> result =
-	 * categoryServiceService.getAllCategoryServices();
-	 * 
-	 * assertEquals("coreService", result.get(0).getCategoryName());
-	 * assertEquals("NI", result.get(0).getModuleId());
-	 * assertEquals("Notification service", result.get(0).getModuleName());
-	 * assertEquals("TA", result.get(0).getUserRole()); assertEquals("enable",
-	 * result.get(0).getStatus()); assertNotNull(result.get(0).getCreatedDate());
-	 * 
-	 * assertNotNull(result.get(1).getCategoryId()); assertEquals("PS",
-	 * result.get(1).getCategoryId()); assertEquals("productService",
-	 * result.get(1).getCategoryName()); assertEquals("xyz",
-	 * result.get(1).getModuleId()); assertEquals("service1",
-	 * result.get(1).getModuleName()); assertEquals("TA",
-	 * result.get(1).getUserRole()); assertEquals("enable",
-	 * result.get(1).getStatus()); assertNotNull(result.get(1).getCreatedDate());
-	 * 
-	 * }
-	 */
+	
 }

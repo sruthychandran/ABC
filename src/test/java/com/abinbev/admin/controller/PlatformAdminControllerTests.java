@@ -77,6 +77,7 @@ public class PlatformAdminControllerTests {
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
+
 	@Test
 	void updateUsers_throws_BadRequestAlertException() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
@@ -87,7 +88,7 @@ public class PlatformAdminControllerTests {
 		mockMvc.perform(put("/platform-admin/v1/updateUser").contentType("application/json")
 				.content(mapper.writeValueAsString(userDto1))).andExpect(status().isBadRequest())
 				.andExpect(result -> assertTrue(result.getResolvedException() instanceof BadRequestAlertException))
-				.andExpect(result -> assertEquals("Invalid Id", result.getResolvedException().getMessage()));
+				.andExpect(result -> assertEquals("Invalid email", result.getResolvedException().getMessage()));
 	}
 
 	@Test
@@ -164,6 +165,7 @@ public class PlatformAdminControllerTests {
 	
 	
 	
+
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(object);

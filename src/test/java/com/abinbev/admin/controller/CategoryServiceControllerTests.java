@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
+import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
@@ -175,6 +176,7 @@ public class CategoryServiceControllerTests {
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
+
 	/*
 	 * @Test public void deleteCategoryservicesById_success() throws Exception {
 	 * 
@@ -198,17 +200,21 @@ public class CategoryServiceControllerTests {
 
 	@Test
 	void getCategoryServiceById_throws_NotFoundException() throws Exception {
-
-		Mockito.when(categoryService.findById("sdfghjkl")).thenThrow(new CategoryServiceNotFoundException("Category Service not found"));
+		Mockito.when(categoryService.findById("sdfghjkl"))
+		.thenThrow(new CategoryServiceNotFoundException("Category Service not found"));
 
 		mockMvc.perform(MockMvcRequestBuilders
-				.get("/categoryServices/v1/getCategoryService/{id}", "sdfghjkl").contentType("application/json"))
-				.andExpect(status().isNotFound())
-				.andExpect(
-						result -> assertTrue(result.getResolvedException() instanceof CategoryServiceNotFoundException))
-				.andExpect(result -> assertEquals("Category Service not found",
-						result.getResolvedException().getMessage()));
-	}
+		.get("/categoryServices/v1/getCategoryService/{id}", "sdfghjkl").contentType("application/json"))
+		.andExpect(status().isNotFound())
+		.andExpect(
+				result -> assertTrue(result.getResolvedException() instanceof CategoryServiceNotFoundException))
+		.andExpect(result -> assertEquals("Category Service not found",
+				result.getResolvedException().getMessage()));
+
+}
+
+
+
 
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();

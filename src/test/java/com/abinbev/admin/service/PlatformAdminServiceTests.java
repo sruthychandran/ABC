@@ -1,10 +1,15 @@
 package com.abinbev.admin.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.CategoryService;
@@ -175,35 +183,47 @@ public class PlatformAdminServiceTests {
 		assertEquals("User not found", thrown.getMessage());
 	}
 
-	/*
-	 * @Test public void test_getAllUsers_success() throws JsonMappingException,
-	 * JsonProcessingException, NotFoundException { User user1 =
-	 * User.builder().firstName("rafeek").lastName("ks").emailId(
-	 * "rafeeq088@gmail.com")
-	 * .phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
-	 * .createdBy("rafeeq088@gmail.com")
-	 * 
-	 * .build(); User user2 =
-	 * User.builder().firstName("sruthy").lastName("kc").emailId("rskc@gmail.com").
-	 * phoneNo(9496352903l) .roleId("TA").status("active").createdDate(new
-	 * Date()).createdBy("rskc@gmail.com")
-	 * 
-	 * .build(); List<User> userList = Arrays.asList(user1, user2);
-	 * 
-	 * Mockito.when(userDAO.getAllUsers()).thenReturn(userList);
-	 * List<UserResponseDto> result = platformAdminService.getAllUsers();
-	 * assertNotNull(result.get(0).getEmailId()); assertEquals("TA",
-	 * result.get(0).getRoleId()); assertEquals("rafeeq088@gmail.com",
-	 * result.get(0).getEmailId()); assertEquals("rafeek",
-	 * result.get(0).getFirstName()); assertEquals("ks",
-	 * result.get(0).getLastName());
-	 * 
-	 * assertEquals(8089587001l, result.get(0).getPhoneNo()); assertEquals("active",
-	 * result.get(0).getStatus()); assertNotNull(result.get(0).getCreatedDate());
-	 * assertEquals("rafeeq088@gmail.com", result.get(0).getCreatedBy());
-	 * 
-	 * }
-	 */
+
+	@Test
+	public void test_getAllUsers_success() throws JsonMappingException, JsonProcessingException, NotFoundException {
+		User user1 = User.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com")
+
+				.build();
+		User user2 = User.builder().firstName("sruthy").lastName("kc").emailId("rskc@gmail.com").phoneNo(9496352903l)
+				.roleId("TA").status("active").createdDate(new Date()).createdBy("rskc@gmail.com")
+
+				.build();
+		List<User> userList = Arrays.asList(user1, user2);
+		
+		Page<User> page = new PageImpl<>(userList);
+
+		Mockito.when(userDAO.getAllUsers(PageRequest.of(0, 20))).thenReturn(page);
+
+		assertThat(platformAdminService.getAllUsers(PageRequest.of(0, 20)).getTotalElements()).isEqualTo(2);
+
+	}
+	
+	@Test
+	public void test_deleteUser() throws UserNotFoundException {
+		User user = User.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com").build();
+		User response = User.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com").build();
+		
+		Mockito.when(userDAO.findByEmail(user.getEmailId())).thenReturn(response);
+		platformAdminService.deleteUser(user.getId());
+
+		verify(userDAO, times(1)).save(new User("rafeek", "EU", "end user", "roleDescription", null, null, null, "active", null, null, null, null, null));
+
+		
+	}
+
+
+
 
 	@Test
 	public void test_findByEmailId_success()
