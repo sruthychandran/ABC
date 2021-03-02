@@ -65,9 +65,10 @@ public class RoleServiceImpl implements RoleService {
 
 		Role role = findRoleByRoleId(roleId);
 
-		role.setStatus(messageProperties.getInactiveStatus());
-		role.setModifiedDate(new Date());
-		roleDAO.save(role);
+		//role.setStatus(messageProperties.getInactiveStatus());
+		//role.setModifiedDate(new Date());
+		roleDAO.deleteRole(role);
+		//roleDAO.save(role);
 
 	}
 
@@ -163,5 +164,19 @@ public class RoleServiceImpl implements RoleService {
 		return existingRole;
 
 	}
+	
+	/*
+	 * private Role findById(String id) throws RoleNotFoundException { Role
+	 * existingRole = roleDAO.findById(id);
+	 * 
+	 * if (existingRole == null) { throw new
+	 * RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
+	 * 
+	 * } return existingRole;
+	 * 
+	 * }
+	 */
+	
+	
 
 }

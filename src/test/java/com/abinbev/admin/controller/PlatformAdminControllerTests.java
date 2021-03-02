@@ -1,7 +1,12 @@
 package com.abinbev.admin.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,27 +21,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.abinbev.admin.entity.User;
-import com.abinbev.admin.requestDto.CategoryDto;
+import com.abinbev.admin.exception.BadRequestAlertException;
+import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.Date;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 @WebMvcTest(controllers = { PlatformAdminController.class })
 
@@ -75,6 +67,7 @@ public class PlatformAdminControllerTests {
 				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+
 		MockHttpServletResponse response = mvcResult.getResponse();
 
 		UserResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(), UserResponseDto.class);
@@ -83,6 +76,95 @@ public class PlatformAdminControllerTests {
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
+
+
+	@Test
+	void updateUsers_throws_BadRequestAlertException() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com").build();
+
+		mockMvc.perform(put("/platform-admin/v1/updateUser").contentType("application/json")
+				.content(mapper.writeValueAsString(userDto1))).andExpect(status().isBadRequest())
+				.andExpect(result -> assertTrue(result.getResolvedException() instanceof BadRequestAlertException))
+				.andExpect(result -> assertEquals("Invalid email", result.getResolvedException().getMessage()));
+	}
+
+	@Test
+	public void updateUsers_success() throws Exception {
+
+		UserDto userDto1 = UserDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com").build();
+
+		UserResponseDto userResponseObj = UserResponseDto.builder().firstName("rafeek").lastName("ks").emailId("rafeeq088@gmail.com")
+				.phoneNo(8089587001l).roleId("TA").status("active").createdDate(new Date())
+				.createdBy("rafeeq088@gmail.com").build();
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		String inputInJson = this.mapToJson( userDto1);
+		String URI = "/platform-admin/v1/updateUser";
+
+		Mockito.when(platformAdminService.updateUser(Mockito.any(UserDto.class)))
+				.thenReturn(userResponseObj);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URI).accept(MediaType.APPLICATION_JSON)
+				.content(inputInJson).contentType(MediaType.APPLICATION_JSON);
+
+		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+		MockHttpServletResponse response = mvcResult.getResponse();
+
+		UserResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(),
+				UserResponseDto.class);
+		assertEquals("rafeeq088@gmail.com", result.getEmailId());
+
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
+	}
+
+	/*
+	 * @Test public void getCategoryservicesById_success() throws Exception {
+	 * 
+	 * CategoryServiceResponseDto categoryServiceResponseObj =
+	 * CategoryServiceResponseDto.builder().id("sdfghjkl")
+	 * .categoryId("CS").categoryName("coreServicev1").moduleId("NI").
+	 * moduleName("Notification Service")
+	 * .userRole("TA").status("active").subModuleId("TA-Add").
+	 * subModuleName("Tenant Addition") .createdDate(new Date(2021, 2, 1)).build();
+	 * 
+	 * ObjectMapper mapper = new ObjectMapper();
+	 * 
+	 * String URI = "/categoryServices/v1/getCategoryService/sdfghjkl";
+	 * 
+	 * Mockito.when(categoryService.findById("sdfghjkl")).thenReturn(
+	 * categoryServiceResponseObj);
+	 * 
+	 * RequestBuilder requestBuilder =
+	 * MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON)
+	 * .contentType(MediaType.APPLICATION_JSON);
+	 * 
+	 * MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+	 * MockHttpServletResponse response = mvcResult.getResponse();
+	 * 
+	 * CategoryServiceResponseDto result =
+	 * mapper.readValue(mvcResult.getResponse().getContentAsString(),
+	 * CategoryServiceResponseDto.class);
+	 * 
+	 * assertEquals("CS", result.getCategoryId()); assertEquals("coreServicev1",
+	 * result.getCategoryName()); assertEquals("NI", result.getModuleId());
+	 * assertEquals("Notification Service", result.getModuleName());
+	 * assertEquals("active", result.getStatus()); assertEquals("TA",
+	 * result.getUserRole()); assertEquals("TA-Add", result.getSubModuleId());
+	 * assertEquals("Tenant Addition", result.getSubModuleName());
+	 * assertNotNull(result.getCreatedDate());
+	 * 
+	 * assertEquals(HttpStatus.OK.value(), response.getStatus()); }
+	 */
+	
+	
+	
+	
 
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();

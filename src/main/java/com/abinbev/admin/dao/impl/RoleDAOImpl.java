@@ -1,5 +1,6 @@
 package com.abinbev.admin.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,16 +39,20 @@ public class RoleDAOImpl implements RoleDAO {
 	}
 
 	@Override
-	public void deleteRole(String roleId) {
+	public void deleteRole(Role role) {
 
-		Query query = new Query();
-		query.addCriteria(Criteria.where("roleId").is(roleId));
-		Role role = mongoTemplate.findOne(query, Role.class);
+		/*
+		 * Query query = new Query();
+		 * query.addCriteria(Criteria.where("roleId").is(roleId)); Role role =
+		 * mongoTemplate.findOne(query, Role.class);
+		 */
 
-		role.setStatus("disable");
+		role.setStatus("inactive");
+		role.setModifiedDate(new Date());
 		mongoTemplate.save(role);
 
 	}
+	
 
 	@Override
 	public Page<Role> getAllRoles(Pageable pageable) {

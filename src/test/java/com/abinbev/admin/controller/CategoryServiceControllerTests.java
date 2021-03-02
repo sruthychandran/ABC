@@ -2,6 +2,9 @@ package com.abinbev.admin.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Date;
 
@@ -18,13 +21,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.abinbev.admin.entity.CategoryService;
+import com.abinbev.admin.exception.BadRequestAlertException;
+import com.abinbev.admin.exception.CategoryServiceNotFoundException;
+import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
-import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
-import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
-import com.abinbev.admin.service.RoleService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -81,6 +83,19 @@ public class CategoryServiceControllerTests {
 		assertNotNull(result.getCreatedDate());
 
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
+	}
+
+	@Test
+	void updateCategoryService_throws_BadRequestAlertException() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().categoryId("CS")
+				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
+				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
+
+		mockMvc.perform(put("/categoryServices/v1/updateCategoryService").contentType("application/json")
+				.content(mapper.writeValueAsString(categoryServiceDto))).andExpect(status().isBadRequest())
+				.andExpect(result -> assertTrue(result.getResolvedException() instanceof BadRequestAlertException))
+				.andExpect(result -> assertEquals("Invalid Id", result.getResolvedException().getMessage()));
 	}
 
 	@Test
@@ -161,22 +176,45 @@ public class CategoryServiceControllerTests {
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
+
+	/*
+	 * @Test public void deleteCategoryservicesById_success() throws Exception {
+	 * 
+	 * ObjectMapper mapper = new ObjectMapper();
+	 * 
+	 * String URI = "/categoryServices/v1/deleteCategoryService/sdfghjkl";
+	 * 
+	 * RequestBuilder requestBuilder =
+	 * MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON)
+	 * .contentType(MediaType.APPLICATION_JSON);
+	 * 
+	 * MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
+	 * MockHttpServletResponse response = mvcResult.getResponse();
+	 * 
+	 * CategoryServiceResponseDto result =
+	 * mapper.readValue(mvcResult.getResponse().getContentAsString(),
+	 * CategoryServiceResponseDto.class);
+	 * 
+	 * }
+	 */
+
 	@Test
-	public void deleteCategoryservicesById_success() throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
+	void getCategoryServiceById_throws_NotFoundException() throws Exception {
+		Mockito.when(categoryService.findById("sdfghjkl"))
+		.thenThrow(new CategoryServiceNotFoundException("Category Service not found"));
 
-		String URI = "/categoryServices/v1/deleteCategoryService/sdfghjkl";
+		mockMvc.perform(MockMvcRequestBuilders
+		.get("/categoryServices/v1/getCategoryService/{id}", "sdfghjkl").contentType("application/json"))
+		.andExpect(status().isNotFound())
+		.andExpect(
+				result -> assertTrue(result.getResolvedException() instanceof CategoryServiceNotFoundException))
+		.andExpect(result -> assertEquals("Category Service not found",
+				result.getResolvedException().getMessage()));
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON)
-				.contentType(MediaType.APPLICATION_JSON);
+}
 
-		MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-		MockHttpServletResponse response = mvcResult.getResponse();
 
-		CategoryServiceResponseDto result = mapper.readValue(mvcResult.getResponse().getContentAsString(),
-				CategoryServiceResponseDto.class);
 
-	}
 
 	private String mapToJson(Object object) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();

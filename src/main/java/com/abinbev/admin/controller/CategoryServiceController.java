@@ -67,8 +67,8 @@ public class CategoryServiceController {
 
 		log.debug("Request to update category service " + categoryServiceDto);
 
-		if (categoryServiceDto.getCategoryId() == null)
-			throw new BadRequestAlertException("Invalid CategoryId");
+		if (categoryServiceDto.getId() == null)
+			throw new BadRequestAlertException("Invalid Id");
 		CategoryServiceResponseDto categoryServiceResponse = categoryService.updateCategoryService(categoryServiceDto);
 		return ResponseEntity.ok().body(categoryServiceResponse);
 
@@ -105,7 +105,6 @@ public class CategoryServiceController {
 
 		log.debug("Request to delete a category service " + id);
 		categoryService.deleteCategoryService(id);
-		
 
 	}
 
@@ -125,36 +124,11 @@ public class CategoryServiceController {
 			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
 			CategoryServiceNotFoundException {
 		log.debug("Request to get a category service " + id);
-		
+
 		if (id == null)
 			throw new BadRequestAlertException("Invalid categoryId");
 		CategoryServiceResponseDto categoryServiceResponse = categoryService.findById(id);
 		return ResponseEntity.ok().body(categoryServiceResponse);
 	}
-	
-	
-	/**
-	 * In this method we can get a category service by categoryId
-	 * 
-	 * @param categoryId
-	 * @return
-	 * @throws BadRequestAlertException
-	 * @throws JsonMappingException
-	 * @throws JsonProcessingException
-	 * @throws CategoryServiceNotFoundException
-	 */
-
-	@GetMapping("/getCategoryService/{categoryId}")
-	public ResponseEntity<CategoryServiceResponseDto> getCategoryServiceByCategoryId(@PathVariable String categoryId)
-			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
-			CategoryServiceNotFoundException {
-		log.debug("Request to get a category service " + categoryId);
-		
-		if (categoryId == null)
-			throw new BadRequestAlertException("Invalid categoryId");
-		CategoryServiceResponseDto categoryServiceResponse = categoryService.findByCategoryId(categoryId);
-		return ResponseEntity.ok().body(categoryServiceResponse);
-	}
-
 
 }
