@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class EmailService {
+public interface EmailService {
+
+	void sendWelcomeMail(String email, String name);
 
  
 }
