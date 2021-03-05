@@ -1,6 +1,7 @@
 package com.abinbev.admin.controller;
 
-//import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -30,13 +31,11 @@ import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.TenantAdminService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/tenant-admin/v1")
 public class TenantAdminController {
 
-	//static Logger log = Logger.getLogger(TenantAdminController.class);
+
 	 private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 	@Autowired
 	TenantAdminService tenantAdminService;
