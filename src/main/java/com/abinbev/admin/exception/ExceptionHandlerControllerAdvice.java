@@ -40,7 +40,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 		ApiError error = new ApiError();
 
 		error.setMessage(exception.getMessage());
-
+		error.setCode(exception.getErrorCode());
 		return error;
 	}
 
@@ -51,6 +51,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 		ApiError error = new ApiError();
 		
 		error.setMessage(exception.getMessage());
+		error.setCode(exception.getErrorCode());
 
 		return error;
 	}
@@ -62,9 +63,23 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 		ApiError error = new ApiError();
 		
 		error.setMessage(exception.getMessage());
+		error.setCode(exception.getErrorCode());
+		return error;
+	}
+	
+	@ExceptionHandler(PermissionNotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ApiError handleRoleNotFound(final PermissionNotFoundException exception,
+			final HttpServletRequest request) {
+		ApiError error = new ApiError();
+		
+		error.setMessage(exception.getMessage());
+		error.setCode(exception.getErrorCode());
 
 		return error;
 	}
+
+	
 
 	@ExceptionHandler(EmailExistException.class)
 	@ResponseStatus(value = HttpStatus.CONFLICT)

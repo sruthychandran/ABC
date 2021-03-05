@@ -23,6 +23,6 @@ public class PermissionResponseDto {
 	private String modifiedBy;
 	private String status;
 	private String roleId;
-	private String message;
+
 
 }

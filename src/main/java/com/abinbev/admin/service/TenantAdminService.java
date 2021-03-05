@@ -10,18 +10,19 @@ import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.UserResponseDto;
 
 public interface TenantAdminService {
 
-	public UserResponseDto saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException;
+	public BasicResponse<UserResponseDto> saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException;
 
-	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException;
+	public BasicResponse<UserResponseDto> updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException;
 
 	public void deleteUser(String uuid) throws UserNotFoundException;
 
-	public UserResponseDto findByEmailId(String emailId) throws UserNotFoundException;
+	public BasicResponse<UserResponseDto> findByEmailId(String emailId) throws UserNotFoundException;
 
-	public Page<UserResponseDto> getAllUsers(Pageable pageable);
+	public BasicResponse<Page<UserResponseDto>> getAllUsers(Pageable pageable);
 
 }

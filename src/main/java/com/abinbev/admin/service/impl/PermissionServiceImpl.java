@@ -17,6 +17,9 @@ import com.abinbev.admin.exception.PermissionCreationFailureException;
 import com.abinbev.admin.exception.PermissionNotFoundException;
 import com.abinbev.admin.exception.PermissionUpdationFailureException;
 import com.abinbev.admin.requestDto.PermissionDto;
+import com.abinbev.admin.responseDto.BasicResponse;
+import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
+import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.PermissionResponseDto;
 import com.abinbev.admin.service.PermissionService;
 import com.abinbev.admin.utility.MapperUtil;
@@ -37,7 +40,7 @@ public class PermissionServiceImpl implements PermissionService {
 	 * In this method we can create a permission
 	 */
 	@Override
-	public PermissionResponseDto savePermission(PermissionDto permissionDto) throws PermissionCreationFailureException {
+	public BasicResponse<PermissionResponseDto> savePermission(PermissionDto permissionDto) throws PermissionCreationFailureException {
 		PermissionResponseDto response = null;
 		Permission permission = permissionMapper.transfer(permissionDto, Permission.class);
 		permission.setStatus(messageProperties.getActiveStatus());
@@ -46,12 +49,14 @@ public class PermissionServiceImpl implements PermissionService {
 		if (permissionResponseObj != null) {
 
 			response = permissionResponse.transfer(permissionResponseObj, PermissionResponseDto.class);
-			response.setMessage(messageProperties.getSaveMessage());
+	
 		} else {
 			throw new PermissionCreationFailureException(messageProperties.getUserSaveFailureMessage());
 		}
-
-		return response;
+		BasicResponse<PermissionResponseDto> basicResponse = new BasicResponse<PermissionResponseDto>();
+		basicResponse.setMessage(messageProperties.getSaveMessage());
+		basicResponse.setData(response);
+		return basicResponse;
 
 	}
 
@@ -71,8 +76,8 @@ public class PermissionServiceImpl implements PermissionService {
 	 * In this method we can list all permissions
 	 */
 	@Override
-	public Page<PermissionResponseDto> getAllPermissions(Pageable pageable) {
-
+	public BasicResponse<Page<PermissionResponseDto>>  getAllPermissions(Pageable pageable) {
+		BasicResponse<Page<PermissionResponseDto>> basicResponse = new BasicResponse<Page<PermissionResponseDto>>();
 		Page<PermissionResponseDto> permissionResponsePage = null;
 
 		List<PermissionResponseDto> permissionResponseList = new ArrayList<PermissionResponseDto>();
@@ -82,16 +87,23 @@ public class PermissionServiceImpl implements PermissionService {
 		try {
 			if (permissions != null && !permissions.isEmpty()) {
 				for (Permission permission : permissions) {
-					PermissionResponseDto response = permissionResponse.transfer(permission, PermissionResponseDto.class);
+					PermissionResponseDto response = permissionResponse.transfer(permission,
+							PermissionResponseDto.class);
 					permissionResponseList.add(response);
 
 				}
 
-				permissionResponsePage = new PageImpl<PermissionResponseDto>(permissionResponseList, pageable, permissions.getContent().size());
+				permissionResponsePage = new PageImpl<PermissionResponseDto>(permissionResponseList, pageable,
+						permissions.getContent().size());
 
 			}
-
-			return permissionResponsePage;
+			else {
+				ErrorResponse error = new ErrorResponse("10008", "no content");
+				basicResponse.setError(error);
+				return basicResponse;
+			}
+			basicResponse.setData(permissionResponsePage);
+			return basicResponse;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -108,7 +120,8 @@ public class PermissionServiceImpl implements PermissionService {
 	 * @throws PermissionUpdationFailureException
 	 */
 	@Override
-	public PermissionResponseDto updatePermission(PermissionDto permissionDto) throws PermissionNotFoundException, PermissionUpdationFailureException {
+	public BasicResponse<PermissionResponseDto> updatePermission(PermissionDto permissionDto)
+			throws PermissionNotFoundException, PermissionUpdationFailureException {
 		PermissionResponseDto response = null;
 		Permission existingPermission = permissionDAO.findById(permissionDto.getId());
 		if (existingPermission == null) {
@@ -127,12 +140,15 @@ public class PermissionServiceImpl implements PermissionService {
 		if (permissionResponseObj != null) {
 			response = permissionResponse.transfer(permissionResponseObj, PermissionResponseDto.class);
 
-			response.setMessage(messageProperties.getUpdationMessage());
+			
 		} else {
 			throw new PermissionUpdationFailureException(messageProperties.getPermissionUpdateFailureMessage());
 		}
 
-		return response;
+		BasicResponse<PermissionResponseDto> basicResponse = new BasicResponse<PermissionResponseDto>();
+		basicResponse.setMessage(messageProperties.getUpdationMessage());
+		basicResponse.setData(response);
+		return basicResponse;
 
 	}
 
@@ -140,11 +156,14 @@ public class PermissionServiceImpl implements PermissionService {
 	 * In this method we can get a permission by permission id
 	 */
 	@Override
-	public PermissionResponseDto getPermission(String permissionId) throws PermissionNotFoundException {
+	public BasicResponse<PermissionResponseDto> getPermission(String permissionId) throws PermissionNotFoundException {
 		Permission existingPermission = findPermissionByPermissionId(permissionId);
 
 		PermissionResponseDto response = permissionResponse.transfer(existingPermission, PermissionResponseDto.class);
-		return response;
+		BasicResponse<PermissionResponseDto> basicResponse = new BasicResponse<PermissionResponseDto>();
+		//basicResponse.setMessage();
+		basicResponse.setData(response);
+		return basicResponse;
 	}
 
 	private Permission findPermissionByPermissionId(String permissionId) throws PermissionNotFoundException {

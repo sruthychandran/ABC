@@ -19,7 +19,9 @@ import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
+import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.EmailService;
@@ -54,7 +56,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	 * In this method platform admin can create a user
 	 */
 	@Override
-	public UserResponseDto saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException {
+	public BasicResponse<UserResponseDto> saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 		if (emailExist(user.getEmailId())) {
@@ -69,13 +71,17 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 			emailService.sendWelcomeMail(userResponseObj.getEmailId(), userResponseObj.getFirstName());
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
-			response.setMessage(messageProperties.getSaveMessage());
+			//response.setMessage(messageProperties.getSaveMessage());
 
 		} else {
 			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
 		}
+		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
+		basicResponse.setMessage(messageProperties.getSaveMessage());
+		basicResponse.setData(response);
 
-		return response;
+		return basicResponse;
+		
 
 	}
 
@@ -91,7 +97,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
 	
 	@Override
-	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
+	public BasicResponse<UserResponseDto> updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 
@@ -107,12 +113,14 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		if (userResponseObj != null) {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
-			response.setMessage(messageProperties.getUpdationMessage());
+			//response.setMessage(messageProperties.getUpdationMessage());
 		} else {
 			throw new UserUpdationFailureException(messageProperties.getUserUpdateFailureMessage());
 		}
-
-		return response;
+		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
+		basicResponse.setMessage(messageProperties.getUpdationMessage());
+		basicResponse.setData(response);
+		return basicResponse;
 
 	}
 
@@ -121,8 +129,8 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	 */
 
 	@Override
-	public Page<UserResponseDto> getAllUsers(Pageable pageable) {
-		
+	public BasicResponse<Page<UserResponseDto>> getAllUsers(Pageable pageable) {
+		BasicResponse<Page<UserResponseDto>> basicResponse = new BasicResponse<Page<UserResponseDto>>();
 		Page<UserResponseDto> userResponsePage = null;
 
 		List<UserResponseDto> userResponses = new ArrayList<UserResponseDto>();
@@ -140,9 +148,14 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 				
 				userResponsePage = new PageImpl<UserResponseDto>(userResponses, pageable, users.getContent().size());
 			
+			}else {
+				ErrorResponse error = new ErrorResponse("10008", "no content");
+				basicResponse.setError(error);
+				return basicResponse;
 			}
 		
-			return userResponsePage;
+			basicResponse.setData(userResponsePage );
+			return basicResponse;
 		} catch (Exception ex) {
 
 		} finally {
@@ -168,10 +181,15 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	 * In this method platform admin can get a user by email
 	 */
 	@Override
-	public UserResponseDto findByEmailId(String emailId) throws UserNotFoundException {
+	public BasicResponse<UserResponseDto> findByEmailId(String emailId) throws UserNotFoundException {
 		User user = findUserByEmail(emailId);
 		UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
-		return response;
+		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
+		//basicResponse.setMessage();
+		basicResponse.setData(response);
+
+		return basicResponse;
+	
 	}
 
 	private User findUserByEmail(String email) throws UserNotFoundException {
@@ -199,7 +217,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		if (userResponseObj != null) {
 			response = platformAdminResponse.transfer(userResponseObj, PlatformAdminOnBoardingResponseDto.class);
 
-			response.setMessage(messageProperties.getSaveMessage());
+		//	response.setMessage(messageProperties.getSaveMessage());
 
 		} else {
 			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());

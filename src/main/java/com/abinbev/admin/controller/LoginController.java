@@ -1,6 +1,8 @@
 package com.abinbev.admin.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -36,7 +38,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/loginController/v1")
 public class LoginController {
 
-	static Logger log = Logger.getLogger(LoginController.class); 
+	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 	
 	@Autowired
 	LoginService loginService;
@@ -54,7 +56,7 @@ public class LoginController {
 	public ResponseEntity<PermissionResponseDto> login(@RequestBody LoginDto loginDto)
 			throws PermissionCreationFailureException {
 
-		log.debug("Request to login " + loginDto);
+		log.debug("Request to login {}",  loginDto);
 		loginService.login(loginDto);
 		return ResponseEntity.ok().body(null);
 	}
