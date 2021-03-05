@@ -90,6 +90,16 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 
 		return error;
 	}
+	
+	@ExceptionHandler(UserAlreadyExistsException.class)
+	@ResponseStatus(value = HttpStatus.CONFLICT)
+	public @ResponseBody ApiError handleEmailExist(final UserAlreadyExistsException exception,
+			final HttpServletRequest request) {
+		ApiError error = new ApiError();
+		error.setMessage(exception.getMessage());
+
+		return error;
+	}
 
 	@ExceptionHandler(UserCreationFailureException.class)
 	public @ResponseBody ApiError handleUserCreationFailure(final UserCreationFailureException exception,
