@@ -3,7 +3,6 @@ package com.abinbev.admin.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -59,9 +58,7 @@ public class SpringFoxConfig extends WebMvcConfigurationSupport {
 	  "/admin/swagger-resources/configuration/security",
 	  "/swagger-resources/configuration/security");
 	  registry.addRedirectViewController("/admin/swagger-resources",
-	  "/swagger-resources");
-	 
- }
+	  "/swagger-resources"); }
 	
 }
 
