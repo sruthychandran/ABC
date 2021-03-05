@@ -17,6 +17,10 @@ import com.abinbev.admin.exception.RoleCreationFailureException;
 import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.RoleDto;
+import com.abinbev.admin.responseDto.BasicResponse;
+import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
+import com.abinbev.admin.responseDto.ErrorResponse;
+import com.abinbev.admin.responseDto.PermissionResponseDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.utility.MapperUtil;
@@ -38,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
 	 * In this method we can create a role
 	 */
 	@Override
-	public RoleResponseDto saveRole(RoleDto roleDto) throws RoleCreationFailureException {
+	public 	BasicResponse<RoleResponseDto> saveRole(RoleDto roleDto) throws RoleCreationFailureException {
 		RoleResponseDto response = null;
 		Role role = roleMapper.transfer(roleDto, Role.class);
 
@@ -48,12 +52,15 @@ public class RoleServiceImpl implements RoleService {
 		if (roleResponseObj != null) {
 
 			response = roleResponse.transfer(roleResponseObj, RoleResponseDto.class);
-			response.setMessage(messageProperties.getSaveMessage());
+		
 		} else {
 			throw new RoleCreationFailureException(messageProperties.getUserSaveFailureMessage());
 		}
-
-		return response;
+		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
+		basicResponse.setMessage(messageProperties.getSaveMessage());
+		basicResponse.setData(response);
+		return basicResponse;
+	
 
 	}
 
@@ -65,10 +72,9 @@ public class RoleServiceImpl implements RoleService {
 
 		Role role = findRoleByRoleId(roleId);
 
-		//role.setStatus(messageProperties.getInactiveStatus());
-		//role.setModifiedDate(new Date());
+		
 		roleDAO.deleteRole(role);
-		//roleDAO.save(role);
+		
 
 	}
 
@@ -76,8 +82,8 @@ public class RoleServiceImpl implements RoleService {
 	 * In this method we can list all roles
 	 */
 	@Override
-	public Page<RoleResponseDto> getAllRoles(Pageable pageable) {
-
+	public BasicResponse<Page<RoleResponseDto>> getAllRoles(Pageable pageable) {
+		BasicResponse<Page<RoleResponseDto>> basicResponse = new BasicResponse<Page<RoleResponseDto>>();
 		Page<RoleResponseDto> roleResponsePage = null;
 
 		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
@@ -94,9 +100,16 @@ public class RoleServiceImpl implements RoleService {
 
 				roleResponsePage = new PageImpl<RoleResponseDto>(roleResponseList, pageable, roles.getContent().size());
 
+			}else {
+				ErrorResponse error = new ErrorResponse("10008", "no content");
+				basicResponse.setError(error);
+				return basicResponse;
 			}
-
-			return roleResponsePage;
+			basicResponse.setData(roleResponsePage );
+			return basicResponse;
+			
+			
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -113,7 +126,7 @@ public class RoleServiceImpl implements RoleService {
 	 * @throws RoleUpdationFailureException
 	 */
 	@Override
-	public RoleResponseDto updateRole(RoleDto roleDto) throws RoleNotFoundException, RoleUpdationFailureException {
+	public BasicResponse<RoleResponseDto> updateRole(RoleDto roleDto) throws RoleNotFoundException, RoleUpdationFailureException {
 		RoleResponseDto response = null;
 		Role existingRole = roleDAO.findById(roleDto.getId());
 		if (existingRole == null) {
@@ -134,12 +147,15 @@ public class RoleServiceImpl implements RoleService {
 		if (roleResponseObj != null) {
 			response = roleResponse.transfer(roleResponseObj, RoleResponseDto.class);
 
-			response.setMessage(messageProperties.getUpdationMessage());
+		
 		} else {
 			throw new RoleUpdationFailureException(messageProperties.getRoleUpdateFailureMessage());
 		}
-
-		return response;
+		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
+		basicResponse.setMessage(messageProperties.getUpdationMessage());
+		basicResponse.setData(response);
+		return basicResponse;
+	
 
 	}
 
@@ -147,11 +163,15 @@ public class RoleServiceImpl implements RoleService {
 	 * In this method we can get a role by role id
 	 */
 	@Override
-	public RoleResponseDto getRole(String roleId) throws RoleNotFoundException {
+	public BasicResponse<RoleResponseDto> getRole(String roleId) throws RoleNotFoundException {
 		Role existingRole = findRoleByRoleId(roleId);
 
 		RoleResponseDto response = roleResponse.transfer(existingRole, RoleResponseDto.class);
-		return response;
+		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
+		
+		basicResponse.setData(response);
+		return basicResponse;
+		
 	}
 
 	private Role findRoleByRoleId(String roleId) throws RoleNotFoundException {

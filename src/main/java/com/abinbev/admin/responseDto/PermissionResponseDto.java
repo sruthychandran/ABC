@@ -21,7 +21,8 @@ public class PermissionResponseDto {
 	private String createdBy;
 	private Date modifiedDate;
 	private String modifiedBy;
+	private String status;
 	private String roleId;
-	private String message;
+
 
 }

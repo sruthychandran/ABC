@@ -17,7 +17,9 @@ import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
+import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
+import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.MapperUtil;
 
@@ -38,9 +40,9 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	 * In this method we create a category service
 	 */
 	@Override
-	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto categoryServiceDto)
+	public BasicResponse<CategoryServiceResponseDto> saveCategoryService(CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceCreationFailureException {
-		CategoryServiceResponseDto response = null;
+		CategoryServiceResponseDto categoryServiceResponseObj = null;
 		CategoryService categoryService = categoryServiceMapper.transfer(categoryServiceDto, CategoryService.class);
 		categoryService.setStatus(messageProperties.getActiveStatus());
 		categoryService.setCreatedDate(new Date());
@@ -48,23 +50,27 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 		if (categoryServiceObj != null) {
 
-			response = categoryServiceResponse.transfer(categoryServiceObj, CategoryServiceResponseDto.class);
-			response.setMessage(messageProperties.getSaveMessage());
+			categoryServiceResponseObj = categoryServiceResponse.transfer(categoryServiceObj,
+					CategoryServiceResponseDto.class);
 		} else {
 			throw new CategoryServiceCreationFailureException(messageProperties.getCategoryServiceSaveFailureMessage());
 		}
 
-		return response;
+		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
+		basicResponse.setMessage(messageProperties.getSaveMessage());
+		basicResponse.setData(categoryServiceResponseObj);
+
+		return basicResponse;
 	}
 
 	/**
 	 * In this method we update a category service
 	 */
 	@Override
-	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto)
+	public BasicResponse<CategoryServiceResponseDto> updateCategoryService(CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
 
-		CategoryServiceResponseDto response = null;
+		CategoryServiceResponseDto categoryServiceResponseObj = null;
 		CategoryService existingCategoryService = categoryDAO.findById(categoryServiceDto.getId());
 
 		if (existingCategoryService == null) {
@@ -80,15 +86,17 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		categoryService.setModifiedDate(new Date());
 		CategoryService categoryServiceObj = categoryDAO.save(categoryService);
 		if (categoryServiceObj != null) {
-			response = categoryServiceResponse.transfer(categoryServiceObj, CategoryServiceResponseDto.class);
+			categoryServiceResponseObj = categoryServiceResponse.transfer(categoryServiceObj,
+					CategoryServiceResponseDto.class);
 
-			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
 			throw new CategoryServiceUpdationFailureException(
 					messageProperties.getCategoryServiceUpdateFailureMessage());
 		}
-
-		return response;
+		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
+		basicResponse.setMessage(messageProperties.getUpdationMessage());
+		basicResponse.setData(categoryServiceResponseObj);
+		return basicResponse;
 
 	}
 
@@ -96,7 +104,8 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	 * In this method we list all the category services
 	 */
 	@Override
-	public Page<CategoryServiceResponseDto> getAllCategoryServices(Pageable pageable) {
+	public BasicResponse<Page<CategoryServiceResponseDto>> getAllCategoryServices(Pageable pageable) {
+		BasicResponse<Page<CategoryServiceResponseDto>> basicResponse = new BasicResponse<Page<CategoryServiceResponseDto>>();
 		Page<CategoryService> categoryServicePage = categoryDAO.getAllCategoryServices(pageable);
 
 		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<CategoryServiceResponseDto>();
@@ -105,11 +114,16 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 				categoryServiceResponseList
 						.add(categoryServiceResponse.transfer(result, CategoryServiceResponseDto.class));
 			}
+		} else {
+			ErrorResponse error = new ErrorResponse("10008", "no content");
+			basicResponse.setError(error);
+			return basicResponse;
 		}
 
 		Page<CategoryServiceResponseDto> categoryResponsePage = new PageImpl<CategoryServiceResponseDto>(
 				categoryServiceResponseList, pageable, categoryServicePage.getContent().size());
-		return categoryResponsePage;
+		basicResponse.setData(categoryResponsePage);
+		return basicResponse;
 
 	}
 
@@ -135,21 +149,19 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 	 */
 
 	@Override
-	public CategoryServiceResponseDto findById(String id) throws CategoryServiceNotFoundException {
+	public BasicResponse<CategoryServiceResponseDto> findById(String id) throws CategoryServiceNotFoundException {
 		CategoryService existingCategoryService = categoryDAO.findById(id);
 		if (existingCategoryService == null) {
 			throw new CategoryServiceNotFoundException(messageProperties.getCategoryServiceNotFoundMessage());
 		}
-		CategoryServiceResponseDto categoryServiceResponseObj = categoryServiceResponse.transfer(existingCategoryService,
-				CategoryServiceResponseDto.class);
-		return categoryServiceResponseObj;
-	}
-	
+		CategoryServiceResponseDto categoryServiceResponseObj = categoryServiceResponse
+				.transfer(existingCategoryService, CategoryServiceResponseDto.class);
 
-	@Override
-	public CategoryServiceResponseDto findByCategoryId(String categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
+		//basicResponse.setMessage();
+		basicResponse.setData(categoryServiceResponseObj);
+
+		return basicResponse;
 	}
 
 }

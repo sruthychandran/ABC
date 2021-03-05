@@ -10,23 +10,24 @@ import com.abinbev.admin.exception.CategoryServiceCreationFailureException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
 import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
+import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 
 public interface CategoryServiceService {
 
-	public CategoryServiceResponseDto saveCategoryService(CategoryServiceDto CategoryServiceDto)
+	public BasicResponse<CategoryServiceResponseDto> saveCategoryService(CategoryServiceDto CategoryServiceDto)
 			throws CategoryServiceCreationFailureException;
 
-	public CategoryServiceResponseDto updateCategoryService(CategoryServiceDto categoryServiceDto)
+	public BasicResponse<CategoryServiceResponseDto> updateCategoryService(CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceNotFoundException, CategoryServiceUpdationFailureException;
 
-	public Page<CategoryServiceResponseDto> getAllCategoryServices(Pageable pageable);
+	public BasicResponse<Page<CategoryServiceResponseDto>> getAllCategoryServices(Pageable pageable);
 
 	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException;
 
-	public CategoryServiceResponseDto findById(String id) throws CategoryServiceNotFoundException;
+	public BasicResponse<CategoryServiceResponseDto> findById(String id) throws CategoryServiceNotFoundException;
 
-	public CategoryServiceResponseDto findByCategoryId(String categoryId);
+	//public BasicResponse<CategoryServiceResponseDto> findByCategoryId(String categoryId);
 
-	//public HashMap<String, List<Object>> findModulesByCategoryId(String categoryId);
+	
 }

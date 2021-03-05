@@ -2,7 +2,9 @@ package com.abinbev.admin.controller;
 
 import javax.validation.Valid;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+//import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +29,7 @@ import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
@@ -33,11 +37,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
-@RequestMapping("/platform-admin/v1")
+@RequestMapping("/platformAdminController/v1")
 public class PlatformAdminController {
-	
-	static Logger log = Logger.getLogger(CategoryServiceController.class);
 
+	
+
+	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 
 	@Autowired
 	PlatformAdminService platformAdminService;
@@ -50,13 +55,14 @@ public class PlatformAdminController {
 	 * @throws EmailExistException
 	 * @throws UserCreationFailureException
 	 */
-	@PostMapping("/createUser")
-	public ResponseEntity<UserResponseDto> createUsers(@Valid @RequestBody UserDto userDto)
+
+	@PostMapping("/user")
+	public ResponseEntity<BasicResponse<UserResponseDto>> createUsers(@Valid @RequestBody UserDto userDto)
 			throws EmailExistException, UserCreationFailureException {
 
 		log.debug("Request to create user " + userDto);
-		UserResponseDto result = platformAdminService.saveUser(userDto);
-
+		BasicResponse<UserResponseDto> result = platformAdminService.saveUser(userDto);
+		
 		return ResponseEntity.ok().body(result);
 
 	}
@@ -71,14 +77,16 @@ public class PlatformAdminController {
 	 * @throws UserNotFoundException
 	 * @throws UserUpdationFailureException
 	 */
-	@PutMapping("/updateUser")
-	public ResponseEntity<UserResponseDto> updateUsers(@RequestBody UserDto userDto)
+
+	@PutMapping("/user")
+	public ResponseEntity<BasicResponse<UserResponseDto>> updateUsers(@RequestBody UserDto userDto)
 			throws BadRequestAlertException, UserNotFoundException, UserUpdationFailureException {
-		
+
 		log.debug("Request to update user " + userDto);
 		if (userDto.getEmailId() == null)
 			throw new BadRequestAlertException("Invalid email");
-		UserResponseDto result = platformAdminService.updateUser(userDto);
+		BasicResponse<UserResponseDto> result = platformAdminService.updateUser(userDto);
+		
 		return ResponseEntity.ok().body(result);
 	}
 
@@ -88,17 +96,23 @@ public class PlatformAdminController {
 	 * @return List<UserResponseDto>
 	 * @throws BadRequestAlertException
 	 */
-	@GetMapping("/getAllUsers")
-	public ResponseEntity<Page<UserResponseDto>> getAllUsers(@RequestParam(required = false, defaultValue = "0") int page,
+
+	@GetMapping("/user")
+	public ResponseEntity<BasicResponse<Page<UserResponseDto>>> getAllUsers(
+
+			@RequestParam(required = false, defaultValue = "0") int page,
+
 			@RequestParam(required = false, defaultValue = "10") int size,
+
 			@RequestParam(required = false, defaultValue = "desc") String sort,
+
 			@RequestParam(required = false, defaultValue = "id") String sortBy) throws BadRequestAlertException {
 		log.debug("Request to get all users ");
 		Pageable pageable = PageRequest.of(page, size,
 				Sort.by(sort.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy));
 
-		
-		Page<UserResponseDto> result = platformAdminService.getAllUsers(pageable);
+		BasicResponse<Page<UserResponseDto>> result = platformAdminService.getAllUsers(pageable);
+	
 		return ResponseEntity.ok().body(result);
 	}
 
@@ -109,7 +123,8 @@ public class PlatformAdminController {
 	 * @return
 	 * @throws UserNotFoundException
 	 */
-	@GetMapping("/deleteUser/{emailId}")
+
+	@DeleteMapping("/user/{emailId}")
 	public ResponseEntity<Void> deleteUser(@PathVariable String emailId) throws UserNotFoundException {
 		log.debug("Request to delete a user " + emailId);
 		platformAdminService.deleteUser(emailId);
@@ -124,11 +139,13 @@ public class PlatformAdminController {
 	 * @throws JsonMappingException
 	 * @throws JsonProcessingException
 	 */
-	@GetMapping("/getUser/{emailId}")
-	public ResponseEntity<UserResponseDto> getUserByEmailId(@PathVariable String emailId)
+
+	@GetMapping("/user/{emailId}")
+	public ResponseEntity<BasicResponse<UserResponseDto>> getUserByEmailId(@PathVariable String emailId)
 			throws JsonMappingException, JsonProcessingException, UserNotFoundException {
 		log.debug("Request to get a user " + emailId);
-		UserResponseDto result = platformAdminService.findByEmailId(emailId);
+		BasicResponse<UserResponseDto> result = platformAdminService.findByEmailId(emailId);
+	
 		return ResponseEntity.ok().body(result);
 	}
 
@@ -140,16 +157,22 @@ public class PlatformAdminController {
 	 * @throws EmailExistException
 	 * @throws UserCreationFailureException
 	 */
-	@PostMapping("/onboardPlatformAdmin")
-	public ResponseEntity<PlatformAdminOnBoardingResponseDto> createPlatformAdmin(
-			@Valid @RequestBody PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
-			throws EmailExistException, UserCreationFailureException {
-		log.debug("Request to onboard patform Admin");
+	/*
+	 * @PostMapping("/onboardPlatformAdmin") public
+	 * ResponseEntity<BasicResponse<PlatformAdminOnBoardingResponseDto>>
+	 * createPlatformAdmin(
+	 * 
+	 * @Valid @RequestBody PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
+	 * throws EmailExistException, UserCreationFailureException {
+	 * log.debug("Request to onboard patform Admin");
+	 * 
+	 * BasicResponse<PlatformAdminOnBoardingResponseDto>
+	 * platformAdminOnBoardingResponse = platformAdminService
+	 * .savePlatformAdmin(platformAdminOnBoardingDto);
+	 * 
+	 * return ResponseEntity.ok().body(platformAdminOnBoardingResponse);
+	 * 
+	 * }
+	 */
 
-		PlatformAdminOnBoardingResponseDto platformAdminOnBoardingResponse  = platformAdminService.savePlatformAdmin(platformAdminOnBoardingDto);
-
-
-		return ResponseEntity.ok().body(platformAdminOnBoardingResponse);
-
-	}
 }

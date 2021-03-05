@@ -144,27 +144,6 @@ public class RoleControllerTests {
 	}
 
 
-	/*
-	 * @Test public void deleteCategoryservicesById_success() throws Exception {
-	 * 
-	 * ObjectMapper mapper = new ObjectMapper();
-	 * 
-	 * String URI = "/categoryServices/v1/deleteCategoryService/sdfghjkl";
-	 * 
-	 * RequestBuilder requestBuilder =
-	 * MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON)
-	 * .contentType(MediaType.APPLICATION_JSON);
-	 * 
-	 * MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-	 * MockHttpServletResponse response = mvcResult.getResponse();
-	 * 
-	 * CategoryServiceResponseDto result =
-	 * mapper.readValue(mvcResult.getResponse().getContentAsString(),
-	 * CategoryServiceResponseDto.class);
-	 * 
-	 * }
-	 */
-
 	@Test
 	void getRolesById_throws_NotFoundException() throws Exception {
 

@@ -29,5 +29,4 @@ public class UserResponseDto {
 	private String createdBy;
 	private Date modifiedDate;
 	private String modifiedBy;
-	private String message;
 }

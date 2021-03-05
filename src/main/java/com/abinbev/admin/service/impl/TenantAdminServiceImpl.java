@@ -18,6 +18,8 @@ import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.UserDto;
+import com.abinbev.admin.responseDto.BasicResponse;
+import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.TenantAdminService;
 import com.abinbev.admin.utility.MapperUtil;
@@ -40,7 +42,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	 * In this method tenant admin can create a user
 	 */
 	@Override
-	public UserResponseDto saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException {
+	public BasicResponse<UserResponseDto> saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 		if (emailExist(user.getEmailId())) {
@@ -53,12 +55,15 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 		if (userResponseObj != null) {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
-			response.setMessage(messageProperties.getSaveMessage());
 		} else {
 			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
 		}
+		
+		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
+		basicResponse.setMessage(messageProperties.getSaveMessage());
+		basicResponse.setData(response);
 
-		return response;
+		return basicResponse;
 
 	}
 
@@ -78,7 +83,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	 * @throws UserUpdationFailureException
 	 */
 	@Override
-	public UserResponseDto updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
+	public BasicResponse<UserResponseDto> updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 
@@ -94,12 +99,14 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 		if (userResponseObj != null) {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
-			response.setMessage(messageProperties.getUpdationMessage());
 		} else {
 			throw new UserUpdationFailureException(messageProperties.getUserUpdateFailureMessage());
 		}
+		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
+		basicResponse.setMessage(messageProperties.getSaveMessage());
+		basicResponse.setData(response);
 
-		return response;
+		return basicResponse;
 
 	}
 
@@ -107,7 +114,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	 * In this method tenant admin can list all users
 	 */
 	@Override
-	public Page<UserResponseDto> getAllUsers(Pageable pageable) {
+	public BasicResponse<Page<UserResponseDto>> getAllUsers(Pageable pageable) {
 		Page<UserResponseDto> userResponsePage = null;
 
 		List<UserResponseDto> userResponses = new ArrayList<UserResponseDto>();
@@ -127,7 +134,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 			
 			}
 		
-			return userResponsePage;
+			//return userResponsePage;
 		} catch (Exception ex) {
 
 		} finally {
@@ -155,10 +162,11 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	 * @throws UserNotFoundException
 	 */
 	@Override
-	public UserResponseDto findByEmailId(String emailId) throws UserNotFoundException {
+	public BasicResponse<UserResponseDto> findByEmailId(String emailId) throws UserNotFoundException {
 		User user = findUserByEmail(emailId);
 		UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
-		return response;
+		//return response;
+		return null;
 	}
 
 	private User findUserByEmail(String email) throws UserNotFoundException {
