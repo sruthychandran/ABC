@@ -24,6 +24,7 @@ public class User {
 	private String emailId;
 	private String firstName;
 	private String lastName;
+	private String password;
 	private Long phoneNo;
 	private String roleId;
 	private List<CategoryDto> categories;

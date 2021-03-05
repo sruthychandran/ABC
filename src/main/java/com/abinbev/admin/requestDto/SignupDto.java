@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto {
+public class SignupDto {
 	
 	@NotNull
 	private String username;
-	@NotNull
 	private String password;
-
-
+	private String reEnterPassword;
 }
