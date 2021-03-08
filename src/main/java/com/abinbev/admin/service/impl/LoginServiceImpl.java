@@ -9,12 +9,14 @@ import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.UserDAO;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.UserAlreadyExistsException;
+import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.LoginDto;
 import com.abinbev.admin.requestDto.SignupDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.EmailService;
 import com.abinbev.admin.service.LoginService;
+import com.abinbev.admin.utility.EncryptionUtil;
 import com.abinbev.admin.utility.ErrorCodes;
 import com.abinbev.admin.utility.MapperUtil;
 
@@ -23,6 +25,9 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	EmailService emailService;
+
+	@Autowired
+	EncryptionUtil encryptionUtil;
 
 	@Autowired
 	UserDAO userDAO;
@@ -39,6 +44,8 @@ public class LoginServiceImpl implements LoginService {
 		UserResponseDto response = null;
 
 		User user = userDAO.findByEmail(loginDto.getUsername());
+
+		user.setPassword(encryptionUtil.decrypt(user.getPassword()));
 
 		if (user != null && user.getPassword().contentEquals(loginDto.getPassword())) {
 
@@ -61,29 +68,32 @@ public class LoginServiceImpl implements LoginService {
 
 		User user = userDAO.findByEmail(signupDto.getUsername());
 
-		if (user.getPassword() == null) {
+		if (user != null) {
 
-			user.setId(user.getId());
-			user.setCreatedBy(user.getCreatedBy());
-			user.setCreatedDate(user.getCreatedDate());
-			user.setStatus(user.getStatus());
-			user.setModifiedBy(user.getEmailId());
-			user.setModifiedDate(new Date());
+			if (user.getPassword() == null) {
 
-			user.setPassword(signupDto.getPassword());
-			userDAO.save(user);
+				user.setId(user.getId());
+				user.setCreatedBy(user.getCreatedBy());
+				user.setCreatedDate(user.getCreatedDate());
+				user.setStatus(user.getStatus());
+				user.setModifiedBy(user.getEmailId());
+				user.setModifiedDate(new Date());
 
-			response = userResponse.transfer(user, UserResponseDto.class);
+				user.setPassword(encryptionUtil.encrypt(signupDto.getPassword()));
+				userDAO.save(user);
 
-			basicResponse = new BasicResponse<UserResponseDto>();
-			basicResponse.setMessage(messageProperties.getSignupSuccessMessage());
-			basicResponse.setData(response);
+				response = userResponse.transfer(user, UserResponseDto.class);
 
-		}
+				basicResponse = new BasicResponse<UserResponseDto>();
+				basicResponse.setMessage(messageProperties.getSignupSuccessMessage());
+				basicResponse.setData(response);
 
-		else
-			throw new UserAlreadyExistsException(errorCodes.getEmailExist());
+			}
 
+			else
+				throw new UserAlreadyExistsException(errorCodes.getEmailExist());
+		} else
+			throw new UserNotFoundException(errorCodes.getUserNotFound());
 		return basicResponse;
 	}
 

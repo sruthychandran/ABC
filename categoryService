@@ -1,0 +1,287 @@
+[{
+  "_id": {
+    "$oid": "6045da6e946bee0824ed15ed"
+  },
+  "categoryId": "PS",
+  "categoryName": "Platform Service",
+  "moduleId": "CM",
+  "moduleName": "Chat Module",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:03:58.798Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045da99946bee0824ed15ee"
+  },
+  "categoryId": "PS",
+  "categoryName": "Platform Service",
+  "moduleId": "NM",
+  "moduleName": "Notification Module",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:04:41.666Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045daa4946bee0824ed15ef"
+  },
+  "categoryId": "PS",
+  "categoryName": "Platform Service",
+  "moduleId": "SM",
+  "moduleName": "Support Module",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:04:52.827Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045daba946bee0824ed15f0"
+  },
+  "categoryId": "PS",
+  "categoryName": "Platform Service",
+  "moduleId": "KBM",
+  "moduleName": "K-Hub Module",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:05:14.450Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045dad9946bee0824ed15f1"
+  },
+  "categoryId": "PS",
+  "categoryName": "Platform Service",
+  "moduleId": "RM",
+  "moduleName": "Recommendations Module",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:05:45.871Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045dae5946bee0824ed15f2"
+  },
+  "categoryId": "PS",
+  "categoryName": "Platform Service",
+  "moduleId": "GM",
+  "moduleName": "Global Search Module",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:05:57.899Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045db07946bee0824ed15f3"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "VP",
+  "moduleName": "View Products",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:06:31.673Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045db1c946bee0824ed15f4"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "MPA",
+  "moduleName": "Manage Product Attributes",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:06:52.496Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045db27946bee0824ed15f5"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "MPP",
+  "moduleName": "Manage Product Profile",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:07:03.397Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045dc61946bee0824ed15f6"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "MPAS",
+  "moduleName": "Manage Product Approvals",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:12:17.558Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045dc81946bee0824ed15f7"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "MMC",
+  "moduleName": "Manage Maker-Checker",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:12:49.953Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045dc98946bee0824ed15f8"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "PP",
+  "moduleName": "Publish Product",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:13:12.397Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045dca3946bee0824ed15f9"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "BP",
+  "moduleName": "Block Product",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:13:23.664Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045de44946bee0824ed15fa"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "PAS",
+  "moduleName": "Publish API Service",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:20:20.188Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045de4e946bee0824ed15fb"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "BAS",
+  "moduleName": "Block API Service",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:20:30.615Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045de5f946bee0824ed15fc"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "PE",
+  "moduleName": "Publish Events",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:20:47.639Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045de6a946bee0824ed15fd"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "BE",
+  "moduleName": "Block Events",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:20:58.544Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045df28946bee0824ed15fe"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "IU",
+  "moduleName": "Invite Users",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:24:08.244Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045df42946bee0824ed15ff"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "NS",
+  "moduleName": "Notification Services",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:24:34.031Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045df4e946bee0824ed1600"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "MS",
+  "moduleName": "Mailing Services",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:24:46.099Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045df61946bee0824ed1601"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "PA",
+  "moduleName": "Permission Assignment",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:25:05.843Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+},{
+  "_id": {
+    "$oid": "6045df82946bee0824ed1602"
+  },
+  "categoryId": "CS",
+  "categoryName": "Core Service",
+  "moduleId": "OS",
+  "moduleName": "Other Product Settings",
+  "status": "active",
+  "createdDate": {
+    "$date": "2021-03-08T08:25:38.425Z"
+  },
+  "_class": "com.abinbev.admin.entity.CategoryService"
+}]

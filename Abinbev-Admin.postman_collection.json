@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\"emailId\": \"abdul.r@gmail.com\",\n\"firstName\" : \"abdul\",\n\"lastName\" : \"rafeek\",\n\"phoneNo\": 8098854473,\n\"roleId\": \"TA\",\n\"category\" : [\n    {\"categoryId\" : \"PLS\",\n\n     \"moduleId\" :[\n         \"NI\",\"K-HUB\"\n                  ]\n\n\n    },\n    {\"categoryId\" : \"CS\",\n\n     \"moduleId\" :[\n         \"AT\",\"AB\"\n                  ]\n\n\n    },\n        {\n            \"categoryId\": \"PS\",\n\n            \"moduleId\": [\n                \"XYZ\",\n                \"ABC\"\n            ]\n        }\n     \n],\n    \"createdDate\": \"2021-02-11T03:11:08.872+00:00\",\n    \"createdBy\": \"abdul.r@heptagon.in\"\n    \n}\n\n",
+							"raw": "{\n \"emailId\": \"l@gmaipppl.com\",\n  \"firstName\": \"first name is required\",\n\"lastName\" : \"ks\",\n\"phoneNo\": 8098854473,\n\"roleId\": \"EU\",\n\n\"categories\" : [\n    {\"categoryId\" : \"UM\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"CU\",\"subModules\":[\"TA-add\",\"EU-Add\"]}\n                 ]\n\n     },\n {\"categoryId\" : \"MCR\",\n\n     \"modules\" :[]\n\n     },\n {\"categoryId\" : \"MPR\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"SUR\",\"subModules\":[]}\n                   \n                  \n                  ]\n\n     }\n]\n    \n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,7 +23,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/admin/platform-admin/updateUser",
+							"raw": "http://localhost:8080/admin/platform-admin/v1updateUser",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -32,7 +32,7 @@
 							"path": [
 								"admin",
 								"platform-admin",
-								"updateUser"
+								"v1updateUser"
 							]
 						}
 					},
@@ -45,7 +45,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"roleId\" : \"EU\",\n\"roleName\" : \"End User\",\n\"userRole\":\"TA\"\n}",
+							"raw": "{\n\"roleId\" : \"EU1\",\n\"roleName\" : \"End User1\",\n\"userRole\":\"EU1\",\n\"RoleDescription\":\"End User1\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -53,7 +53,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/admin/roles/createRole",
+							"raw": "http://localhost:8080/admin/roleController/v1/role",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -61,8 +61,9 @@
 							"port": "8080",
 							"path": [
 								"admin",
-								"roles",
-								"createRole"
+								"roleController",
+								"v1",
+								"role"
 							]
 						}
 					},
@@ -75,7 +76,38 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"emailId\": \"abdul.rfff@gmail.com\",\n\"firstName\" : \"abdul\",\n\"lastName\" : \"rafeek\",\n\"phoneNo\": 8098854473,\n\"roles\": [\"TA\",\"DA\",\"PA\"],\n\"categories\" : [\n    {\"categoryId\" : \"PLS\",\n\n     \"moduleId\" :[\n         \"NI\",\"K-HUB\"\n                  ]\n\n\n    },\n    {\"categoryId\" : \"CS\",\n\n     \"moduleId\" :[\n         \"AT\",\"AB\"\n                  ]\n\n\n    },\n        {\n            \"categoryId\": \"PS\",\n\n            \"moduleId\": [\n                \"XYZ\",\n                \"ABC\"\n            ]\n        }\n     \n]\n    \n}\n\n",
+							"raw": "{\n  \"emailId\": \"sruthykc2@gmail.com\",\n  \"firstName\": \"sruthy\",\n\"lastName\" : \"ks\",\n\"phoneNo\": 8098854473,\n\"roleId\": \"EU\",\n\n\"categories\" : [\n    {\"categoryId\" : \"UM\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"CU\",\"subModules\":[\"TA-add\",\"EU-Add\"]}\n                 ]\n\n     },\n {\"categoryId\" : \"MCR\",\n\n     \"modules\" :[]\n\n     },\n {\"categoryId\" : \"MPR\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"SUR\",\"subModules\":[]}\n                   \n                  \n                  ]\n\n     }\n]\n    \n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/platformAdminController/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"platformAdminController",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"emailId\": \"jio@gmaipppl.com\",\n  \"firstName\": \"first name is mandatory\",\n\"lastName\" : \"ks\",\n\"phoneNo\": 8098854473,\n\"roleId\": \"EU\",\n\n\"categories\" : [\n    {\"categoryId\" : \"UM\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"CU\",\"subModules\":[\"TA-add\",\"EU-Add\"]}\n                 ]\n\n     },\n {\"categoryId\" : \"MCR\",\n\n     \"modules\" :[]\n\n     },\n {\"categoryId\" : \"MPR\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"SUR\",\"subModules\":[]}\n                   \n                  \n                  ]\n\n     }\n]\n    \n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -99,13 +131,13 @@
 					"response": []
 				},
 				{
-					"name": "createCategoryService",
+					"name": "onboardPlatform-admin",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"categoryId\" : \"EES\",\n    \"categoryName\" :\"Core Services\",\n    \"moduleId\" : \"AT\",\n    \"moduleName\":\"Audit Trail Service \",\n    \"userRole\":\"TA\"\n}\n\n",
+							"raw": "{\n  \"emailId\": \"l@gmaipppl.com\",\n  \"firstName\": \"first name is mandatory\",\n\"lastName\" : \"ks\",\n\"phoneNo\": 8098854473,\n\"roleId\": \"EU\",\n\n\"categories\" : [\n    {\"categoryId\" : \"UM\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"CU\",\"subModules\":[\"TA-add\",\"EU-Add\"]},\n                   {\"moduleId\":\"UU\",\"subModules\":[\"EU-Add\"]},\n                   {\"moduleId\":\"DU\",\"subModules\":[\"EU-Add\"]},\n                   {\"moduleId\":\"BU\",\"subModules\":[]},\n                   {\"moduleId\":\"MPP\",\"subModules\":[]}\n                  ]\n\n     },\n {\"categoryId\" : \"MCR\",\n\n     \"modules\" :[]\n\n     },\n {\"categoryId\" : \"MPR\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"SUR\",\"subModules\":[]},\n                   {\"moduleId\":\"PSR\",\"subModules\":[]},\n                   {\"moduleId\":\"WIP\",\"subModules\":[]}\n                  \n                  ]\n\n     }\n]\n    \n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,7 +145,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/admin/categoryServices/createCategoryService",
+							"raw": "http://localhost:8080/admin/platform-admin/onboardPlatformAdmin",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -121,8 +153,39 @@
 							"port": "8080",
 							"path": [
 								"admin",
-								"categoryServices",
-								"createCategoryService"
+								"platform-admin",
+								"onboardPlatformAdmin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCategoryService",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"categoryId\": \"PS\",\n  \"categoryName\": \"Platform Service\",\n  \"moduleId\": \"CM\",\n  \"moduleName\": \"Chat Module\"\n\n   \n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/categoryController/v1/categoryService",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"categoryController",
+								"v1",
+								"categoryService"
 							]
 						}
 					},
@@ -135,7 +198,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"roleId\" : \"EU\",\n\"roleName\" : \"End User\",\n\"userRole\":\"TA\"\n}",
+							"raw": "{\n    \"id\":\"asdrty452\",\n\"roleId\" : \"xyz\",\n\"roleName\" : \"Xyz-name\",\n\"roleDescription\":\"custom role\",\n\"platformServices\": [\"platformService1\",\"platformService2\",\"platformService3\"],\n\"coreServices\": [\"coreService1\",\"coreService2\",\"coreService3\"],\n\"userRole\":\"PLA\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -143,7 +206,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/admin/roles/updateRole",
+							"raw": "http://localhost:8080/admin/roles/v1/updateRole",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -152,6 +215,7 @@
 							"path": [
 								"admin",
 								"roles",
+								"v1",
 								"updateRole"
 							]
 						}
@@ -165,7 +229,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"categoryId\" : \"CS\",\n    \"categoryName\" :\"Core Services\",\n    \"moduleId\" : \"AT\",\n    \"moduleName\":\"Audit Trail Service \",\n    \"status\":\"true\"\n}\n\n",
+							"raw": "{\"id\": \"6042226d8a4fbe2ea9cf93de\",\n  \"categoryId\": \"PS\",\n  \"categoryName\": \"Platform Service\",\n  \"moduleId\": \"SM\",\n  \"moduleName\": \"Support Module\",\n  \"userRole\": \"TA\"\n}\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -173,7 +237,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/admin/categoryServices/updateCategoryService",
+							"raw": "http://localhost:8080/admin/categoryController/v1/categoryService",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -181,8 +245,9 @@
 							"port": "8080",
 							"path": [
 								"admin",
-								"categoryServices",
-								"updateCategoryService"
+								"categoryController",
+								"v1",
+								"categoryService"
 							]
 						}
 					},
@@ -226,7 +291,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/admin/platform-admin/deleteUser/602b1c19d807bc7ceba0ab98",
+							"raw": "http://localhost:8080/admin/platform-admin/deleteUser/abdul.rtttttttf@gmail.com",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -236,7 +301,7 @@
 								"admin",
 								"platform-admin",
 								"deleteUser",
-								"602b1c19d807bc7ceba0ab98"
+								"abdul.rtttttttf@gmail.com"
 							]
 						}
 					},
@@ -270,7 +335,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/admin/roles/getAllRoles",
+							"raw": "http://localhost:8080/admin/roles/v1/getAllRoles",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -279,6 +344,7 @@
 							"path": [
 								"admin",
 								"roles",
+								"v1",
 								"getAllRoles"
 							]
 						}
@@ -379,7 +445,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/admin/platform-admin/getUser/abdul.rfff@gmail.com",
+							"raw": "http://localhost:8080/admin/platform-admin/getUser/l@gmaipppl.com",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -389,14 +455,241 @@
 								"admin",
 								"platform-admin",
 								"getUser",
-								"abdul.rfff@gmail.com"
+								"l@gmaipppl.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPermission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"permissionId\" : \"AU\",\n\"permissionName\" : \"Add User\",\n\"permissionDescription\":\"Have permission to add user\",\n\"roleId\":\"EU\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/permissionController/v1/permission",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"permissionController",
+								"v1",
+								"permission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePermission",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n     \"id\": \"603d9a44fbf4072d1741692b\",\n\"permissionId\" : \"AU\",\n\"permissionName\" : \"Add User\",\n\"permissionDescription\":\"Have permission to add the user\",\n\"roleId\":\"EU\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/permissions/v1/updatePermission",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"permissions",
+								"v1",
+								"updatePermission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllPermissions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/permissions/v1/getAllPermissions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"permissions",
+								"v1",
+								"getAllPermissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPermissionById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/permissions/v1/getPermission/AU",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"permissions",
+								"v1",
+								"getPermission",
+								"AU"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePermission",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"permissionId\" : \"DU\",\n\"permissionName\" : \"Add User\",\n\"permissionDescription\":\"Have permission to add user\",\n\"roleId\":\"EU\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/permissions/v1/deletePermission/603dc8750056987eb5185254",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"permissions",
+								"v1",
+								"deletePermission",
+								"603dc8750056987eb5185254"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"sruthy\",\n    \"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/loginController/v1/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"loginController",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"sruthy\",\n    \"password\":\"password\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/loginController/v1/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"loginController",
+								"v1",
+								"signup"
 							]
 						}
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "tenant-admin",
@@ -438,7 +731,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\"emailId\": \"abdul.rtttttttf@gmail.com\",\n\"firstName\" : \"abdul\",\n\"lastName\" : \"rafeek\",\n\"phoneNo\": 8098854473,\n\"roles\": [\"TA\",\"DA\",\"PA\"],\n\"categories\" : [\n    {\"categoryId\" : \"PLS\",\n\n     \"moduleId\" :[\n         \"NI\",\"K-HUB\"\n                  ]\n\n\n    },\n    {\"categoryId\" : \"CS\",\n\n     \"moduleId\" :[\n         \"AT\",\"AB\"\n                  ]\n\n\n    },\n        {\n            \"categoryId\": \"PS\",\n\n            \"moduleId\": [\n                \"XYZ\",\n                \"ABC\"\n            ]\n        }\n     \n]\n    \n}\n\n",
+							"raw": "{\n\n\"emailId\": \"abul.uurtttttttf@gmail.com\",\n\"firstName\" : \"abdul\",\n\"lastName\" : \"rafeek\",\n\"phoneNo\": 8098854473,\n\"roleId\": \"TA\",\n\"categories\" : [\n    {\"categoryId\" : \"UM\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"CU\",\"subModules\":[\"TA-add\",\"EU-Add\"]}\n                 ]\n\n     },\n {\"categoryId\" : \"MCR\",\n\n     \"modules\" :[]\n\n     },\n {\"categoryId\" : \"MPR\",\n\n     \"modules\" :[\n                   {\"moduleId\":\"SUR\",\"subModules\":[]}\n                   \n                  \n                  ]\n\n     }\n]\n    \n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -488,7 +781,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/admin/tenant-admin/deleteUser/602b29313c22861b594ab807",
+							"raw": "http://localhost:8080/admin/tenant-admin/deleteUser/lff@gmaipppl.com",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -498,15 +791,57 @@
 								"admin",
 								"tenant-admin",
 								"deleteUser",
-								"602b29313c22861b594ab807"
+								"lff@gmaipppl.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserByEmail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/tenant-admin/getUser/abul.uurtttttpppttf@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"tenant-admin",
+								"getUser",
+								"abul.uurtttttpppttf@gmail.com"
 							]
 						}
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "http://localhost:8080/admin/categoryServices/test/UM",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/categoryServices/test/UM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"categoryServices",
+						"test",
+						"UM"
+					]
+				}
+			},
+			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
