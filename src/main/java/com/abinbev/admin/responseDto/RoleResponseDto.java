@@ -3,7 +3,7 @@ package com.abinbev.admin.responseDto;
 import java.util.Date;
 import java.util.List;
 
-import com.abinbev.admin.requestDto.CategoryDto;
+import com.abinbev.admin.entity.CategoryDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

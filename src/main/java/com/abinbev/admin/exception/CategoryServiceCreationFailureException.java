@@ -1,9 +1,13 @@
 package com.abinbev.admin.exception;
 
-public class CategoryServiceCreationFailureException extends Exception {
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
+
+public class CategoryServiceCreationFailureException extends SaveFailureException {
 	private static final long serialVersionUID = 1L;
 
-	public CategoryServiceCreationFailureException(final String message) {
-		super(message);
+	public CategoryServiceCreationFailureException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
+		
 	}
+
 }

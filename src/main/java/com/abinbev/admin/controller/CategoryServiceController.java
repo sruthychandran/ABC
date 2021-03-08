@@ -28,6 +28,7 @@ import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
+import com.abinbev.admin.utility.ErrorCodes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -39,7 +40,8 @@ public class CategoryServiceController {
 	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 	@Autowired
 	CategoryServiceService categoryService;
-
+	@Autowired
+	  private ErrorCodes errorCodes;
 	/**
 	 * In this method we can create a category service
 	 * 
@@ -73,7 +75,7 @@ public class CategoryServiceController {
 		log.debug("Request to update category service " + categoryServiceDto);
 
 		if (categoryServiceDto.getId() == null)
-			throw new BadRequestAlertException("Invalid Id");
+			throw new BadRequestAlertException(errorCodes.getInvalidId());
 		BasicResponse<CategoryServiceResponseDto> result = categoryService.updateCategoryService(categoryServiceDto);
 
 		return ResponseEntity.ok().body(result);
@@ -114,11 +116,11 @@ public class CategoryServiceController {
 	 */
 
 	@DeleteMapping("/categoryService/{id}")
-	public void deleteCategoryService(@PathVariable String id) throws CategoryServiceNotFoundException {
+	public ResponseEntity<BasicResponse<CategoryServiceResponseDto>> deleteCategoryService(@PathVariable String id) throws CategoryServiceNotFoundException {
 
 		log.debug("Request to delete a category service " + id);
-		categoryService.deleteCategoryService(id);
-
+		BasicResponse<CategoryServiceResponseDto> result = categoryService.deleteCategoryService(id);
+		return ResponseEntity.ok().body(result);
 	}
 
 	/**
@@ -139,7 +141,7 @@ public class CategoryServiceController {
 		log.debug("Request to get a category service " + id);
 
 		if (id == null)
-			throw new BadRequestAlertException("Invalid categoryId");
+			throw new BadRequestAlertException(errorCodes.getInvalidId());
 		BasicResponse<CategoryServiceResponseDto> categoryServiceResponse = categoryService.findById(id);
 		return ResponseEntity.ok().body(categoryServiceResponse);
 	}

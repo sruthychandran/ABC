@@ -73,8 +73,9 @@ public class CategoryServiceServiceTests {
 		assertEquals("TA-Add", result.getData().getSubModuleId());
 		assertEquals("Tenant Addition", result.getData().getSubModuleName());
 		assertNotNull(result.getData().getCreatedDate());
-		assertEquals("created successfully", result.getMessage());
-		assertNull(result.getError());
+		assertEquals("Category Service created successfully ", result.getMessage());
+		assertNull(result.getError().getErrorCode());
+		assertNull(result.getError().getErrorMessage());
 
 	}
 
@@ -120,8 +121,10 @@ public class CategoryServiceServiceTests {
 		assertEquals("active", updatedCategoryService.getData().getStatus());
 		assertEquals(createdDate, updatedCategoryService.getData().getCreatedDate());
 
-		assertEquals("updated successfully", updatedCategoryService.getMessage());
+		assertEquals("Category Service updated successfully", updatedCategoryService.getMessage());
 		assertNotNull(updatedCategoryService.getData().getModifiedDate());
+		assertNull(updatedCategoryService.getError().getErrorCode());
+		assertNull(updatedCategoryService.getError().getErrorMessage());
 
 	}
 
@@ -137,7 +140,7 @@ public class CategoryServiceServiceTests {
 
 		CategoryServiceNotFoundException thrown = assertThrows(CategoryServiceNotFoundException.class,
 				() -> categoryServiceService.updateCategoryService(categoryServiceDto));
-		assertEquals("Category Service not found", thrown.getMessage());
+		assertEquals("Category Service not exists", thrown.getMessage());
 	}
 
 	@Test
@@ -200,7 +203,7 @@ public class CategoryServiceServiceTests {
 		Mockito.when(categoryServiceDAO.findById("sdfghjkl")).thenReturn(null);
 		CategoryServiceNotFoundException thrown = assertThrows(CategoryServiceNotFoundException.class,
 				() -> categoryServiceService.findById("sdfghjkl"));
-		assertEquals("Category Service not found", thrown.getMessage());
+		assertEquals("Category Service not exists", thrown.getMessage());
 
 	}
 

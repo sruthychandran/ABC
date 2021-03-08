@@ -14,7 +14,7 @@ public interface PermissionService {
 
 	public BasicResponse<PermissionResponseDto> savePermission(PermissionDto PermissionDto) throws PermissionCreationFailureException;
 
-	public void deletePermission(String permissionId) throws PermissionNotFoundException;
+	public BasicResponse<PermissionResponseDto> deletePermission(String permissionId) throws PermissionNotFoundException;
 
 	public BasicResponse<PermissionResponseDto> updatePermission(PermissionDto PermissionDto) throws PermissionNotFoundException, PermissionUpdationFailureException;
 

@@ -1,14 +1,14 @@
 package com.abinbev.admin.exception;
 
-public class UserNotFoundException extends Exception implements ErrorCode{
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
+
+public class UserNotFoundException extends NotFoundException {
+
+	public UserNotFoundException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
+
+	}
+
 	private static final long serialVersionUID = 1L;
 
-	public UserNotFoundException(final String message) {
-		super(message);
-	}
-	@Override
-	public String getErrorCode() {
-		
-		return "10005";
-	}
 }

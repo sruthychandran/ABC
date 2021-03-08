@@ -1,14 +1,13 @@
 package com.abinbev.admin.exception;
 
-public class CategoryServiceNotFoundException extends Exception  implements ErrorCode{
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
+
+public class CategoryServiceNotFoundException extends NotFoundException {
+	public CategoryServiceNotFoundException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
+		// TODO Auto-generated constructor stub
+	}
+
 	private static final long serialVersionUID = 1L;
 
-	public CategoryServiceNotFoundException(final String message) {
-		super(message);
-	}
-	@Override
-	public String getErrorCode() {
-		
-		return "10006";
-	}
 }

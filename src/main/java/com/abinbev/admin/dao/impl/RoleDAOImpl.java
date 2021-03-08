@@ -39,7 +39,7 @@ public class RoleDAOImpl implements RoleDAO {
 	}
 
 	@Override
-	public void deleteRole(Role role) {
+	public Role deleteRole(Role role) {
 
 		/*
 		 * Query query = new Query();
@@ -49,7 +49,8 @@ public class RoleDAOImpl implements RoleDAO {
 
 		role.setStatus("inactive");
 		role.setModifiedDate(new Date());
-		mongoTemplate.save(role);
+		Role result =mongoTemplate.save(role);
+		return result;
 
 	}
 	

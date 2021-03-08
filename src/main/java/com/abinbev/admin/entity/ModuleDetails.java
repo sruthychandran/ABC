@@ -1,8 +1,9 @@
-package com.abinbev.admin.requestDto;
+package com.abinbev.admin.entity;
 
 import java.util.Date;
 import java.util.List;
 
+import com.abinbev.admin.entity.User;
 import com.abinbev.admin.entity.User.UserBuilder;
 
 import lombok.AllArgsConstructor;
@@ -14,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDto {
-	private String categoryId;
-	private List<ModuleDto> modules;
+public class ModuleDetails {
+	private String moduleId;
+	private List<String> subModules;
 
 }

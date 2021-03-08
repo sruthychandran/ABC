@@ -1,4 +1,4 @@
-package com.abinbev.admin.requestDto;
+package com.abinbev.admin.entity;
 
 import java.util.Date;
 import java.util.List;
@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDto {
+public class CategoryDetails {
 	private String categoryId;
-	private List<ModuleDto> modules;
+	private List<ModuleDetails> modules;
 
 }

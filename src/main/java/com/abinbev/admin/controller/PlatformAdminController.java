@@ -33,6 +33,7 @@ import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.PlatformAdminService;
+import com.abinbev.admin.utility.ErrorCodes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -46,6 +47,9 @@ public class PlatformAdminController {
 
 	@Autowired
 	PlatformAdminService platformAdminService;
+	
+	@Autowired
+	  private ErrorCodes errorCodes;
 
 	/**
 	 * In this method a platform admin can create user
@@ -84,7 +88,7 @@ public class PlatformAdminController {
 
 		log.debug("Request to update user " + userDto);
 		if (userDto.getEmailId() == null)
-			throw new BadRequestAlertException("Invalid email");
+			throw new BadRequestAlertException(errorCodes.getInvalidEmailId());
 		BasicResponse<UserResponseDto> result = platformAdminService.updateUser(userDto);
 		
 		return ResponseEntity.ok().body(result);
@@ -157,6 +161,8 @@ public class PlatformAdminController {
 	 * @throws EmailExistException
 	 * @throws UserCreationFailureException
 	 */
+	
+	
 	/*
 	 * @PostMapping("/onboardPlatformAdmin") public
 	 * ResponseEntity<BasicResponse<PlatformAdminOnBoardingResponseDto>>
@@ -174,5 +180,7 @@ public class PlatformAdminController {
 	 * 
 	 * }
 	 */
+	 
+	 
 
 }

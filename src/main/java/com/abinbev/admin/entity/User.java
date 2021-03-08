@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.abinbev.admin.requestDto.CategoryDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +24,7 @@ public class User {
 	private String lastName;
 	private Long phoneNo;
 	private String roleId;
-	private List<CategoryDto> categories;
+	private List<CategoryDetails> categories;
 	private String status;
 	private String isPlatformSuperAdmin;
 	private Date createdDate;

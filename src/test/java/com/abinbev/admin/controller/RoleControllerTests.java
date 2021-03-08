@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
-import com.abinbev.admin.exception.RoleNotFoundException;
+//import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.RoleService;

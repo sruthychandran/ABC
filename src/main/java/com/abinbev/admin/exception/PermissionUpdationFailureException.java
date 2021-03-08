@@ -1,9 +1,13 @@
 package com.abinbev.admin.exception;
 
-public class PermissionUpdationFailureException extends Exception {
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
 
-	public PermissionUpdationFailureException(String permissionUpdateFailureMessage) {
-		// TODO Auto-generated constructor stub
+public class PermissionUpdationFailureException extends UpdationFailureException {
+	private static final long serialVersionUID = 1L;
+
+	public PermissionUpdationFailureException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
+
 	}
 
 }

@@ -22,12 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.RoleCreationFailureException;
-import com.abinbev.admin.exception.RoleNotFoundException;
+//import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.RoleService;
+import com.abinbev.admin.utility.ErrorCodes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -42,6 +43,9 @@ public class RoleController {
 	@Autowired
 	RoleService roleService;
 
+	
+	@Autowired
+	  private ErrorCodes errorCodes;
 	/**
 	 * In this method we can create a role
 	 * 
@@ -74,11 +78,11 @@ public class RoleController {
 
 	@PutMapping("/role")
 	public ResponseEntity<BasicResponse<RoleResponseDto>> updateRole(@RequestBody RoleDto roleDto)
-			throws BadRequestAlertException, RoleNotFoundException, RoleUpdationFailureException {
+			throws BadRequestAlertException, NotFoundException, RoleUpdationFailureException {
 		log.debug("Request to update role " + roleDto);
 
 		if (roleDto.getId() == null)
-			throw new BadRequestAlertException("Invalid Id");
+			throw new BadRequestAlertException(errorCodes.getInvalidId());
 		BasicResponse<RoleResponseDto> result = roleService.updateRole(roleDto);
 
 		return ResponseEntity.ok().body(result);
@@ -120,14 +124,14 @@ public class RoleController {
 	 */
 
 	@DeleteMapping("/role/{roleId}")
-	public ResponseEntity<Void> deleteRole(@PathVariable String roleId)
-			throws BadRequestAlertException, RoleNotFoundException {
+	public ResponseEntity<BasicResponse<RoleResponseDto>> deleteRole(@PathVariable String roleId)
+			throws BadRequestAlertException, NotFoundException {
 
 		log.debug("Request to delete role " + roleId);
 		if (roleId == null)
-			throw new BadRequestAlertException("Invalid roleId");
-		roleService.deleteRole(roleId);
-		return ResponseEntity.ok().build();
+			throw new BadRequestAlertException(errorCodes.getInvalidRoleId());
+		BasicResponse<RoleResponseDto> result = roleService.deleteRole(roleId);
+		return ResponseEntity.ok().body(result);
 	}
 
 	/**
@@ -142,11 +146,11 @@ public class RoleController {
 
 	@GetMapping("/role/{roleId}")
 	public ResponseEntity<BasicResponse<RoleResponseDto>> getRoleByRoleId(@PathVariable String roleId)
-			throws BadRequestAlertException, RoleNotFoundException {
+			throws BadRequestAlertException, NotFoundException {
 
 		log.debug("Request to get a role " + roleId);
 		if (roleId == null)
-			throw new BadRequestAlertException("Invalid roleId");
+			throw new BadRequestAlertException(errorCodes.getInvalidRoleId());
 		BasicResponse<RoleResponseDto> result = roleService.getRole(roleId);
 
 		return ResponseEntity.ok().body(result);

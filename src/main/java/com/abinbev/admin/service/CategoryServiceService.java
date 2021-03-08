@@ -23,7 +23,7 @@ public interface CategoryServiceService {
 
 	public BasicResponse<Page<CategoryServiceResponseDto>> getAllCategoryServices(Pageable pageable);
 
-	public void deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException;
+	public BasicResponse<CategoryServiceResponseDto> deleteCategoryService(String categoryId) throws CategoryServiceNotFoundException;
 
 	public BasicResponse<CategoryServiceResponseDto> findById(String id) throws CategoryServiceNotFoundException;
 

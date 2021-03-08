@@ -1,13 +1,13 @@
 package com.abinbev.admin.exception;
 
-public class PermissionNotFoundException extends Exception implements ErrorCode{
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
 
-	public PermissionNotFoundException( final String message) {
-		super(message);
+public class PermissionNotFoundException extends NotFoundException{
+
+	public PermissionNotFoundException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
+	
 	}
-	@Override
-	public String getErrorCode() {
-		
-		return "10004";
-	}
+
+	
 }

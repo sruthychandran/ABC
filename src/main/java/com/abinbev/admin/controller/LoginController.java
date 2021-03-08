@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.RoleCreationFailureException;
-import com.abinbev.admin.exception.RoleNotFoundException;
+//import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.exception.RoleUpdationFailureException;
 import com.abinbev.admin.requestDto.LoginDto;
 import com.abinbev.admin.requestDto.RoleDto;
@@ -34,25 +34,24 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/loginController/v1")
 public class LoginController {
 
-	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 	
-	@Autowired
-	LoginService loginService;
+	  private static final Logger log =
+	  LoggerFactory.getLogger(PermissionController.class);
+	  
+	  @Autowired LoginService loginService;
+	  
+	 /**
+		 * In this method we can create a login
+		 * 
+		 * @param loginDto
+		 * @return RoleResponseDto
+		 * @throws RoleCreationFailureException
+		 */
+			  @PostMapping("/login") public ResponseEntity<Void> login(@RequestBody
+			  LoginDto loginDto) throws RoleCreationFailureException {
+			  
+			  log.debug("Request to login {}", loginDto); loginService.login(loginDto);
+			  return ResponseEntity.ok().build(); }
+			 
 
-	/**
-	 *  In this method we can create a login
-	 * @param loginDto
-	 * @return RoleResponseDto
-	 * @throws RoleCreationFailureException
-	 */
-	@PostMapping("/login")
-	public ResponseEntity<Void> login(@RequestBody LoginDto loginDto)
-			throws RoleCreationFailureException {
-
-		log.debug("Request to login {}",  loginDto);
-		loginService.login(loginDto);
-		return ResponseEntity.ok().build();
-	}
-
-	
 }

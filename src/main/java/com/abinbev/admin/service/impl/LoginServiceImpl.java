@@ -12,15 +12,15 @@ import com.abinbev.admin.service.LoginService;
 public class LoginServiceImpl implements LoginService {
 
 	
-	@Autowired
-	EmailService emailService;
 	
-	
-	@Override
-	public void login(LoginDto loginDto) {
-		
-		emailService.sendWelcomeMail(loginDto.getEmailId(), loginDto.getFirstName());
-	}
+	  @Autowired EmailService emailService;
+	  
+	  
+	  @Override public void login(LoginDto loginDto) {
+	  
+	  emailService.sendWelcomeMail(loginDto.getEmailId(), loginDto.getFirstName());
+	  }
+	 
 
 	
 }

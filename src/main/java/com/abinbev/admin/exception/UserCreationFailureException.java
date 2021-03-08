@@ -1,9 +1,13 @@
 package com.abinbev.admin.exception;
 
-public class UserCreationFailureException extends Exception {
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
+
+public class UserCreationFailureException extends SaveFailureException {
 	private static final long serialVersionUID = 1L;
 
-	public UserCreationFailureException(final String message) {
-		super(message);
+	public UserCreationFailureException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
+
 	}
+
 }

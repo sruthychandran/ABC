@@ -29,6 +29,7 @@ import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.TenantAdminService;
+import com.abinbev.admin.utility.ErrorCodes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 @RestController
@@ -39,7 +40,8 @@ public class TenantAdminController {
 	 private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 	@Autowired
 	TenantAdminService tenantAdminService;
-
+	@Autowired
+	  private ErrorCodes errorCodes;
 	/**
 	 * In this method a tenant admin can create user
 	 * 
@@ -73,7 +75,7 @@ public class TenantAdminController {
 
 		log.debug("Request to update user " + userDto);
 		if (userDto.getEmailId() == null)
-			throw new BadRequestAlertException("Invalid email");
+			throw new BadRequestAlertException(errorCodes.getInvalidEmailId());
 		BasicResponse<UserResponseDto> result = tenantAdminService.updateUser(userDto);
 		return ResponseEntity.ok().body(result);
 	}

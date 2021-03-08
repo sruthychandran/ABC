@@ -21,7 +21,7 @@ public interface PlatformAdminService {
 
 	public BasicResponse<Page<UserResponseDto>> getAllUsers(Pageable pageable);
 
-	public void deleteUser(String uuid) throws UserNotFoundException;
+	public BasicResponse<UserResponseDto> deleteUser(String uuid) throws UserNotFoundException;
 
 	BasicResponse<UserResponseDto> findByEmailId(String emailId) throws UserNotFoundException;
 

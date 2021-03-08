@@ -1,9 +1,14 @@
 package com.abinbev.admin.exception;
 
-public class PermissionCreationFailureException extends Exception {
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
 
-	public PermissionCreationFailureException(String userSaveFailureMessage) {
-		// TODO Auto-generated constructor stub
+public class PermissionCreationFailureException extends SaveFailureException {
+	private static final long serialVersionUID = 1L;
+	public PermissionCreationFailureException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
+	
 	}
+
+	
 
 }

@@ -1,19 +1,12 @@
 package com.abinbev.admin.exception;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
 
-public class RoleNotFoundException extends Exception implements ErrorCode {
+public class RoleNotFoundException extends NotFoundException {
 	private static final long serialVersionUID = 1L;
-	
-	
 
-	public RoleNotFoundException(final String message) {
-		super(message);
+	public RoleNotFoundException(ErrorCodeMessage errorCodeMessage) {
+		super(errorCodeMessage);
 	}
 
-	@Override
-	public String getErrorCode() {
-		
-		return "10003";
-	}
 }

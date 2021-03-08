@@ -28,6 +28,7 @@ import com.abinbev.admin.requestDto.PermissionDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.PermissionResponseDto;
 import com.abinbev.admin.service.PermissionService;
+import com.abinbev.admin.utility.ErrorCodes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -42,6 +43,9 @@ public class PermissionController {
 
 	@Autowired
 	PermissionService permissionService;
+	
+	@Autowired
+	  private ErrorCodes errorCodes;
 
 	/**
 	 * In this method we can create a permission
@@ -80,8 +84,8 @@ public class PermissionController {
 			throws BadRequestAlertException, PermissionNotFoundException, PermissionUpdationFailureException {
 		log.debug("Request to update permission " + permissionDto);
 
-		if (permissionDto.getPermissionId() == null)
-			throw new BadRequestAlertException("Invalid PermissionId");
+		if (permissionDto.getId() == null)
+			throw new BadRequestAlertException(errorCodes.getInvalidId());
 		BasicResponse<PermissionResponseDto> result = permissionService.updatePermission(permissionDto);
 
 		return ResponseEntity.ok().body(result);
@@ -128,7 +132,7 @@ public class PermissionController {
 
 		log.debug("Request to delete permission " + id);
 		if (id == null)
-			throw new BadRequestAlertException("Invalid id");
+			throw new BadRequestAlertException(errorCodes.getInvalidId());
 		permissionService.deletePermission(id);
 		return ResponseEntity.ok().build();
 	}
@@ -149,7 +153,7 @@ public class PermissionController {
 
 		log.debug("Request to get a permission " + permissionId);
 		if (permissionId == null)
-			throw new BadRequestAlertException("Invalid permissionId");
+			throw new BadRequestAlertException(errorCodes.getInvalidPermissionId());
 		BasicResponse<PermissionResponseDto> result = permissionService.getPermission(permissionId);
 
 		return ResponseEntity.ok().body(result);

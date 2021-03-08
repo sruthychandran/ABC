@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.abinbev.admin.entity.CategoryDetails;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,7 @@ public class UserDto {
 	private String emailId;
 	private Long phoneNo;
 	private String roleId;
-	private List<CategoryDto> categories;
+	private List<CategoryDetails> categories;
 	private String status;
 	private Date createdDate;
 	private String createdBy;

@@ -22,6 +22,7 @@ import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.TenantAdminService;
+import com.abinbev.admin.utility.ErrorCodes;
 import com.abinbev.admin.utility.MapperUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,8 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 
 	MapperUtil<UserDto, User> userMapper = new MapperUtil<>();
 	MapperUtil<User, UserResponseDto> userResponse = new MapperUtil<>();
-
+	@Autowired
+	  private ErrorCodes errorCodes;
 	/**
 	 * In this method tenant admin can create a user
 	 */
@@ -46,7 +48,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 		if (emailExist(user.getEmailId())) {
-			throw new EmailExistException(messageProperties.getUserEmailExistMessage());
+			throw new EmailExistException(errorCodes.getEmailExist());
 		}
 		user.setCreatedDate(new Date());
 		user.setCreatedBy(user.getEmailId());
@@ -56,11 +58,11 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
 		} else {
-			throw new UserCreationFailureException(messageProperties.getUserSaveFailureMessage());
+			throw new UserCreationFailureException(errorCodes.getUserSaveFailure());
 		}
 		
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
-		basicResponse.setMessage(messageProperties.getSaveMessage());
+		//basicResponse.setMessage(messageProperties.getSaveMessage());
 		basicResponse.setData(response);
 
 		return basicResponse;
@@ -100,10 +102,10 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
 		} else {
-			throw new UserUpdationFailureException(messageProperties.getUserUpdateFailureMessage());
+			throw new UserUpdationFailureException(errorCodes.getUserUpdateFailure());
 		}
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
-		basicResponse.setMessage(messageProperties.getSaveMessage());
+		//basicResponse.setMessage(messageProperties.getSaveMessage());
 		basicResponse.setData(response);
 
 		return basicResponse;
@@ -172,7 +174,7 @@ public class TenantAdminServiceImpl implements TenantAdminService {
 	private User findUserByEmail(String email) throws UserNotFoundException {
 		User existingUser = userDAO.findByEmail(email);
 		if (existingUser == null) {
-			throw new UserNotFoundException(messageProperties.getUserNotfoundMessage());
+			throw new UserNotFoundException(errorCodes.getUserNotFound());
 		}
 		return existingUser;
 	}

@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.abinbev.admin.requestDto.MailDetailsDTO;
 import com.abinbev.admin.service.EmailService;
 
-
 /**
  * @author sruthy
  *
@@ -30,45 +29,39 @@ import com.abinbev.admin.service.EmailService;
 @Transactional
 @Service
 public class EmailServiceImpl implements EmailService {
-	
-	
+
 	@Autowired
 	private JavaMailSender javaMailSender;
 
-	
 	/**
-	 * @param url
-	 * @param user
-	 */
-	private void constructEmail(String to, String htmlTemplate, MailDetailsDTO mailDetails) {
-
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-				mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-				if (mailDetails.getMailType().equals("resetPassword")) {
-					mimeMessage.setSubject(mailDetails.getSubject());
-				} else if (mailDetails.getMailType().equals("welcomeMail")) {
-					mimeMessage.setSubject("Welcome to EDUHEX");
-				} else if (mailDetails.getMailType().equals("joiningMail")) {
-					mimeMessage.setSubject(mailDetails.getSubject());
-				}
-				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-
-				helper.setText(htmlTemplate, true);
-
-			}
-		};
-
-	
-		try {
-			javaMailSender.send(preparator);
-		} catch (MailException ex) {
-			// simply log it and go on...
-			System.err.println(ex.getMessage());
-		}
-
-	}
+		 * @param url
+		 * @param user
+		 */
+			  private void constructEmail(String to, String htmlTemplate, MailDetailsDTO
+			  mailDetails) {
+			  
+			  MimeMessagePreparator preparator = new MimeMessagePreparator() { public void
+			  prepare(MimeMessage mimeMessage) throws Exception {
+			  mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			  
+			  if (mailDetails.getMailType().equals("resetPassword")) {
+			  mimeMessage.setSubject(mailDetails.getSubject()); } else if
+			  (mailDetails.getMailType().equals("welcomeMail")) {
+			  mimeMessage.setSubject("Welcome to EDUHEX"); } else if
+			  (mailDetails.getMailType().equals("joiningMail")) {
+			  mimeMessage.setSubject(mailDetails.getSubject()); } MimeMessageHelper helper
+			  = new MimeMessageHelper(mimeMessage, true);
+			  
+			  helper.setText(htmlTemplate, true);
+			  
+			  } };
+			  
+			  
+			  try { javaMailSender.send(preparator); } catch (MailException ex) { 
+				  // simply log it and go on... 
+				  System.err.println(ex.getMessage()); }
+			  
+			  }
 
 	@Override
 	public void sendWelcomeMail(String email, String name) {
@@ -93,12 +86,9 @@ public class EmailServiceImpl implements EmailService {
 		MailDetailsDTO mailDetails = new MailDetailsDTO();
 		mailDetails.setMailType("welcomeMail");
 		mailDetails.setSubject("Welcome to Abinbev");
-		
+
 		constructEmail(email, htmlContent, mailDetails);
 
 	}
-
-	
-
 
 }
