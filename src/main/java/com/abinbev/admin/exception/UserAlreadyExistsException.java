@@ -2,14 +2,12 @@ package com.abinbev.admin.exception;
 
 import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
 
-public class EmailExistException extends AlreadyExistException{
+public class UserAlreadyExistsException extends AlreadyExistException {
 	private static final long serialVersionUID = 1L;
-	public EmailExistException(ErrorCodeMessage errorCodeMessage) {
+
+	public UserAlreadyExistsException(ErrorCodeMessage errorCodeMessage) {
 		super(errorCodeMessage);
-		
+
 	}
 
-	
-
-	
 }

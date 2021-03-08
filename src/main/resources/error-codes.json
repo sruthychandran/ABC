@@ -72,5 +72,9 @@
 "invalid_category_service_id": {
 		"error_code": "20018",
 		"error_message": "Invalid category_service-Id "
+	},
+   "user_exist": {
+		"error_code": "20019",
+		"error_message": "User  already exist"
 	}
 }

@@ -908,6 +908,7 @@
                                     <b>Welcome to abinbev</b>.
                                     <p>Your account has been successfully registered with us.</p>
                                     <p>Your username is <b><i>${username}</i></b>.</p>
+                                    <p>Please set your password</i></b>.</p>
                                     <p>You are now ready to explore world of abinbev.</p>
                                   </div>
 

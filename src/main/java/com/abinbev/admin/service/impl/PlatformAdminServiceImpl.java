@@ -25,6 +25,7 @@ import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
+import com.abinbev.admin.service.EmailService;
 import com.abinbev.admin.service.PlatformAdminService;
 import com.abinbev.admin.utility.ErrorCodes;
 import com.abinbev.admin.utility.MapperUtil;
@@ -37,6 +38,11 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
 	@Autowired
 	UserDAO userDAO;
+	
+	
+	@Autowired
+	EmailService emailService;
+	
 	@Autowired
 	MessageProperties messageProperties;
 
@@ -67,6 +73,8 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		user.setStatus(messageProperties.getActiveStatus());
 		User userResponseObj = userDAO.save(user);
 		if (userResponseObj != null) {
+			
+			emailService.sendWelcomeMail(userResponseObj.getEmailId(), userResponseObj.getFirstName());
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
 		

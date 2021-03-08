@@ -109,6 +109,11 @@ public class ErrorCodes {
   @JsonProperty("invalid_category_service_id")
   private ErrorCodeMessage invalidCategoryServiceId;
   
+  @NotNull
+  @Valid
+  @JsonProperty("user_exist")
+  private ErrorCodeMessage userExist;
+  
   @Data
   @AllArgsConstructor
   @NoArgsConstructor

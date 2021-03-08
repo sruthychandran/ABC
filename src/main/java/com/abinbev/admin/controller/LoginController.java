@@ -20,12 +20,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abinbev.admin.exception.BadRequestAlertException;
+import com.abinbev.admin.exception.PermissionCreationFailureException;
 import com.abinbev.admin.exception.RoleCreationFailureException;
 //import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.exception.RoleUpdationFailureException;
+import com.abinbev.admin.exception.UserAlreadyExistsException;
 import com.abinbev.admin.requestDto.LoginDto;
+import com.abinbev.admin.requestDto.PermissionDto;
 import com.abinbev.admin.requestDto.RoleDto;
+import com.abinbev.admin.requestDto.SignupDto;
+import com.abinbev.admin.responseDto.BasicResponse;
+import com.abinbev.admin.responseDto.PermissionResponseDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
+import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.LoginService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -40,18 +47,26 @@ public class LoginController {
 	  
 	  @Autowired LoginService loginService;
 	  
-	 /**
-		 * In this method we can create a login
-		 * 
-		 * @param loginDto
-		 * @return RoleResponseDto
-		 * @throws RoleCreationFailureException
-		 */
-			  @PostMapping("/login") public ResponseEntity<Void> login(@RequestBody
-			  LoginDto loginDto) throws RoleCreationFailureException {
-			  
-			  log.debug("Request to login {}", loginDto); loginService.login(loginDto);
-			  return ResponseEntity.ok().build(); }
-			 
+	
+	@PostMapping("/signup")
+	public ResponseEntity<BasicResponse<UserResponseDto>> signup(@RequestBody SignupDto signupDto)
+			throws PermissionCreationFailureException, UserAlreadyExistsException {
+
+		log.debug("Request to signup " + signupDto);
+		BasicResponse<UserResponseDto> signupResponse=loginService.signup(signupDto);
+		return ResponseEntity.ok().body(signupResponse);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<BasicResponse<UserResponseDto>> login(@RequestBody LoginDto loginDto)
+			throws PermissionCreationFailureException {
+
+		log.debug("Request to login",  loginDto);
+		BasicResponse<UserResponseDto> loginResponse=loginService.login(loginDto);
+		return ResponseEntity.ok().body(loginResponse);
+	}
+
+
+	
 
 }

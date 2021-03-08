@@ -25,7 +25,7 @@ public class UserDto {
 	private String emailId;
 	private Long phoneNo;
 	private String roleId;
-	private List<CategoryDetails> categories;
+	private List<CategoryDto> categories;
 	private String status;
 	private Date createdDate;
 	private String createdBy;

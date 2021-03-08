@@ -11,47 +11,10 @@ import lombok.Data;
 @PropertySource("classpath:message.properties")
 public class MessageProperties {
 
-	/*
-	 * @Value("${message.create}") String saveMessage;
-	 * 
-	 * @Value("${message.update}") String updationMessage;
-	 */
-	/*
-	 * @Value("${message.delete}") String deletionMessage;
-	 */
 	@Value("${user.status.active}")
 	String activeStatus;
 	@Value("${user.status.inactive}")
 	String inactiveStatus;
-	/*
-	 * @Value("${user.save.failure}") String userSaveFailureMessage;
-	 * 
-	 * @Value("${user.update.failure}") String userUpdateFailureMessage;
-	 * 
-	 * @Value("${user.email.exist}") String userEmailExistMessage;
-	 * 
-	 * @Value("${user.notfound}") String userNotfoundMessage;
-	 * 
-	 * @Value("${role.notfound}") String roleNotfoundMessage;
-	 * 
-	 * @Value("${role.save.failure}") String roleSaveFailureMessage;
-	 * 
-	 * @Value("${role.update.failure}") String roleUpdateFailureMessage;
-	 * 
-	 * @Value("${permission.notfound}") String permissionNotfoundMessage;
-	 * 
-	 * @Value("${permission.save.failure}") String permissionSaveFailureMessage;
-	 * 
-	 * @Value("${permission.update.failure}") String permissionUpdateFailureMessage;
-	 * 
-	 * @Value("${categoryService.save.failure}") String
-	 * categoryServiceSaveFailureMessage;
-	 * 
-	 * @Value("${categoryService.update.failure}") String
-	 * categoryServiceUpdateFailureMessage;
-	 * 
-	 * @Value("${categoryService.notfound}") String CategoryServiceNotFoundMessage;
-	 */
 
 	@Value("${categoryService.save.successMessage}")
 	String CatergoryServiceSaveSuccessMessage;
@@ -70,9 +33,7 @@ public class MessageProperties {
 	String CatergoryServiceRetrieveSuccessMessage;
 	@Value("${categoryService.retrieve.successCode}")
 	String CategoryServiceRetrieveSuccesCode;
-	
-	
-	
+
 	@Value("${role.save.successMessage}")
 	String roleSaveSuccessMessage;
 	@Value("${role.save.successCode}")
@@ -90,8 +51,7 @@ public class MessageProperties {
 	String roleRetrieveSuccessMessage;
 	@Value("${role.retrieve.successCode}")
 	String roleRetrieveSuccesCode;
-	
-	
+
 	@Value("${platformAdmin.save.successMessage}")
 	String platformAdminSaveSuccessMessage;
 	@Value("${platformAdmin.save.successCode}")
@@ -109,8 +69,7 @@ public class MessageProperties {
 	String platformAdminRetrieveSuccessMessage;
 	@Value("${platformAdmin.retrieve.successCode}")
 	String platformAdminRetrieveSuccesCode;
-	
-	
+
 	@Value("${tenantAdmin.save.successMessage}")
 	String tenantAdminSaveSuccessMessage;
 	@Value("${tenantAdmin.save.successCode}")
@@ -128,10 +87,7 @@ public class MessageProperties {
 	String tenantAdminRetrieveSuccessMessage;
 	@Value("${tenantAdmin.retrieve.successCode}")
 	String tenantAdminRetrieveSuccesCode;
-	
-	
-	
-	
+
 	@Value("${permission.save.successMessage}")
 	String permissionSaveSuccessMessage;
 	@Value("${permission.save.successCode}")
@@ -149,14 +105,21 @@ public class MessageProperties {
 	String permissionRetrieveSuccessMessage;
 	@Value("${permission.retrieve.successCode}")
 	String permissionRetrieveSuccesCode;
-	
-	
-	
+
+	@Value("${login.success}")
+	String loginSuccessMessage;
+	@Value("${login.failed}")
+	String loginFailureMessage;
+
+	@Value("${signup.success}")
+	String signupSuccessMessage;
+
+	@Value("${signup.failure}")
+	String signupFailureMessage;
+
 	@Value("${nocontent.errorCode}")
 	String noContentErrorCode;
 	@Value("${nocontent.errorMessage}")
 	String noContentErrorMessage;
-	
-	
 
 }

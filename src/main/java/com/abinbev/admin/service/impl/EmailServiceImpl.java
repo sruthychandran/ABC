@@ -11,7 +11,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -34,34 +33,33 @@ public class EmailServiceImpl implements EmailService {
 	private JavaMailSender javaMailSender;
 
 	/**
-		 * @param url
-		 * @param user
-		 */
-			  private void constructEmail(String to, String htmlTemplate, MailDetailsDTO
-			  mailDetails) {
-			  
-			  MimeMessagePreparator preparator = new MimeMessagePreparator() { public void
-			  prepare(MimeMessage mimeMessage) throws Exception {
-			  mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-			  
-			  if (mailDetails.getMailType().equals("resetPassword")) {
-			  mimeMessage.setSubject(mailDetails.getSubject()); } else if
-			  (mailDetails.getMailType().equals("welcomeMail")) {
-			  mimeMessage.setSubject("Welcome to EDUHEX"); } else if
-			  (mailDetails.getMailType().equals("joiningMail")) {
-			  mimeMessage.setSubject(mailDetails.getSubject()); } MimeMessageHelper helper
-			  = new MimeMessageHelper(mimeMessage, true);
-			  
-			  helper.setText(htmlTemplate, true);
-			  
-			  } };
-			  
-			  
-			  try { javaMailSender.send(preparator); } catch (MailException ex) { 
-				  // simply log it and go on... 
-				  System.err.println(ex.getMessage()); }
-			  
-			  }
+	 * 
+	 * @param url
+	 * @param user
+	 */
+	private void constructEmail(String to, String htmlTemplate, MailDetailsDTO mailDetails) {
+
+		MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+				mimeMessage.setSubject("Welcome to Abinbev");
+
+				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+				helper.setText(htmlTemplate, true);
+
+			}
+		};
+
+		try {
+			javaMailSender.send(preparator);
+		} catch (MailException ex) {
+			// simply log it and go on...
+			System.err.println(ex.getMessage());
+		}
+
+	}
 
 	@Override
 	public void sendWelcomeMail(String email, String name) {
