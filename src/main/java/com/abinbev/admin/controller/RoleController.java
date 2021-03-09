@@ -1,6 +1,8 @@
 
 package com.abinbev.admin.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger; 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +81,17 @@ public class RoleController {
 	@PutMapping("/role")
 	public ResponseEntity<BasicResponse<RoleResponseDto>> updateRole(@RequestBody RoleDto roleDto)
 			throws BadRequestAlertException, NotFoundException, RoleUpdationFailureException {
-		log.debug("Request to update role " + roleDto);
+		log.debug("Request to update role " + roleDto);/*
+		 * private Role findById(String id) throws RoleNotFoundException { Role
+		 * existingRole = roleDAO.findById(id);
+		 * 
+		 * if (existingRole == null) { throw new
+		 * RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
+		 * 
+		 * } return existingRole;
+		 * 
+		 * }
+		 */
 
 		if (roleDto.getId() == null)
 			throw new BadRequestAlertException(errorCodes.getInvalidId());
@@ -141,8 +153,18 @@ public class RoleController {
 	 * @return RoleResponseDto
 	 * @throws BadRequestAlertException
 	 * 
-	 * @throws RoleNotFoundException
+	 * @throws RoleNotFoundException/*
+	 * private Role findById(String id) throws RoleNotFoundException { Role
+	 * existingRole = roleDAO.findById(id);
+	 * 
+	 * if (existingRole == null) { throw new
+	 * RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
+	 * 
+	 * } return existingRole;
+	 * 
+	 * }
 	 */
+	 
 
 	@GetMapping("/role/{roleId}")
 	public ResponseEntity<BasicResponse<RoleResponseDto>> getRoleByRoleId(@PathVariable String roleId)
@@ -156,4 +178,27 @@ public class RoleController {
 		return ResponseEntity.ok().body(result);
 	}
 
+	/**
+	 * In this method we can get a role by id
+	 * 
+	 * @param userRole
+	 * @return List<RoleResponseDto>
+	 *
+	 * 
+	 * @throws RoleNotFoundException
+	 */
+
+	@GetMapping("/role/{userRole}/user_role")
+	public ResponseEntity<BasicResponse<List<RoleResponseDto>>> findByUserRole(@PathVariable String userRole)
+			throws BadRequestAlertException, NotFoundException {
+
+		log.debug("Request to get list of  roles  {}", userRole );
+		
+		BasicResponse<List<RoleResponseDto>> result = roleService.findByUserRole(userRole);
+
+		return ResponseEntity.ok().body(result);
+	}
+	
+	
+	
 }

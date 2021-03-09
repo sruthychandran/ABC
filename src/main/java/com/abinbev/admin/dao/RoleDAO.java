@@ -18,4 +18,6 @@ public interface RoleDAO {
 	Role findByRoleId(String roleId);
 
 	public Role findById(String id);
+
+
 }

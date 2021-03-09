@@ -28,6 +28,7 @@ public class User {
 	private List<CategoryDetails> categories;
 	private String status;
 	private String isPlatformSuperAdmin;
+	private String isProductSuperAdmin;
 	private Date createdDate;
 	private String createdBy;
 	private Date modifiedDate;

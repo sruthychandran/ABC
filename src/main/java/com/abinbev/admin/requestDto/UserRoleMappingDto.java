@@ -1,25 +1,20 @@
-package com.abinbev.admin.entity;
+package com.abinbev.admin.requestDto;
 
-
-import org.springframework.data.annotation.Id;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.abinbev.admin.entity.User.UserBuilder;
+import com.abinbev.admin.requestDto.UserDto.UserDtoBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
-public class Role {
-	@Id
+public class UserRoleMappingDto {
 	private String id;
 	private String roleId;
 	private String roleName;
@@ -31,6 +26,6 @@ public class Role {
 	private String createdBy;
 	private Date modifiedDate;
 	private String modifiedBy;
-	//private String userRole;
-
+	private List<String> userRoles;
+	
 }

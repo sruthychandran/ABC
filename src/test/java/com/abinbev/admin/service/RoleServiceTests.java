@@ -1,6 +1,5 @@
 package com.abinbev.admin.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -52,7 +51,7 @@ public class RoleServiceTests {
 			throws JsonMappingException, JsonProcessingException, RoleCreationFailureException {
 		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
 
-		Role role = Role.builder().roleId("EU").roleName("end user").status("active").userRole("TA")
+		Role role = Role.builder().roleId("EU").roleName("end user").status("active")
 
 				.createdDate(new Date()).build();
 
@@ -70,34 +69,35 @@ public class RoleServiceTests {
 
 	}
 
-	@Test public void test_updateRoles_success() throws JsonMappingException,
-	  JsonProcessingException, RoleNotFoundException, RoleUpdationFailureException
-	  { RoleDto roleDto =
-	  RoleDto.builder().roleId("EU").roleName("end user").build();
-	  
-	  Role role = mapper.readValue(mapToJson(roleDto), Role.class);
-	  
-	  RoleResponseDto saved =
-	  RoleResponseDto.builder().id("qwerty").roleId("EU").roleName("end user")
-	  
-	  .createdDate(new Date()).status("active").userRole("TA").build();
-	  
-	  Mockito.when(roleDAO.findById(saved.getId())).thenReturn(role);
-	  saved.setRoleId("EU"); saved.setRoleName("Role updated");
-	  saved.setModifiedDate(new Date()); RoleDto updateRequest =
-	  mapper.readValue(mapToJson(saved), RoleDto.class); Role role1 =
-	  mapper.readValue(mapToJson(updateRequest), Role.class);
-	  Mockito.when(roleDAO.save(Mockito.any(Role.class))).thenReturn(role1);
-	 BasicResponse< RoleResponseDto> updatedRole = roleService.updateRole(updateRequest);
-	  
-	  assertNotNull(updatedRole.getData().getRoleId()); assertEquals("Role updated",
-	  updatedRole.getData().getRoleName()); assertEquals("active", updatedRole.getData().getStatus());
-	  assertNotNull(updatedRole.getData().getCreatedDate()); assertEquals("TA",
-	  updatedRole.getData().getUserRole()); 
-	  // assertEquals("updated successfully",updatedRole.getData().getMessage()); 
-	  assertNotNull(updatedRole.getData().getModifiedDate());
-	  
-	  }
+	@Test
+	public void test_updateRoles_success()
+			throws JsonMappingException, JsonProcessingException, RoleNotFoundException, RoleUpdationFailureException {
+		RoleDto roleDto = RoleDto.builder().roleId("EU").roleName("end user").build();
+
+		Role role = mapper.readValue(mapToJson(roleDto), Role.class);
+
+		RoleResponseDto saved = RoleResponseDto.builder().id("qwerty").roleId("EU").roleName("end user")
+
+				.createdDate(new Date()).status("active").build();
+
+		Mockito.when(roleDAO.findById(saved.getId())).thenReturn(role);
+		saved.setRoleId("EU");
+		saved.setRoleName("Role updated");
+		saved.setModifiedDate(new Date());
+		RoleDto updateRequest = mapper.readValue(mapToJson(saved), RoleDto.class);
+		Role role1 = mapper.readValue(mapToJson(updateRequest), Role.class);
+		Mockito.when(roleDAO.save(Mockito.any(Role.class))).thenReturn(role1);
+		BasicResponse<RoleResponseDto> updatedRole = roleService.updateRole(updateRequest);
+
+		assertNotNull(updatedRole.getData().getRoleId());
+		assertEquals("Role updated", updatedRole.getData().getRoleName());
+		assertEquals("active", updatedRole.getData().getStatus());
+		assertNotNull(updatedRole.getData().getCreatedDate());
+		//assertEquals("TA", updatedRole.getData().getUserRole());
+		// assertEquals("updated successfully",updatedRole.getData().getMessage());
+		assertNotNull(updatedRole.getData().getModifiedDate());
+
+	}
 
 	@Test
 	public void test_updateRoles_throws_exception()
@@ -114,8 +114,7 @@ public class RoleServiceTests {
 	@Test
 
 	public void test_getRole_success() throws RoleNotFoundException {
-		Role role = Role.builder().roleId("EU").roleName("end user").status("active").userRole("TA")
-				.createdDate(new Date()).build();
+		Role role = Role.builder().roleId("EU").roleName("end user").status("active").createdDate(new Date()).build();
 
 		Mockito.when(roleDAO.findByRoleId("EU")).thenReturn(role);
 
@@ -130,10 +129,9 @@ public class RoleServiceTests {
 	@Test
 	public void test_getAllRoles() throws JsonMappingException, JsonProcessingException, RoleNotFoundException {
 
-		Role role1 = Role.builder().roleId("EU").roleName("end user").status("enable").userRole("TA")
-				.createdDate(new Date()).build();
-		Role role2 = Role.builder().roleId("TA").roleName("tenant admin").status("enable").userRole("TA")
-				.createdDate(new Date()).build();
+		Role role1 = Role.builder().roleId("EU").roleName("end user").status("enable").createdDate(new Date()).build();
+		Role role2 = Role.builder().roleId("TA").roleName("tenant admin").status("enable").createdDate(new Date())
+				.build();
 
 		List<Role> roleList = Arrays.asList(role1, role2);
 
@@ -141,7 +139,8 @@ public class RoleServiceTests {
 
 		Mockito.when(roleDAO.getAllRoles(PageRequest.of(0, 20))).thenReturn(page);
 
-		//assertThat(roleService.getAllRoles(PageRequest.of(0, 20)).getTotalElements()).isEqualTo(2);
+		// assertThat(roleService.getAllRoles(PageRequest.of(0,
+		// 20)).getTotalElements()).isEqualTo(2);
 
 	}
 

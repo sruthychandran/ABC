@@ -14,8 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.RoleDAO;
-import com.abinbev.admin.entity.CategoryService;
-import com.abinbev.admin.entity.Role;
 import com.abinbev.admin.entity.Role;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,19 +39,12 @@ public class RoleDAOImpl implements RoleDAO {
 	@Override
 	public Role deleteRole(Role role) {
 
-		/*
-		 * Query query = new Query();
-		 * query.addCriteria(Criteria.where("roleId").is(roleId)); Role role =
-		 * mongoTemplate.findOne(query, Role.class);
-		 */
-
 		role.setStatus("inactive");
 		role.setModifiedDate(new Date());
-		Role result =mongoTemplate.save(role);
+		Role result = mongoTemplate.save(role);
 		return result;
 
 	}
-	
 
 	@Override
 	public Page<Role> getAllRoles(Pageable pageable) {
@@ -75,6 +66,9 @@ public class RoleDAOImpl implements RoleDAO {
 		Query query = new Query();
 
 		query.addCriteria(Criteria.where("roleId").is(roleId));
+		
+		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
+		
 		return mongoTemplate.findOne(query, Role.class);
 	}
 
@@ -84,5 +78,7 @@ public class RoleDAOImpl implements RoleDAO {
 		query.addCriteria(Criteria.where("id").is(id));
 		return mongoTemplate.findOne(query, Role.class);
 	}
+
+	
 
 }

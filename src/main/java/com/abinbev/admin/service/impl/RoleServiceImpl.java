@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.RoleDAO;
+import com.abinbev.admin.dao.UserRoleMappingDAO;
 import com.abinbev.admin.entity.Role;
+import com.abinbev.admin.entity.UserRoleMapping;
 //import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.exception.RoleCreationFailureException;
 import com.abinbev.admin.exception.RoleNotFoundException;
@@ -22,6 +24,7 @@ import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.service.RoleService;
+import com.abinbev.admin.service.UserRoleMappingService;
 import com.abinbev.admin.utility.ErrorCodes;
 import com.abinbev.admin.utility.MapperUtil;
 
@@ -41,6 +44,13 @@ public class RoleServiceImpl implements RoleService {
 	
 	 @Autowired
 	  private ErrorCodes errorCodes;
+	 
+
+		@Autowired
+		UserRoleMappingService userRoleMappingService;
+		
+		@Autowired
+		UserRoleMappingDAO userRoleMappingDAO;
 
 	/**
 	 * In this method we can create a role
@@ -53,6 +63,8 @@ public class RoleServiceImpl implements RoleService {
 		role.setStatus(messageProperties.getActiveStatus());
 		role.setCreatedDate(new Date());
 		Role roleResponseObj = roleDAO.save(role);
+		
+		
 		if (roleResponseObj != null) {
 
 			response = roleResponse.transfer(roleResponseObj, RoleResponseDto.class);
@@ -60,6 +72,16 @@ public class RoleServiceImpl implements RoleService {
 		} else {
 			throw new RoleCreationFailureException(errorCodes.getRoleSaveFailure());
 		}
+		
+		UserRoleMapping userRoleMapping = new UserRoleMapping();
+		userRoleMapping.setRoleId(roleResponseObj.getRoleId());
+		if(roleDto.getUserRoles() !=null && !roleDto.getUserRoles().isEmpty()) {
+			userRoleMapping.setUserRoles(roleDto.getUserRoles());
+			userRoleMappingService.save(userRoleMapping);
+		}
+		
+		
+		
 		ErrorResponse error = new ErrorResponse(null, null);
 
 		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
@@ -73,7 +95,8 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	/**
-	 * In this method we can delete a role
+	 * In this method we can delete a role	@Autowired
+		UserRoleMappingService userRoleMappingService;
 	 */
 	@Override
 	public BasicResponse<RoleResponseDto> deleteRole(String roleId) throws RoleNotFoundException {
@@ -209,17 +232,57 @@ public class RoleServiceImpl implements RoleService {
 		return existingRole;
 
 	}
+	
+	
 
-	/*
-	 * private Role findById(String id) throws RoleNotFoundException { Role
-	 * existingRole = roleDAO.findById(id);
-	 * 
-	 * if (existingRole == null) { throw new
-	 * RoleNotFoundException(messageProperties.getRoleNotfoundMessage());
-	 * 
-	 * } return existingRole;
-	 * 
-	 * }
+
+	/**
+	 * In this method we can list all roles by userRoles
 	 */
+	@Override
+	public BasicResponse<List<RoleResponseDto>> findByUserRole(String userRole) {
+		BasicResponse<List<RoleResponseDto>> basicResponse = new BasicResponse<List<RoleResponseDto>>();
+
+		List<RoleResponseDto> roleResponseList = new ArrayList<RoleResponseDto>();
+
+		List<UserRoleMapping> roles = userRoleMappingDAO.findByUserRole(userRole);
+		
+		System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+roles.size());
+		
+
+		try {
+			if (roles != null && !roles.isEmpty()) {
+				for (UserRoleMapping role : roles) {
+					Role roleobj =roleDAO.findByRoleId(role.getRoleId());
+					RoleResponseDto response = roleResponse.transfer(roleobj, RoleResponseDto.class);
+					roleResponseList.add(response);
+
+				}
+
+
+			} else {
+				ErrorResponse error = new ErrorResponse(messageProperties.getNoContentErrorCode(),
+						messageProperties.getNoContentErrorMessage());
+				basicResponse.setError(error);
+				return basicResponse;
+			}
+			ErrorResponse error = new ErrorResponse(null, null);
+			basicResponse.setError(error);
+			basicResponse.setMessage(messageProperties.getRoleRetrieveSuccessMessage());
+			basicResponse.setCode(messageProperties.getRoleRetrieveSuccesCode());
+
+			basicResponse.setData(roleResponseList);
+			return basicResponse;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			roleResponseList = null;
+		}
+
+		return null;
+
+	}
+
 
 }

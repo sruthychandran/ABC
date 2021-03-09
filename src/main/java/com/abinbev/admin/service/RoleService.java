@@ -1,5 +1,7 @@
 package com.abinbev.admin.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,4 +24,6 @@ public interface RoleService {
 	BasicResponse<RoleResponseDto> getRole(String roleId) throws NotFoundException;
 
 	BasicResponse<Page<RoleResponseDto>> getAllRoles(Pageable pageable);
+
+	public BasicResponse<List<RoleResponseDto>> findByUserRole(String userRole);
 }
