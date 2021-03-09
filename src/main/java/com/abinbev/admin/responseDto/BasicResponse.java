@@ -1,5 +1,6 @@
 package com.abinbev.admin.responseDto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.ToString;
 @Data
 @Getter
 @Setter
+
 @NoArgsConstructor
 @ToString
 public class BasicResponse<T>{

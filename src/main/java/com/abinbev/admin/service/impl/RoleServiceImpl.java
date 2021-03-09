@@ -171,6 +171,9 @@ public class RoleServiceImpl implements RoleService {
 			throws RoleNotFoundException, RoleUpdationFailureException {
 		RoleResponseDto response = null;
 		Role existingRole = roleDAO.findById(roleDto.getId());
+	
+		
+		
 		if (existingRole == null) {
 			throw new RoleNotFoundException(errorCodes.getRoleNotFound());
 		}
@@ -247,7 +250,7 @@ public class RoleServiceImpl implements RoleService {
 
 		List<UserRoleMapping> roles = userRoleMappingDAO.findByUserRole(userRole);
 		
-		System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+roles.size());
+		
 		
 
 		try {

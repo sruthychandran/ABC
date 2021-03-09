@@ -8,12 +8,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 //@EnableDiscoveryClient
 @SpringBootApplication
-public class AdminApplication /* extends SpringBootServletInitializer */ {
-	/*
-	 * @Override protected SpringApplicationBuilder
-	 * configure(SpringApplicationBuilder application) { return
-	 * application.sources(AdminApplication.class); }
-	 */
+public class AdminApplication  {
+
 	public static void main(String[] args) {
 		SpringApplication.run(AdminApplication.class, args);
 	}

@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRoleMappingDto {
-
-	private String roleId;
-
+public class CategoryServiceRoleMappingDto {
+	
+	private String categoryId;
+	
 	private List<String> userRoles;
 	
 }

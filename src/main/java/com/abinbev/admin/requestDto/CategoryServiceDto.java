@@ -31,5 +31,5 @@ public class CategoryServiceDto {
 	private String createdBy;
 	private Date modifiedDate;
 	private String modifiedBy;
-	private String userRole;
+	private List<String> userRoles;
 }

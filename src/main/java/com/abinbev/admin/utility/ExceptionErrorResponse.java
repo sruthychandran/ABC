@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ErrorResponse {
+public class ExceptionErrorResponse {
 
 
 	//private Date timestamp;
@@ -29,11 +29,11 @@ public class ErrorResponse {
 
 	  private String errorKey;
 
-	//  private Map<String, Object> details;
 
-	  public static ErrorResponse create(String message, String error, String errorKey,
+
+	  public static ExceptionErrorResponse create(String message, String error, String errorKey,
 	      int httpStatus) {
-	    ErrorResponse errorResponse = new ErrorResponse();
+	    ExceptionErrorResponse errorResponse = new ExceptionErrorResponse();
 	    errorResponse.setMessage(message);
 	    errorResponse.setError(error);
 	    errorResponse.setErrorKey(errorKey);

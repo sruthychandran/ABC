@@ -12,6 +12,7 @@ import com.abinbev.admin.exception.CategoryServiceUpdationFailureException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
+import com.abinbev.admin.responseDto.RoleResponseDto;
 
 public interface CategoryServiceService {
 
@@ -27,7 +28,7 @@ public interface CategoryServiceService {
 
 	public BasicResponse<CategoryServiceResponseDto> findById(String id) throws CategoryServiceNotFoundException;
 
-	//public BasicResponse<CategoryServiceResponseDto> findByCategoryId(String categoryId);
-
 	
+
+	public BasicResponse<List<CategoryServiceResponseDto>> findByUserRole(String userRole);
 }

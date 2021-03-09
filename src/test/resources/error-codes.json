@@ -1,0 +1,80 @@
+{
+	
+	"role_not_found": {
+		"error_code": "20001",
+		"error_message": "Role not exists"
+	},
+    "user_not_found": {
+		"error_code": "20002",
+		"error_message": "User not exists"
+	},
+    "category_service_not_found": {
+		"error_code": "20003",
+		"error_message": "Category Service not exists"
+	},
+	"permission_not_found": {
+		"error_code": "20004",
+		"error_message": "Permission not exists"
+	},
+   "role_save_failure": {
+		"error_code": "20005",
+		"error_message": "Save role operation is failed"
+	},
+     "user_save_failure": {
+		"error_code": "20006",
+		"error_message": "Save user operation is failed"
+	},
+    "category_service_save_failure": {
+		"error_code": "20007",
+		"error_message": "Save Category Service operation is failed"
+	},
+     "permission_save_failure": {
+		"error_code": "20008",
+		"error_message": "Save permission operation is failed"
+	},
+   "role_update_failure": {
+		"error_code": "20009",
+		"error_message": "Update role operation is failed"
+	},
+     "user_update_failure": {
+		"error_code": "20010",
+		"error_message": "Update user operation is failed"
+	},
+    "category_service_update_failure": {
+		"error_code": "20011",
+		"error_message": "Update Category Service operation is failed"
+	},
+     "permission_update_failure": {
+		"error_code": "20012",
+		"error_message": "Update permission operation is failed"
+	},
+   "email_exist": {
+		"error_code": "20013",
+		"error_message": "Email-Id is already exist"
+	},
+  "invalid_id": {
+		"error_code": "20014",
+		"error_message": "Invalid Id "
+	},
+"invalid_permission_id": {
+		"error_code": "20015",
+		"error_message": "Invalid Permission-Id "
+	},
+
+"invalid_role_id": {
+		"error_code": "20016",
+		"error_message": "Invalid Role-Id "
+	},
+"invalid_email_id": {
+		"error_code": "20017",
+		"error_message": "Invalid email-Id "
+	},
+"invalid_category_service_id": {
+		"error_code": "20018",
+		"error_message": "Invalid category_service-Id "
+	},
+   "user_exist": {
+		"error_code": "20019",
+		"error_message": "User  already exist"
+	}
+}

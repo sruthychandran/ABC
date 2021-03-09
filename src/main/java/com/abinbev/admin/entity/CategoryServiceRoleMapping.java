@@ -1,9 +1,8 @@
-package com.abinbev.admin.requestDto;
+package com.abinbev.admin.entity;
 
-import java.util.Date;
 import java.util.List;
 
-import com.abinbev.admin.requestDto.UserDto.UserDtoBuilder;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRoleMappingDto {
-
-	private String roleId;
-
+@Document
+public class CategoryServiceRoleMapping {
+	private String categoryId;
 	private List<String> userRoles;
-	
+
 }

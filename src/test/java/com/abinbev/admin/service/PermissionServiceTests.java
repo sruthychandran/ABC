@@ -1,11 +1,8 @@
 package com.abinbev.admin.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -62,7 +59,6 @@ public class PermissionServiceTests {
 		assertEquals("EU", returnedUser.getData().getPermissionId());
 		assertEquals("end user", returnedUser.getData().getPermissionName());
 		assertNotNull(returnedUser.getData().getCreatedDate());
-		// assertEquals("created successfully", returnedUser.getMessage());
 
 	}
 
@@ -86,8 +82,6 @@ public class PermissionServiceTests {
 
 		assertNotNull(updatedPermission.getData().getPermissionId());
 		assertEquals("Permission updated", updatedPermission.getData().getPermissionName());
-
-		// assertEquals("updated successfully", updatedPermission.getMessage());
 
 	}
 
@@ -118,7 +112,8 @@ public class PermissionServiceTests {
 
 		Mockito.when(permissionDAO.getAllPermissions(PageRequest.of(0, 20))).thenReturn(page);
 
-		//assertThat(permissionService.getAllPermissions(PageRequest.of(0, 20)).getTotalElements()).isEqualTo(2);
+		// assertThat(permissionService.getAllPermissions(PageRequest.of(0,
+		// 20)).getTotalElements()).isEqualTo(2);
 
 	}
 

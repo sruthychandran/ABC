@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.abinbev.admin.utility.ErrorCodes;
 import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
-import com.abinbev.admin.utility.ErrorResponse;
+import com.abinbev.admin.utility.ExceptionErrorResponse;
 
 @ControllerAdvice
 public class ExceptionHandlerControllerAdvice /* extends ResponseEntityExceptionHandler */ {
@@ -23,7 +23,7 @@ public class ExceptionHandlerControllerAdvice /* extends ResponseEntityException
 	private ErrorCodes errorCodes;
 
 	@ExceptionHandler({ ErrorKeyException.class })
-	public ResponseEntity<ErrorResponse> runtimeException(ErrorKeyException errorKeyException) {
+	public ResponseEntity<ExceptionErrorResponse> runtimeException(ErrorKeyException errorKeyException) {
 
 		HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 		String error = "Internal Server Error";
@@ -48,7 +48,7 @@ public class ExceptionHandlerControllerAdvice /* extends ResponseEntityException
 		if (message == null || message.isEmpty())
 			message = "No message available";
 
-		ErrorResponse errorResponse = ErrorResponse.create(message, error, errorCodeMessage.getErrorCode(),
+		ExceptionErrorResponse errorResponse = ExceptionErrorResponse.create(message, error, errorCodeMessage.getErrorCode(),
 				httpStatus.value());
 		return ResponseEntity.status(httpStatus).body(errorResponse);
 

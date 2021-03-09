@@ -23,6 +23,7 @@ import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.PermissionResponseDto;
 import com.abinbev.admin.service.PermissionService;
 import com.abinbev.admin.utility.ErrorCodes;
+import com.abinbev.admin.utility.ExceptionErrorResponse;
 import com.abinbev.admin.utility.MapperUtil;
 
 @Service

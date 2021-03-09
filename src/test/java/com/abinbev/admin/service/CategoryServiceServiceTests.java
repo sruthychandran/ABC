@@ -8,10 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,9 +24,6 @@ import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 public class CategoryServiceServiceTests {
@@ -52,8 +46,8 @@ public class CategoryServiceServiceTests {
 	public void test_createCategoryServices_success()
 			throws JsonMappingException, JsonProcessingException, CategoryServiceCreationFailureException {
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().categoryId("CS")
-				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
+				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").status("active")
+				.subModuleId("TA-Add").subModuleName("Tenant Addition").build();
 
 		CategoryService categoryService = mapper.readValue(mapToJson(categoryServiceDto), CategoryService.class);
 		categoryService.setStatus("active");
@@ -69,11 +63,10 @@ public class CategoryServiceServiceTests {
 		assertEquals("NI", result.getData().getModuleId());
 		assertEquals("Notification Service", result.getData().getModuleName());
 		assertEquals("active", result.getData().getStatus());
-		assertEquals("TA", result.getData().getUserRole());
 		assertEquals("TA-Add", result.getData().getSubModuleId());
 		assertEquals("Tenant Addition", result.getData().getSubModuleName());
 		assertNotNull(result.getData().getCreatedDate());
-		assertEquals("Category Service created successfully ", result.getMessage());
+		assertEquals("Category Service created successfully", result.getMessage());
 		assertNull(result.getError().getErrorCode());
 		assertNull(result.getError().getErrorMessage());
 
@@ -83,8 +76,8 @@ public class CategoryServiceServiceTests {
 	public void test_createCategoryServices__throws_exception()
 			throws JsonMappingException, JsonProcessingException, CategoryServiceCreationFailureException {
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().categoryId("CS")
-				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
+				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").status("active")
+				.subModuleId("TA-Add").subModuleName("Tenant Addition").build();
 		Mockito.when(categoryServiceDAO.save(Mockito.any(CategoryService.class))).thenReturn(null);
 		CategoryServiceCreationFailureException thrown = assertThrows(CategoryServiceCreationFailureException.class,
 				() -> categoryServiceService.saveCategoryService(categoryServiceDto));
@@ -97,8 +90,8 @@ public class CategoryServiceServiceTests {
 			CategoryServiceNotFoundException, CategoryServiceUpdationFailureException {
 
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().id("sdfghjkl").categoryId("CS")
-				.categoryName("coreService").moduleId("NI").moduleName("Notification Service1").userRole("TA")
-				.status("active").subModuleId("TA-Add").subModuleName("Tenant Addition").build();
+				.categoryName("coreService").moduleId("NI").moduleName("Notification Service1").status("active")
+				.subModuleId("TA-Add").subModuleName("Tenant Addition").build();
 
 		CategoryService categoryService = CategoryService.builder().id("sdfghjkl").categoryId("CS")
 				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
@@ -117,7 +110,7 @@ public class CategoryServiceServiceTests {
 		assertEquals("coreService", updatedCategoryService.getData().getCategoryName());
 		assertEquals("NI", updatedCategoryService.getData().getModuleId());
 		assertEquals("Notification Service1", updatedCategoryService.getData().getModuleName());
-		assertEquals("TA", updatedCategoryService.getData().getUserRole());
+
 		assertEquals("active", updatedCategoryService.getData().getStatus());
 		assertEquals(createdDate, updatedCategoryService.getData().getCreatedDate());
 
@@ -133,8 +126,7 @@ public class CategoryServiceServiceTests {
 			throws JsonMappingException, JsonProcessingException {
 
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().id("sdfghjkl").categoryId("CS")
-				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").build();
+				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").status("active").build();
 
 		Mockito.when(categoryServiceDAO.findById(categoryServiceDto.getId())).thenReturn(null);
 
@@ -148,8 +140,7 @@ public class CategoryServiceServiceTests {
 			throws JsonMappingException, JsonProcessingException, CategoryServiceUpdationFailureException {
 
 		CategoryServiceDto categoryServiceDto = CategoryServiceDto.builder().id("sdfghjkl").categoryId("CS")
-				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").build();
+				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").status("active").build();
 		Mockito.when(categoryServiceDAO.findById(categoryServiceDto.getId())).thenReturn(new CategoryService());
 
 		Mockito.when(categoryServiceDAO.save(Mockito.any(CategoryService.class))).thenReturn(null);
@@ -163,15 +154,31 @@ public class CategoryServiceServiceTests {
 	public void test_deleteCategoryService_success()
 			throws JsonMappingException, JsonProcessingException, CategoryServiceNotFoundException {
 		CategoryService categoryService = CategoryService.builder().id("sdfghjkl").categoryId("CS")
-				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").userRole("TA")
-				.status("active").createdDate(new Date(2021, 3, 1)).build();
+				.categoryName("coreService").moduleId("NI").moduleName("Notification Service").status("active")
+				.createdDate(new Date(2021, 3, 1)).modifiedDate(new Date(2021, 3, 1)).build();
 
+		Date createdDate = categoryService.getCreatedDate();
+		
 		Mockito.when(categoryServiceDAO.findById("sdfghjkl")).thenReturn(categoryService);
 
 		categoryService.setStatus("inactive");
 
 		Mockito.when(categoryServiceDAO.save(Mockito.any(CategoryService.class))).thenReturn(categoryService);
-		categoryServiceService.deleteCategoryService("sdfghjkl");
+		BasicResponse<CategoryServiceResponseDto> response = categoryServiceService.deleteCategoryService("sdfghjkl");
+
+		assertNotNull(response.getData().getId());
+		assertEquals("sdfghjkl", response.getData().getId());
+		assertEquals("CS", response.getData().getCategoryId());
+		assertEquals("coreService", response.getData().getCategoryName());
+		assertEquals("NI", response.getData().getModuleId());
+		assertEquals("Notification Service", response.getData().getModuleName());
+		assertEquals("inactive", response.getData().getStatus());
+		assertEquals(createdDate, response.getData().getCreatedDate());
+		assertNotNull(response.getData().getModifiedDate());
+		assertEquals("Category Service delete successfully", response.getMessage());
+		assertEquals("10013", response.getCode());
+		assertNull(response.getError().getErrorCode());
+		assertNull(response.getError().getErrorMessage());
 
 	}
 
@@ -184,7 +191,8 @@ public class CategoryServiceServiceTests {
 
 		Mockito.when(categoryServiceDAO.findById("sdfghjkl")).thenReturn(categoryService);
 
-		BasicResponse<CategoryServiceResponseDto> categoryServiceResponseObj = categoryServiceService.findById("sdfghjkl");
+		BasicResponse<CategoryServiceResponseDto> categoryServiceResponseObj = categoryServiceService
+				.findById("sdfghjkl");
 
 		assertEquals("sdfghjkl", categoryServiceResponseObj.getData().getId());
 		assertEquals("coreService", categoryServiceResponseObj.getData().getCategoryName());
