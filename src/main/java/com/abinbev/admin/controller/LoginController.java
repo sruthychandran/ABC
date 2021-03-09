@@ -41,32 +41,25 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/loginController/v1")
 public class LoginController {
 
-	
-	  private static final Logger log =
-	  LoggerFactory.getLogger(PermissionController.class);
-	  
-	  @Autowired LoginService loginService;
-	  
-	
+	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
+
+	@Autowired
+	LoginService loginService;
+
 	@PostMapping("/signup")
 	public ResponseEntity<BasicResponse<UserResponseDto>> signup(@RequestBody SignupDto signupDto)
-			throws PermissionCreationFailureException, UserAlreadyExistsException {
-
-		log.debug("Request to signup " + signupDto);
+	{	
+	log.debug("Request to signup " + signupDto);
 		BasicResponse<UserResponseDto> signupResponse=loginService.signup(signupDto);
 		return ResponseEntity.ok().body(signupResponse);
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<BasicResponse<UserResponseDto>> login(@RequestBody LoginDto loginDto)
-			throws PermissionCreationFailureException {
-
-		log.debug("Request to login",  loginDto);
-		BasicResponse<UserResponseDto> loginResponse=loginService.login(loginDto);
+	{
+		log.debug("Request to login", loginDto);
+		BasicResponse<UserResponseDto> loginResponse = loginService.login(loginDto);
 		return ResponseEntity.ok().body(loginResponse);
 	}
-
-
-	
 
 }
