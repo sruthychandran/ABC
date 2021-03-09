@@ -40,6 +40,7 @@ public class CategoryServiceController {
 	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 	@Autowired
 	CategoryServiceService categoryService;
+	
 	@Autowired
 	  private ErrorCodes errorCodes;
 	/**
@@ -72,7 +73,7 @@ public class CategoryServiceController {
 			@RequestBody CategoryServiceDto categoryServiceDto)
 			throws CategoryServiceNotFoundException, BadRequestAlertException, CategoryServiceUpdationFailureException {
 
-		log.debug("Request to update category service " + categoryServiceDto);
+		log.debug("Request to update category service {}" , categoryServiceDto);
 
 		if (categoryServiceDto.getId() == null)
 			throw new BadRequestAlertException(errorCodes.getInvalidId());

@@ -54,24 +54,24 @@
 	},
   "invalid_id": {
 		"error_code": "20014",
-		"error_message": "Invalid Id "
+		"error_message": "Invalid Id"
 	},
 "invalid_permission_id": {
 		"error_code": "20015",
-		"error_message": "Invalid Permission-Id "
+		"error_message": "Invalid Permission-Id"
 	},
 
 "invalid_role_id": {
 		"error_code": "20016",
-		"error_message": "Invalid Role-Id "
+		"error_message": "Invalid Role-Id"
 	},
 "invalid_email_id": {
 		"error_code": "20017",
-		"error_message": "Invalid email-Id "
+		"error_message": "Invalid email-Id"
 	},
 "invalid_category_service_id": {
 		"error_code": "20018",
-		"error_message": "Invalid category_service-Id "
+		"error_message": "Invalid category_service-Id"
 	},
    "user_exist": {
 		"error_code": "20019",
