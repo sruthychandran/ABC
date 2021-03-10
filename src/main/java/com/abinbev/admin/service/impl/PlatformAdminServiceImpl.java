@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.UserDAO;
-import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.entity.User;
 import com.abinbev.admin.exception.EmailExistException;
 import com.abinbev.admin.exception.UserCreationFailureException;
@@ -21,7 +20,6 @@ import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.PlatformAdminOnBoardingDto;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.BasicResponse;
-import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
@@ -38,11 +36,10 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
 	@Autowired
 	UserDAO userDAO;
-	
-	
+
 	@Autowired
 	EmailService emailService;
-	
+
 	@Autowired
 	MessageProperties messageProperties;
 
@@ -53,16 +50,16 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 	MapperUtil<PlatformAdminOnBoardingDto, User> platformAdminMapper = new MapperUtil<>();
 
 	MapperUtil<User, PlatformAdminOnBoardingResponseDto> platformAdminResponse = new MapperUtil<>();
-	
 
 	@Autowired
-	  private ErrorCodes errorCodes;
+	private ErrorCodes errorCodes;
 
 	/**
 	 * In this method platform admin can create a user
 	 */
 	@Override
-	public BasicResponse<UserResponseDto> saveUser(UserDto userDto) throws EmailExistException, UserCreationFailureException {
+	public BasicResponse<UserResponseDto> saveUser(UserDto userDto)
+			throws EmailExistException, UserCreationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 		if (emailExist(user.getEmailId())) {
@@ -73,29 +70,23 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		user.setStatus(messageProperties.getActiveStatus());
 		User userResponseObj = userDAO.save(user);
 		if (userResponseObj != null) {
-			
+
 			emailService.sendWelcomeMail(userResponseObj.getEmailId(), userResponseObj.getFirstName());
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
-
-		
 
 		} else {
 			throw new UserCreationFailureException(errorCodes.getUserSaveFailure());
 		}
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
-	
+
 		basicResponse.setData(response);
-		
-		ErrorResponse error = new ErrorResponse(null,null);
+
+		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
 		basicResponse.setMessage(messageProperties.getPlatformAdminSaveSuccessMessage());
 		basicResponse.setCode(messageProperties.getPlatformAdminSaveSuccesCode());
-		
 
-
-	
 		return basicResponse;
-		
 
 	}
 
@@ -109,9 +100,9 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		return false;
 	}
 
-	
 	@Override
-	public BasicResponse<UserResponseDto> updateUser(UserDto userDto) throws UserNotFoundException, UserUpdationFailureException {
+	public BasicResponse<UserResponseDto> updateUser(UserDto userDto)
+			throws UserNotFoundException, UserUpdationFailureException {
 		UserResponseDto response = null;
 		User user = userMapper.transfer(userDto, User.class);
 
@@ -127,16 +118,15 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		if (userResponseObj != null) {
 			response = userResponse.transfer(userResponseObj, UserResponseDto.class);
 
-			
 		} else {
 			throw new UserUpdationFailureException(errorCodes.getUserUpdateFailure());
 		}
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
-		ErrorResponse error = new ErrorResponse(null,null);
+		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
 		basicResponse.setMessage(messageProperties.getPlatformAdminUpdateSuccessMessage());
 		basicResponse.setCode(messageProperties.getPlatformAdminUpdateSuccesCode());
-		
+
 		basicResponse.setData(response);
 		return basicResponse;
 
@@ -154,8 +144,7 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		List<UserResponseDto> userResponses = new ArrayList<UserResponseDto>();
 
 		Page<User> users = userDAO.getAllUsers(pageable);
-		
-		
+
 		try {
 			if (users != null && !users.isEmpty()) {
 				for (User user : users.getContent()) {
@@ -163,19 +152,20 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 					userResponses.add(response);
 
 				}
-				
+
 				userResponsePage = new PageImpl<UserResponseDto>(userResponses, pageable, users.getContent().size());
-			
-			}else {
-				ErrorResponse error = new ErrorResponse(messageProperties.getNoContentErrorCode(),messageProperties.getNoContentErrorMessage());
+
+			} else {
+				ErrorResponse error = new ErrorResponse(messageProperties.getNoContentErrorCode(),
+						messageProperties.getNoContentErrorMessage());
 				basicResponse.setError(error);
 				return basicResponse;
 			}
-			ErrorResponse error = new ErrorResponse(null,null);
+			ErrorResponse error = new ErrorResponse(null, null);
 			basicResponse.setError(error);
 			basicResponse.setMessage(messageProperties.getPlatformAdminRetrieveSuccessMessage());
 			basicResponse.setCode(messageProperties.getPlatformAdminRetrieveSuccesCode());
-			basicResponse.setData(userResponsePage );
+			basicResponse.setData(userResponsePage);
 			return basicResponse;
 		} catch (Exception ex) {
 
@@ -194,10 +184,10 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		User user = findUserByEmail(emailId);
 
 		user.setStatus(messageProperties.getInactiveStatus());
-		User userObj=userDAO.save(user);
-		UserResponseDto response = userResponse.transfer(userObj,
-				UserResponseDto.class);
-		ErrorResponse error = new ErrorResponse(null,null);
+		user.setModifiedDate(new Date());
+		User userObj = userDAO.save(user);
+		UserResponseDto response = userResponse.transfer(userObj, UserResponseDto.class);
+		ErrorResponse error = new ErrorResponse(null, null);
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
 		basicResponse.setError(error);
 		basicResponse.setMessage(messageProperties.getPlatformAdminDeleteSuccessMessage());
@@ -214,14 +204,14 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		User user = findUserByEmail(emailId);
 		UserResponseDto response = userResponse.transfer(user, UserResponseDto.class);
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
-		ErrorResponse error = new ErrorResponse(null,null);
+		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
 		basicResponse.setMessage(messageProperties.getPlatformAdminRetrieveSuccessMessage());
 		basicResponse.setCode(messageProperties.getPlatformAdminRetrieveSuccesCode());
 		basicResponse.setData(response);
 
 		return basicResponse;
-	
+
 	}
 
 	private User findUserByEmail(String email) throws UserNotFoundException {
@@ -232,32 +222,38 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		return existingUser;
 	}
 
-	
 	@Override
-	public /* BasicResponse< */PlatformAdminOnBoardingResponseDto/* > */
-	  savePlatformAdmin(PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
-	  throws EmailExistException, UserCreationFailureException {
-	  
-	  PlatformAdminOnBoardingResponseDto response = null; User user =
-	  platformAdminMapper.transfer(platformAdminOnBoardingDto, User.class); if
-	  (emailExist(user.getEmailId())) { throw new
-	  EmailExistException(errorCodes.getEmailExist()); } user.setCreatedDate(new
-	  Date()); user.setCreatedBy(user.getEmailId());
-	  user.setStatus(messageProperties.getActiveStatus()); User userResponseObj =
-	  userDAO.save(user);
-	  
-	  if (userResponseObj != null) { response =
-	  platformAdminResponse.transfer(userResponseObj,
-	  PlatformAdminOnBoardingResponseDto.class);
-	  
-	  
-	  
-	  } else { throw new
-	  UserCreationFailureException(errorCodes.getUserSaveFailure()); }
-	  
-	  
-	  
-	  return response; }
-	 
+	public BasicResponse<PlatformAdminOnBoardingResponseDto> savePlatformAdmin(
+			PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
+			throws EmailExistException, UserCreationFailureException {
+
+		PlatformAdminOnBoardingResponseDto response = null;
+		User user = platformAdminMapper.transfer(platformAdminOnBoardingDto, User.class);
+		if (emailExist(user.getEmailId())) {
+			throw new EmailExistException(errorCodes.getEmailExist());
+		}
+		user.setCreatedDate(new Date());
+		user.setCreatedBy(user.getEmailId());
+		user.setStatus(messageProperties.getActiveStatus());
+		User userResponseObj = userDAO.save(user);
+
+		if (userResponseObj != null) {
+			response = platformAdminResponse.transfer(userResponseObj, PlatformAdminOnBoardingResponseDto.class);
+
+		} else {
+			throw new UserCreationFailureException(errorCodes.getUserSaveFailure());
+		}
+		BasicResponse<PlatformAdminOnBoardingResponseDto> basicResponse = new BasicResponse<PlatformAdminOnBoardingResponseDto>();
+
+		basicResponse.setData(response);
+
+		ErrorResponse error = new ErrorResponse(null, null);
+		basicResponse.setError(error);
+		basicResponse.setMessage(messageProperties.getPlatformAdminSaveSuccessMessage());
+		basicResponse.setCode(messageProperties.getPlatformAdminSaveSuccesCode());
+
+		return basicResponse;
+
+	}
 
 }

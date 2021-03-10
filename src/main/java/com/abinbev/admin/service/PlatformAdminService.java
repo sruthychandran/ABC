@@ -25,7 +25,7 @@ public interface PlatformAdminService {
 
 	BasicResponse<UserResponseDto> findByEmailId(String emailId) throws UserNotFoundException;
 
-	public PlatformAdminOnBoardingResponseDto savePlatformAdmin(PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
+	public BasicResponse<PlatformAdminOnBoardingResponseDto> savePlatformAdmin(PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
 			throws EmailExistException, UserCreationFailureException;
 
 }

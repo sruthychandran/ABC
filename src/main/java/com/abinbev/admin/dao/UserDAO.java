@@ -13,5 +13,4 @@ public interface UserDAO {
 
 	public User findByEmail(String emailId);
 
-	public void deleteAll();
 }

@@ -1,6 +1,8 @@
 package com.abinbev.admin.controller;
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.EmailExistException;
+import com.abinbev.admin.exception.RoleNotFoundException;
 import com.abinbev.admin.exception.UserCreationFailureException;
 import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.exception.UserUpdationFailureException;
 import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.BasicResponse;
+import com.abinbev.admin.responseDto.RoleResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
+import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.service.TenantAdminService;
 import com.abinbev.admin.utility.ErrorCodes;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,6 +47,8 @@ public class TenantAdminController {
 	TenantAdminService tenantAdminService;
 	@Autowired
 	  private ErrorCodes errorCodes;
+	@Autowired
+	RoleService roleService;
 	/**
 	 * In this method a tenant admin can create user
 	 * 
@@ -131,4 +138,31 @@ public class TenantAdminController {
 		return ResponseEntity.ok().body(result);
 	}
 
+	
+	/**
+	 * In this method we can get a role by userRole
+	 * 
+	 * @param userRole
+	 * @return BasicResponse<List<RoleResponseDto>>
+	 *
+	 * 
+	 * @throws RoleNotFoundException
+	 */
+
+	@GetMapping("/user_role/{userRole}")
+	public ResponseEntity<BasicResponse<List<RoleResponseDto>>> findByUserRole(@PathVariable String userRole)
+			throws BadRequestAlertException, RoleNotFoundException {
+
+		log.debug("Request to get list of  roles  {}", userRole );
+		
+		BasicResponse<List<RoleResponseDto>> result = roleService.findByUserRole(userRole);
+
+		return ResponseEntity.ok().body(result);
+	}
+	
+	
+	
+	
+	
+	
 }

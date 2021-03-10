@@ -59,8 +59,18 @@ public class CategoryServiceDAOImpl implements CategoryServiceDAO {
 	public CategoryService findById(String id) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("id").is(id));
+		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
 		return mongoTemplate.findOne(query, CategoryService.class);
 
 	}
+	
+	public CategoryService aggregationTest(String id) {
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("id").is(id));
+		return mongoTemplate.findOne(query, CategoryService.class);
+
+	}
+	
 
 }

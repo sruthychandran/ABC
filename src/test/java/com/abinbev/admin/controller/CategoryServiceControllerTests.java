@@ -26,13 +26,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.exception.BadRequestAlertException;
 import com.abinbev.admin.exception.CategoryServiceNotFoundException;
-import com.abinbev.admin.exception.NotFoundException;
 import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.ErrorCodes.ErrorCodeMessage;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

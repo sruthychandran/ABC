@@ -102,6 +102,8 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		categoryService.setId(existingCategoryService.getId());
 
 		categoryService.setCreatedDate(existingCategoryService.getCreatedDate());
+		
+		categoryService.setStatus(existingCategoryService.getStatus());
 
 		categoryService.setModifiedDate(new Date());
 		CategoryService categoryServiceObj = categoryDAO.save(categoryService);
@@ -199,6 +201,8 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 				.transfer(existingCategoryService, CategoryServiceResponseDto.class);
 
 		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
+		ErrorResponse error = new ErrorResponse(null, null);
+		basicResponse.setError(error);
 		basicResponse.setMessage(messageProperties.getCatergoryServiceRetrieveSuccessMessage());
 		basicResponse.setCode(messageProperties.getCategoryServiceRetrieveSuccesCode());
 		basicResponse.setData(categoryServiceResponseObj);

@@ -41,15 +41,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/platformAdminController/v1")
 public class PlatformAdminController {
 
-	
-
 	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
 
 	@Autowired
 	PlatformAdminService platformAdminService;
-	
+
 	@Autowired
-	  private ErrorCodes errorCodes;
+	private ErrorCodes errorCodes;
 
 	/**
 	 * In this method a platform admin can create user
@@ -64,9 +62,9 @@ public class PlatformAdminController {
 	public ResponseEntity<BasicResponse<UserResponseDto>> createUsers(@Valid @RequestBody UserDto userDto)
 			throws EmailExistException, UserCreationFailureException {
 
-		log.debug("Request to create user " + userDto);
+		log.debug("Request to create user {}", userDto);
 		BasicResponse<UserResponseDto> result = platformAdminService.saveUser(userDto);
-		
+
 		return ResponseEntity.ok().body(result);
 
 	}
@@ -86,11 +84,11 @@ public class PlatformAdminController {
 	public ResponseEntity<BasicResponse<UserResponseDto>> updateUsers(@RequestBody UserDto userDto)
 			throws BadRequestAlertException, UserNotFoundException, UserUpdationFailureException {
 
-		log.debug("Request to update user " + userDto);
+		log.debug("Request to update user {}", userDto);
 		if (userDto.getEmailId() == null)
 			throw new BadRequestAlertException(errorCodes.getInvalidEmailId());
 		BasicResponse<UserResponseDto> result = platformAdminService.updateUser(userDto);
-		
+
 		return ResponseEntity.ok().body(result);
 	}
 
@@ -116,7 +114,7 @@ public class PlatformAdminController {
 				Sort.by(sort.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy));
 
 		BasicResponse<Page<UserResponseDto>> result = platformAdminService.getAllUsers(pageable);
-	
+
 		return ResponseEntity.ok().body(result);
 	}
 
@@ -129,10 +127,11 @@ public class PlatformAdminController {
 	 */
 
 	@DeleteMapping("/user/{emailId}")
-	public ResponseEntity<Void> deleteUser(@PathVariable String emailId) throws UserNotFoundException {
-		log.debug("Request to delete a user " + emailId);
-		platformAdminService.deleteUser(emailId);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<BasicResponse<UserResponseDto>> deleteUser(@PathVariable String emailId)
+			throws UserNotFoundException {
+		log.debug("Request to delete a user {}", emailId);
+		BasicResponse<UserResponseDto> result = platformAdminService.deleteUser(emailId);
+		return ResponseEntity.ok().body(result);
 	}
 
 	/**
@@ -147,9 +146,9 @@ public class PlatformAdminController {
 	@GetMapping("/user/{emailId}")
 	public ResponseEntity<BasicResponse<UserResponseDto>> getUserByEmailId(@PathVariable String emailId)
 			throws JsonMappingException, JsonProcessingException, UserNotFoundException {
-		log.debug("Request to get a user " + emailId);
+		log.debug("Request to get a user {}", emailId);
 		BasicResponse<UserResponseDto> result = platformAdminService.findByEmailId(emailId);
-	
+
 		return ResponseEntity.ok().body(result);
 	}
 
@@ -161,26 +160,19 @@ public class PlatformAdminController {
 	 * @throws EmailExistException
 	 * @throws UserCreationFailureException
 	 */
-	
-	
-	/*
-	 * @PostMapping("/onboardPlatformAdmin") public
-	 * ResponseEntity<BasicResponse<PlatformAdminOnBoardingResponseDto>>
-	 * createPlatformAdmin(
-	 * 
-	 * @Valid @RequestBody PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
-	 * throws EmailExistException, UserCreationFailureException {
-	 * log.debug("Request to onboard patform Admin");
-	 * 
-	 * BasicResponse<PlatformAdminOnBoardingResponseDto>
-	 * platformAdminOnBoardingResponse = platformAdminService
-	 * .savePlatformAdmin(platformAdminOnBoardingDto);
-	 * 
-	 * return ResponseEntity.ok().body(platformAdminOnBoardingResponse);
-	 * 
-	 * }
-	 */
-	 
-	 
+
+	@PostMapping("/onboardPlatformAdmin")
+	public ResponseEntity<BasicResponse<PlatformAdminOnBoardingResponseDto>> createPlatformAdmin(
+
+			@Valid @RequestBody PlatformAdminOnBoardingDto platformAdminOnBoardingDto)
+			throws EmailExistException, UserCreationFailureException {
+		log.debug("Request to onboard patform Admin");
+
+		BasicResponse<PlatformAdminOnBoardingResponseDto> platformAdminOnBoardingResponse = platformAdminService
+				.savePlatformAdmin(platformAdminOnBoardingDto);
+
+		return ResponseEntity.ok().body(platformAdminOnBoardingResponse);
+
+	}
 
 }

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.abinbev.admin.config.MessageProperties;
 import com.abinbev.admin.dao.UserDAO;
-import com.abinbev.admin.entity.CategoryService;
 import com.abinbev.admin.entity.User;
 
 @Repository
@@ -35,16 +34,13 @@ public class UserDAOImpl implements UserDAO {
 	public Page<User> getAllUsers(Pageable pageable) {
 		Query query = new Query().with(pageable);
 		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
-		List<User> userList= mongoTemplate.find(query, User.class);
+		List<User> userList = mongoTemplate.find(query, User.class);
 
-		
-		Page<User> userPage = PageableExecutionUtils.getPage(
-				userList,
-		        pageable,
-		        () -> mongoTemplate.count(query, User.class));
-		
+		Page<User> userPage = PageableExecutionUtils.getPage(userList, pageable,
+				() -> mongoTemplate.count(query, User.class));
+
 		return userPage;
-		
+
 	}
 
 	@Override
@@ -52,11 +48,12 @@ public class UserDAOImpl implements UserDAO {
 		Query query = new Query();
 
 		query.addCriteria(Criteria.where("emailId").is(emailId));
+		query.addCriteria(Criteria.where("status").is(messageProperties.getActiveStatus()));
 		return mongoTemplate.findOne(query, User.class);
 	}
 
-	public void deleteAll() {
-		mongoTemplate.remove(new Query(), User.class);
-	}
+	/*
+	 * public void deleteAll() { mongoTemplate.remove(new Query(), User.class); }
+	 */
 
 }
