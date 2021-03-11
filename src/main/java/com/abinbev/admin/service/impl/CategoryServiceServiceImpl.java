@@ -67,11 +67,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 			throw new CategoryServiceCreationFailureException(errorCodes.getCategoryServiceSaveFailure());
 		}
 		CategoryServiceRoleMapping categoryServiceRoleMapping = new CategoryServiceRoleMapping();
-		categoryServiceRoleMapping.setCategoryId(categoryServiceResponseObj.getCategoryId());
-		if (categoryServiceDto.getUserRoles() != null && !categoryServiceDto.getUserRoles().isEmpty()) {
-			categoryServiceRoleMapping.setUserRoles(categoryServiceDto.getUserRoles());
-			categoryServiceRoleMappingService.save(categoryServiceRoleMapping);
-		}
+		
 		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
@@ -210,51 +206,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		return basicResponse;
 	}
 
-	/**
-	 * In this method we can list all roles by userRoles
-	 */
-	@Override
-	public BasicResponse<List<CategoryServiceResponseDto>> findByUserRole(String userRole) {
-		BasicResponse<List<CategoryServiceResponseDto>> basicResponse = new BasicResponse<List<CategoryServiceResponseDto>>();
-
-		List<CategoryServiceResponseDto> responseList = new ArrayList<CategoryServiceResponseDto>();
-
-		List<CategoryServiceRoleMapping> categoryRoles = categoryServiceRoleMappingDAO.findByUserRole(userRole);
-
-		try {
-			if (categoryRoles != null && !categoryRoles.isEmpty()) {
-				for (CategoryServiceRoleMapping categoryRole : categoryRoles) {
-					List<CategoryService> categoryServiceResponseObj = categoryDAO
-							.findByCategoryId(categoryRole.getCategoryId());
-					List<CategoryServiceResponseDto> categoryServiceResponseList = toCategoryResponseDto(
-							categoryServiceResponseObj);
-					responseList.addAll(categoryServiceResponseList);
-
-				}
-
-			} else {
-				ErrorResponse error = new ErrorResponse(messageProperties.getNoContentErrorCode(),
-						messageProperties.getNoContentErrorMessage());
-				basicResponse.setError(error);
-				return basicResponse;
-			}
-			ErrorResponse error = new ErrorResponse(null, null);
-			basicResponse.setError(error);
-			basicResponse.setMessage(messageProperties.getRoleRetrieveSuccessMessage());
-			basicResponse.setCode(messageProperties.getRoleRetrieveSuccesCode());
-
-			basicResponse.setData(responseList);
-			return basicResponse;
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			responseList = null;
-		}
-
-		return null;
-
-	}
+	
 
 	private List<CategoryServiceResponseDto> toCategoryResponseDto(List<CategoryService> categoryServiceList) {
 		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<>();
@@ -266,5 +218,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		return categoryServiceResponseList;
 
 	}
+
+	
 
 }

@@ -121,5 +121,8 @@ public class MessageProperties {
 	String noContentErrorCode;
 	@Value("${nocontent.errorMessage}")
 	String noContentErrorMessage;
-
+	@Value("${categoryService.role.mapping.save.successMessage}")
+	String categoryServiceRoleMappingSaveSuccessMessage;
+	@Value("${categoryService.role.mapping.save.successCode}")
+	String categoryServiceRoleMappingSaveSuccesCode;
 }

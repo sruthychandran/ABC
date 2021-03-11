@@ -47,6 +47,13 @@ public class CategoryServiceRoleMappingDAOImpl implements CategoryServiceRoleMap
         query.addCriteria(Criteria.where("userRoles").is(userRole));
 		return mongoTemplate.find(query, CategoryServiceRoleMapping.class);
 	}
+	@Override
+	public CategoryServiceRoleMapping findByModuleId(String moduleId) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("moduleId").is(moduleId));
+		return mongoTemplate.findOne(query,CategoryServiceRoleMapping.class);
+		
+	}
 
 
 }

@@ -76,5 +76,9 @@
    "user_exist": {
 		"error_code": "20019",
 		"error_message": "User  already exist"
+	},
+  "category_role_mapping_save_failure": {
+		"error_code": "20020",
+		"error_message": "Save permission operation is failed"
 	}
 }

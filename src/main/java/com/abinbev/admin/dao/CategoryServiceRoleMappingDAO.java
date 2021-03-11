@@ -10,4 +10,6 @@ public interface CategoryServiceRoleMappingDAO {
 
 	public List<CategoryServiceRoleMapping> findByUserRole(String userRole);
 
+	public CategoryServiceRoleMapping findByModuleId(String moduleId);
+
 }

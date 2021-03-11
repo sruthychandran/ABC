@@ -6,4 +6,6 @@ public interface CategoryServiceRoleMappingService {
 
 	public CategoryServiceRoleMapping save(CategoryServiceRoleMapping categoryServiceRoleMapping);
 
+	CategoryServiceRoleMapping findByModuleId(String moduleId);
+
 }

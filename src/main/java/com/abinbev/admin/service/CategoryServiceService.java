@@ -30,5 +30,5 @@ public interface CategoryServiceService {
 
 	
 
-	public BasicResponse<List<CategoryServiceResponseDto>> findByUserRole(String userRole);
+	
 }

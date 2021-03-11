@@ -41,7 +41,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RequestMapping("/platformAdminController/v1")
 public class PlatformAdminController {
 
-	private static final Logger log = LoggerFactory.getLogger(PermissionController.class);
+	private static final Logger log = LoggerFactory.getLogger(PlatformAdminController.class);
 
 	@Autowired
 	PlatformAdminService platformAdminService;

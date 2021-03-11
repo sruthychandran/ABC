@@ -30,7 +30,7 @@ public class CategoryServiceRoleMappingServiceImpl implements CategoryServiceRol
 	private ErrorCodes errorCodes;
 
 	/**
-	 * In this method we can create a role
+	 * In this method map categoryService with userroles 
 	 */
 	@Override
 	public CategoryServiceRoleMapping save(CategoryServiceRoleMapping categoryServiceRoleMapping) {
@@ -41,6 +41,12 @@ public class CategoryServiceRoleMappingServiceImpl implements CategoryServiceRol
 
 		return categoryServiceRoleMappingObj;
 
+	}
+	@Override
+	public CategoryServiceRoleMapping findByModuleId(String moduleId){
+		return categoryServiceRoleMappingDAO.findByModuleId( moduleId);
+		
+		
 	}
 
 }

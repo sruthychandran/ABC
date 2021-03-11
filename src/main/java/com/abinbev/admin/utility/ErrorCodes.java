@@ -118,6 +118,11 @@ public class ErrorCodes {
   @JsonProperty("user_exist")
   private ErrorCodeMessage userExist;
   
+  @NotNull
+  @Valid
+  @JsonProperty("category_role_mapping_save_failure")
+  private ErrorCodeMessage categoryRoleMappingSaveFailure;
+  
   @Data
   @AllArgsConstructor
   @NoArgsConstructor

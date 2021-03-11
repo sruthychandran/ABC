@@ -1,8 +1,6 @@
-package com.abinbev.admin.entity;
+package com.abinbev.admin.responseDto;
 
 import java.util.List;
-
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
-public class CategoryServiceRoleMapping {
-	//private String categoryId;
+public class CategoryServiceRoleMappingResponseDto {
+
+	private String categoryId;
+
 	private List<String> userRoles;
 	private String moduleId;
-
 }
