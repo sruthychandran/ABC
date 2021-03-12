@@ -28,6 +28,8 @@ public interface CategoryServiceService {
 
 	public BasicResponse<CategoryServiceResponseDto> findById(String id) throws CategoryServiceNotFoundException;
 
+	public void findByUserRole(String userRole);
+
 	
 
 	

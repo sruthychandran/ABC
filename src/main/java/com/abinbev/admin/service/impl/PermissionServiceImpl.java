@@ -18,12 +18,11 @@ import com.abinbev.admin.exception.PermissionNotFoundException;
 import com.abinbev.admin.exception.PermissionUpdationFailureException;
 import com.abinbev.admin.requestDto.PermissionDto;
 import com.abinbev.admin.responseDto.BasicResponse;
-import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.PermissionResponseDto;
+import com.abinbev.admin.responseDto.SuccessResponse;
 import com.abinbev.admin.service.PermissionService;
 import com.abinbev.admin.utility.ErrorCodes;
-import com.abinbev.admin.utility.ExceptionErrorResponse;
 import com.abinbev.admin.utility.MapperUtil;
 
 @Service
@@ -37,13 +36,15 @@ public class PermissionServiceImpl implements PermissionService {
 
 	MapperUtil<PermissionDto, Permission> permissionMapper = new MapperUtil<>();
 	MapperUtil<Permission, PermissionResponseDto> permissionResponse = new MapperUtil<>();
-	 @Autowired
-	  private ErrorCodes errorCodes;
+	@Autowired
+	private ErrorCodes errorCodes;
+
 	/**
 	 * In this method we can create a permission
 	 */
 	@Override
-	public BasicResponse<PermissionResponseDto> savePermission(PermissionDto permissionDto) throws PermissionCreationFailureException {
+	public BasicResponse<PermissionResponseDto> savePermission(PermissionDto permissionDto)
+			throws PermissionCreationFailureException {
 		PermissionResponseDto response = null;
 		Permission permission = permissionMapper.transfer(permissionDto, Permission.class);
 		permission.setStatus(messageProperties.getActiveStatus());
@@ -52,15 +53,17 @@ public class PermissionServiceImpl implements PermissionService {
 		if (permissionResponseObj != null) {
 
 			response = permissionResponse.transfer(permissionResponseObj, PermissionResponseDto.class);
-	
+
 		} else {
 			throw new PermissionCreationFailureException(errorCodes.getCategoryServiceSaveFailure());
 		}
 		BasicResponse<PermissionResponseDto> basicResponse = new BasicResponse<PermissionResponseDto>();
-		ErrorResponse error = new ErrorResponse(null,null);
+		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPermissionSaveSuccessMessage());
-		basicResponse.setCode(messageProperties.getPermissionSaveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPermissionSaveSuccessMessage(),
+				messageProperties.getPermissionSaveSuccesCode());
+		basicResponse.setMessage(message);
+
 		basicResponse.setData(response);
 		return basicResponse;
 
@@ -70,18 +73,21 @@ public class PermissionServiceImpl implements PermissionService {
 	 * In this method we can delete a permission
 	 */
 	@Override
-	public  BasicResponse<PermissionResponseDto> deletePermission(String id) throws PermissionNotFoundException {
+	public BasicResponse<PermissionResponseDto> deletePermission(String id) throws PermissionNotFoundException {
 		Permission existingPermission = permissionDAO.findById(id);
 		existingPermission.setStatus(messageProperties.getInactiveStatus());
 		existingPermission.setModifiedDate(new Date());
 		Permission permissionResponseObj = permissionDAO.save(existingPermission);
-		PermissionResponseDto response = permissionResponse.transfer(permissionResponseObj, PermissionResponseDto.class);
-		ErrorResponse error = new ErrorResponse(null,null);
+		PermissionResponseDto response = permissionResponse.transfer(permissionResponseObj,
+				PermissionResponseDto.class);
+		ErrorResponse error = new ErrorResponse(null, null);
 		BasicResponse<PermissionResponseDto> basicResponse = new BasicResponse<PermissionResponseDto>();
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPermissionDeleteSuccessMessage());
-		basicResponse.setCode(messageProperties.getPermissionDeleteSuccesCode());
-		basicResponse.setData( response);
+		SuccessResponse message = new SuccessResponse(messageProperties.getPermissionDeleteSuccessMessage(),
+				messageProperties.getPermissionDeleteSuccesCode());
+		basicResponse.setMessage(message);
+
+		basicResponse.setData(response);
 		return basicResponse;
 	}
 
@@ -89,7 +95,7 @@ public class PermissionServiceImpl implements PermissionService {
 	 * In this method we can list all permissions
 	 */
 	@Override
-	public BasicResponse<Page<PermissionResponseDto>>  getAllPermissions(Pageable pageable) {
+	public BasicResponse<Page<PermissionResponseDto>> getAllPermissions(Pageable pageable) {
 		BasicResponse<Page<PermissionResponseDto>> basicResponse = new BasicResponse<Page<PermissionResponseDto>>();
 		Page<PermissionResponseDto> permissionResponsePage = null;
 
@@ -109,17 +115,18 @@ public class PermissionServiceImpl implements PermissionService {
 				permissionResponsePage = new PageImpl<PermissionResponseDto>(permissionResponseList, pageable,
 						permissions.getContent().size());
 
-			}
-			else {
-				ErrorResponse error = new ErrorResponse(messageProperties.getNoContentErrorCode(),messageProperties.getNoContentErrorMessage());
+			} else {
+				ErrorResponse error = new ErrorResponse(messageProperties.getNoContentErrorCode(),
+						messageProperties.getNoContentErrorMessage());
 				basicResponse.setError(error);
 				return basicResponse;
 			}
-			ErrorResponse error = new ErrorResponse(null,null);
+			ErrorResponse error = new ErrorResponse(null, null);
 			basicResponse.setError(error);
-			basicResponse.setMessage(messageProperties.getPermissionRetrieveSuccessMessage());
-			basicResponse.setCode(messageProperties.getPermissionRetrieveSuccesCode());
-			
+			SuccessResponse message = new SuccessResponse(messageProperties.getPermissionRetrieveSuccessMessage(),
+					messageProperties.getPermissionRetrieveSuccesCode());
+			basicResponse.setMessage(message);
+
 			basicResponse.setData(permissionResponsePage);
 			return basicResponse;
 		} catch (Exception ex) {
@@ -158,16 +165,17 @@ public class PermissionServiceImpl implements PermissionService {
 		if (permissionResponseObj != null) {
 			response = permissionResponse.transfer(permissionResponseObj, PermissionResponseDto.class);
 
-			
 		} else {
 			throw new PermissionUpdationFailureException(errorCodes.getCategoryServiceUpdateFailure());
 		}
 
 		BasicResponse<PermissionResponseDto> basicResponse = new BasicResponse<PermissionResponseDto>();
-		ErrorResponse error = new ErrorResponse(null,null);
+		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPermissionUpdateSuccessMessage());
-		basicResponse.setCode(messageProperties.getPermissionUpdateSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPermissionUpdateSuccessMessage(),
+				messageProperties.getPermissionUpdateSuccesCode());
+		basicResponse.setMessage(message);
+
 		basicResponse.setData(response);
 		return basicResponse;
 
@@ -182,10 +190,12 @@ public class PermissionServiceImpl implements PermissionService {
 
 		PermissionResponseDto response = permissionResponse.transfer(existingPermission, PermissionResponseDto.class);
 		BasicResponse<PermissionResponseDto> basicResponse = new BasicResponse<PermissionResponseDto>();
-		ErrorResponse error = new ErrorResponse(null,null);
+		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPermissionRetrieveSuccessMessage());
-		basicResponse.setCode(messageProperties.getPermissionRetrieveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPermissionRetrieveSuccessMessage(),
+				messageProperties.getPermissionRetrieveSuccesCode());
+		basicResponse.setMessage(message);
+
 		basicResponse.setData(response);
 		return basicResponse;
 	}

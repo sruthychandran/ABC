@@ -23,6 +23,7 @@ import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.RoleResponseDto;
+import com.abinbev.admin.responseDto.SuccessResponse;
 import com.abinbev.admin.service.RoleService;
 import com.abinbev.admin.service.UserRoleMappingService;
 import com.abinbev.admin.utility.ErrorCodes;
@@ -86,8 +87,10 @@ public class RoleServiceImpl implements RoleService {
 
 		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getRoleSaveSuccessMessage());
-		basicResponse.setCode(messageProperties.getRoleSaveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getRoleSaveSuccessMessage(),messageProperties.getRoleSaveSuccesCode());
+		basicResponse.setMessage(message);
+	//	basicResponse.setMessage(messageProperties.getRoleSaveSuccessMessage());
+	//	basicResponse.setCode(messageProperties.getRoleSaveSuccesCode());
 
 		basicResponse.setData(response);
 		return basicResponse;
@@ -108,8 +111,9 @@ public class RoleServiceImpl implements RoleService {
 		ErrorResponse error = new ErrorResponse(null, null);
 		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getCatergoryServiceRetrieveSuccessMessage());
-		basicResponse.setCode(messageProperties.getCategoryServiceRetrieveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getRoleSaveSuccessMessage(),messageProperties.getRoleSaveSuccesCode());
+		basicResponse.setMessage(message);
+		
 		basicResponse.setData(response);
 		return basicResponse;
 
@@ -145,8 +149,9 @@ public class RoleServiceImpl implements RoleService {
 			}
 			ErrorResponse error = new ErrorResponse(null, null);
 			basicResponse.setError(error);
-			basicResponse.setMessage(messageProperties.getRoleRetrieveSuccessMessage());
-			basicResponse.setCode(messageProperties.getRoleRetrieveSuccesCode());
+			SuccessResponse message = new SuccessResponse(messageProperties.getRoleRetrieveSuccessMessage(),messageProperties.getRoleRetrieveSuccesCode());
+			basicResponse.setMessage(message);
+			
 
 			basicResponse.setData(roleResponsePage);
 			return basicResponse;
@@ -199,8 +204,9 @@ public class RoleServiceImpl implements RoleService {
 		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getRoleUpdateSuccessMessage());
-		basicResponse.setCode(messageProperties.getRoleUpdateSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getRoleUpdateSuccessMessage(),messageProperties.getRoleUpdateSuccesCode());
+		basicResponse.setMessage(message);
+		
 		basicResponse.setData(response);
 		return basicResponse;
 
@@ -218,8 +224,9 @@ public class RoleServiceImpl implements RoleService {
 		BasicResponse<RoleResponseDto> basicResponse = new BasicResponse<RoleResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getRoleRetrieveSuccessMessage());
-		basicResponse.setCode(messageProperties.getRoleRetrieveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getRoleRetrieveSuccessMessage(),messageProperties.getRoleRetrieveSuccesCode());
+		basicResponse.setMessage(message);
+		
 		basicResponse.setData(response);
 		return basicResponse;
 
@@ -271,8 +278,9 @@ public class RoleServiceImpl implements RoleService {
 			}
 			ErrorResponse error = new ErrorResponse(null, null);
 			basicResponse.setError(error);
-			basicResponse.setMessage(messageProperties.getRoleRetrieveSuccessMessage());
-			basicResponse.setCode(messageProperties.getRoleRetrieveSuccesCode());
+			SuccessResponse message = new SuccessResponse(messageProperties.getRoleRetrieveSuccessMessage(),messageProperties.getRoleRetrieveSuccesCode());
+			basicResponse.setMessage(message);
+			
 
 			basicResponse.setData(roleResponseList);
 			return basicResponse;

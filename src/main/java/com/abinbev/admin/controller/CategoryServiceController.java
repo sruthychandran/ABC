@@ -39,8 +39,9 @@ public class CategoryServiceController {
 	@Autowired
 	CategoryServiceService categoryService;
 
-	@Autowired
-	private ErrorCodes errorCodes;
+	
+	  @Autowired private ErrorCodes errorCodes;
+	 
 
 	/**
 	 * In this method we can create a category service
@@ -145,6 +146,30 @@ public class CategoryServiceController {
 			throw new BadRequestAlertException(errorCodes.getInvalidId());
 		BasicResponse<CategoryServiceResponseDto> categoryServiceResponse = categoryService.findById(id);
 		return ResponseEntity.ok().body(categoryServiceResponse);
+	}
+	
+	/**
+	 * In this method we can get a category service by id
+	 * 
+	 * @param id
+	 * @return
+	 * @throws BadRequestAlertException
+	 * @throws JsonMappingException
+	 * @throws JsonProcessingException
+	 * @throws CategoryServiceNotFoundException
+	 */
+
+	@GetMapping("/categoryService/{userRole}")
+	public ResponseEntity<BasicResponse<CategoryServiceResponseDto>> findByUserRole(@PathVariable String userRole)
+			throws BadRequestAlertException, JsonMappingException, JsonProcessingException,
+			CategoryServiceNotFoundException {
+		log.debug("Request to get a category service {}" , userRole);
+
+		if (userRole == null)
+			throw new BadRequestAlertException(errorCodes.getInvalidId());
+	categoryService.findByUserRole(userRole);
+		//return ResponseEntity.ok().body(categoryServiceResponse);
+	return null;
 	}
 	
 

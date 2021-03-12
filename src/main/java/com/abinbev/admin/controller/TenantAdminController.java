@@ -38,7 +38,7 @@ import com.abinbev.admin.utility.ErrorCodes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 @RestController
-@RequestMapping("/tenant-admin/v1")
+@RequestMapping("/tenantAdminController/v1")
 public class TenantAdminController {
 
 
@@ -80,7 +80,7 @@ public class TenantAdminController {
 	public ResponseEntity<BasicResponse<UserResponseDto>> updateUsers(@RequestBody UserDto userDto)
 			throws BadRequestAlertException, UserNotFoundException, UserUpdationFailureException {
 
-		log.debug("Request to update user " + userDto);
+		log.debug("Request to update user {}" , userDto);
 		if (userDto.getEmailId() == null)
 			throw new BadRequestAlertException(errorCodes.getInvalidEmailId());
 		BasicResponse<UserResponseDto> result = tenantAdminService.updateUser(userDto);

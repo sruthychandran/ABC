@@ -12,6 +12,7 @@ import com.abinbev.admin.requestDto.ProductAdminRoleMappingDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceRoleMappingResponseDto;
 import com.abinbev.admin.responseDto.ErrorResponse;
+import com.abinbev.admin.responseDto.SuccessResponse;
 import com.abinbev.admin.service.CategoryServiceRoleMappingService;
 import com.abinbev.admin.service.ProductAdminService;
 import com.abinbev.admin.utility.ErrorCodes;
@@ -44,8 +45,6 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 
 			for (String moduleId : productAdminRoleMappingDto.getModules()) {
 
-				
-
 				CategoryServiceRoleMapping categoryServiceRoleMappingobj = categoryServiceRoleMappingService
 						.findByModuleId(moduleId);
 				if (categoryServiceRoleMappingobj == null) {
@@ -58,13 +57,11 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 					List<String> userRoleList = categoryServiceRoleMappingobj.getUserRoles();
 					userRoleList.add("PA");
 					categoryServiceRoleMappingobj.setUserRoles(userRoleList);
-					
-					  CategoryServiceRoleMapping result = categoryServiceRoleMappingService
-					  .save(categoryServiceRoleMappingobj);
-					 
+
+					CategoryServiceRoleMapping result = categoryServiceRoleMappingService
+							.save(categoryServiceRoleMappingobj);
 
 				}
-				
 
 			}
 		}
@@ -72,8 +69,10 @@ public class ProductAdminServiceImpl implements ProductAdminService {
 		BasicResponse<CategoryServiceRoleMappingResponseDto> basicResponse = new BasicResponse<CategoryServiceRoleMappingResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getCategoryServiceRoleMappingSaveSuccessMessage());
-		basicResponse.setCode(messageProperties.getCategoryServiceRoleMappingSaveSuccesCode());
+		SuccessResponse message = new SuccessResponse(
+				messageProperties.getCategoryServiceRoleMappingSaveSuccessMessage(),
+				messageProperties.getCategoryServiceRoleMappingSaveSuccesCode());
+		basicResponse.setMessage(message);
 
 		// basicResponse.setData(null);
 		return basicResponse;

@@ -1,5 +1,7 @@
 package com.abinbev.admin.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +49,11 @@ public class CategoryServiceRoleMappingServiceImpl implements CategoryServiceRol
 		return categoryServiceRoleMappingDAO.findByModuleId( moduleId);
 		
 		
+	}
+	@Override
+	public List<CategoryServiceRoleMapping> findByUserRole(String userRole) {
+	
+		return categoryServiceRoleMappingDAO.findByUserRole(userRole);
 	}
 
 }

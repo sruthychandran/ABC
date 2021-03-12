@@ -30,8 +30,10 @@ import com.abinbev.admin.requestDto.PermissionDto;
 import com.abinbev.admin.requestDto.RoleDto;
 import com.abinbev.admin.requestDto.SignupDto;
 import com.abinbev.admin.responseDto.BasicResponse;
+import com.abinbev.admin.responseDto.LoginResponseDto;
 import com.abinbev.admin.responseDto.PermissionResponseDto;
 import com.abinbev.admin.responseDto.RoleResponseDto;
+import com.abinbev.admin.responseDto.SignupResponseDto;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.LoginService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,18 +49,18 @@ public class LoginController {
 	LoginService loginService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<BasicResponse<UserResponseDto>> signup(@RequestBody SignupDto signupDto)
+	public ResponseEntity<BasicResponse<SignupResponseDto>> signup(@RequestBody SignupDto signupDto)
 	{	
 	log.debug("Request to signup " + signupDto);
-		BasicResponse<UserResponseDto> signupResponse=loginService.signup(signupDto);
+		BasicResponse<SignupResponseDto> signupResponse=loginService.signup(signupDto);
 		return ResponseEntity.ok().body(signupResponse);
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<BasicResponse<UserResponseDto>> login(@RequestBody LoginDto loginDto)
+	public ResponseEntity<BasicResponse<LoginResponseDto>> login(@RequestBody LoginDto loginDto)
 	{
 		log.debug("Request to login", loginDto);
-		BasicResponse<UserResponseDto> loginResponse = loginService.login(loginDto);
+		BasicResponse<LoginResponseDto> loginResponse = loginService.login(loginDto);
 		return ResponseEntity.ok().body(loginResponse);
 	}
 

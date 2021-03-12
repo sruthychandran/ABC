@@ -137,12 +137,7 @@ public class CategoryServiceControllerTests {
 		};
 		BasicResponse<CategoryServiceResponseDto> result = mapper
 				.readValue(mvcResult.getResponse().getContentAsString(), typeReference);
-		/*
-		 * CategoryServiceResponseDto result =
-		 * mapper.readValue(mvcResult.getResponse().getContentAsString(),
-		 * CategoryServiceResponseDto.class);
-		 */
-
+		
 		assertEquals("CS", result.getData().getCategoryId());
 		assertEquals("coreServicev1", result.getData().getCategoryName());
 		assertEquals("NI", result.getData().getModuleId());

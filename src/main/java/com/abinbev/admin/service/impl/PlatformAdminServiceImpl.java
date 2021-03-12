@@ -22,6 +22,7 @@ import com.abinbev.admin.requestDto.UserDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.ErrorResponse;
 import com.abinbev.admin.responseDto.PlatformAdminOnBoardingResponseDto;
+import com.abinbev.admin.responseDto.SuccessResponse;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.EmailService;
 import com.abinbev.admin.service.PlatformAdminService;
@@ -83,8 +84,9 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPlatformAdminSaveSuccessMessage());
-		basicResponse.setCode(messageProperties.getPlatformAdminSaveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPlatformAdminSaveSuccessMessage(),
+				messageProperties.getPlatformAdminSaveSuccesCode());
+		basicResponse.setMessage(message);
 
 		return basicResponse;
 
@@ -124,8 +126,9 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPlatformAdminUpdateSuccessMessage());
-		basicResponse.setCode(messageProperties.getPlatformAdminUpdateSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPlatformAdminUpdateSuccessMessage(),
+				messageProperties.getPlatformAdminUpdateSuccesCode());
+		basicResponse.setMessage(message);
 
 		basicResponse.setData(response);
 		return basicResponse;
@@ -163,8 +166,10 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 			}
 			ErrorResponse error = new ErrorResponse(null, null);
 			basicResponse.setError(error);
-			basicResponse.setMessage(messageProperties.getPlatformAdminRetrieveSuccessMessage());
-			basicResponse.setCode(messageProperties.getPlatformAdminRetrieveSuccesCode());
+			SuccessResponse message = new SuccessResponse(messageProperties.getPlatformAdminRetrieveSuccessMessage(),
+					messageProperties.getPlatformAdminRetrieveSuccesCode());
+			basicResponse.setMessage(message);
+
 			basicResponse.setData(userResponsePage);
 			return basicResponse;
 		} catch (Exception ex) {
@@ -190,8 +195,10 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		ErrorResponse error = new ErrorResponse(null, null);
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPlatformAdminDeleteSuccessMessage());
-		basicResponse.setCode(messageProperties.getPlatformAdminDeleteSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPlatformAdminDeleteSuccessMessage(),
+				messageProperties.getPlatformAdminDeleteSuccesCode());
+		basicResponse.setMessage(message);
+
 		basicResponse.setData(response);
 		return basicResponse;
 	}
@@ -206,8 +213,10 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 		BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPlatformAdminRetrieveSuccessMessage());
-		basicResponse.setCode(messageProperties.getPlatformAdminRetrieveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPlatformAdminRetrieveSuccessMessage(),
+				messageProperties.getPlatformAdminRetrieveSuccesCode());
+		basicResponse.setMessage(message);
+
 		basicResponse.setData(response);
 
 		return basicResponse;
@@ -249,8 +258,9 @@ public class PlatformAdminServiceImpl implements PlatformAdminService {
 
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getPlatformAdminSaveSuccessMessage());
-		basicResponse.setCode(messageProperties.getPlatformAdminSaveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getPlatformAdminSaveSuccessMessage(),
+				messageProperties.getPlatformAdminSaveSuccesCode());
+		basicResponse.setMessage(message);
 
 		return basicResponse;
 

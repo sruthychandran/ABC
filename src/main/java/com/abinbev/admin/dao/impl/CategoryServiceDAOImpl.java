@@ -71,6 +71,14 @@ public class CategoryServiceDAOImpl implements CategoryServiceDAO {
 		return mongoTemplate.findOne(query, CategoryService.class);
 
 	}
+
+	@Override
+	public List<CategoryService> findByModuleId(String moduleId) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("moduleId").is(moduleId));
+		return mongoTemplate.find(query, CategoryService.class);
+		
+	}
 	
 
 }

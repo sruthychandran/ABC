@@ -24,6 +24,8 @@ public List<CategoryService> findByCategoryId(String categoryId);
 
 public CategoryService findById(String id);
 
+public List<CategoryService> findByModuleId(String moduleId);
+
 
 
 }

@@ -13,6 +13,10 @@ import com.abinbev.admin.exception.UserNotFoundException;
 import com.abinbev.admin.requestDto.LoginDto;
 import com.abinbev.admin.requestDto.SignupDto;
 import com.abinbev.admin.responseDto.BasicResponse;
+import com.abinbev.admin.responseDto.ErrorResponse;
+import com.abinbev.admin.responseDto.LoginResponseDto;
+import com.abinbev.admin.responseDto.SignupResponseDto;
+import com.abinbev.admin.responseDto.SuccessResponse;
 import com.abinbev.admin.responseDto.UserResponseDto;
 import com.abinbev.admin.service.EmailService;
 import com.abinbev.admin.service.LoginService;
@@ -40,7 +44,7 @@ public class LoginServiceImpl implements LoginService {
 	ErrorCodes errorCodes;
 
 	@Override
-	public BasicResponse<UserResponseDto> login(LoginDto loginDto) {
+	public BasicResponse<LoginResponseDto> login(LoginDto loginDto) {
 		UserResponseDto response = null;
 
 		User user = userDAO.findByEmail(loginDto.getUsername());
@@ -49,10 +53,14 @@ public class LoginServiceImpl implements LoginService {
 
 		if (user != null && user.getPassword().contentEquals(loginDto.getPassword())) {
 
-			response = userResponse.transfer(user, UserResponseDto.class);
-			BasicResponse<UserResponseDto> basicResponse = new BasicResponse<UserResponseDto>();
-			basicResponse.setMessage(messageProperties.getLoginSuccessMessage());
-			basicResponse.setData(response);
+			LoginResponseDto loginResponseDto = new LoginResponseDto(user.getEmailId(),user.getPassword());
+			BasicResponse<LoginResponseDto> basicResponse = new BasicResponse<LoginResponseDto>();
+			ErrorResponse error = new ErrorResponse(null, null);
+			basicResponse.setError(error);
+			SuccessResponse message = new SuccessResponse(messageProperties.getLoginSuccessMessage(),null);
+			basicResponse.setMessage(message);
+		
+			basicResponse.setData(loginResponseDto);
 			return basicResponse;
 		}
 		return null;
@@ -60,11 +68,11 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public BasicResponse<UserResponseDto> signup(SignupDto signupDto) throws UserAlreadyExistsException {
+	public BasicResponse<SignupResponseDto> signup(SignupDto signupDto) throws UserAlreadyExistsException {
 
 		UserResponseDto response = null;
 
-		BasicResponse<UserResponseDto> basicResponse = null;
+		BasicResponse<SignupResponseDto> basicResponse = null;
 
 		User user = userDAO.findByEmail(signupDto.getUsername());
 
@@ -80,13 +88,15 @@ public class LoginServiceImpl implements LoginService {
 				user.setModifiedDate(new Date());
 
 				user.setPassword(encryptionUtil.encrypt(signupDto.getPassword()));
-				userDAO.save(user);
+				User userObj = userDAO.save(user);
 
-				response = userResponse.transfer(user, UserResponseDto.class);
+				SignupResponseDto signupResponseDto = new SignupResponseDto(userObj.getEmailId(),userObj.getPassword());
 
-				basicResponse = new BasicResponse<UserResponseDto>();
-				basicResponse.setMessage(messageProperties.getSignupSuccessMessage());
-				basicResponse.setData(response);
+				basicResponse = new BasicResponse<SignupResponseDto>();
+				SuccessResponse message = new SuccessResponse(messageProperties.getSignupSuccessMessage(),null);
+				basicResponse.setMessage(message);
+				
+				basicResponse.setData(signupResponseDto);
 
 			}
 

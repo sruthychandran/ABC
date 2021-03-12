@@ -62,74 +62,85 @@ public class PermissionServiceTests {
 
 	}
 
-	@Test
-	public void test_updatePermissions_success() throws JsonMappingException, JsonProcessingException,
-			PermissionNotFoundException, PermissionUpdationFailureException {
-		PermissionDto permissionDto = PermissionDto.builder().permissionId("EU").permissionName("end user").build();
+	
+	  @Test public void test_updatePermissions_success() throws
+	  JsonMappingException, JsonProcessingException, PermissionNotFoundException,
+	  PermissionUpdationFailureException { PermissionDto permissionDto =
+	  PermissionDto.builder().permissionId("EU").permissionName("end user").build()
+	  ;
+	  
+	  Permission permission = mapper.readValue(mapToJson(permissionDto),
+	  Permission.class);
+	  
+	  PermissionResponseDto saved =
+	  PermissionResponseDto.builder().id("qwerty").permissionId("EU")
+	  .permissionName("end user").createdDate(new Date()).build();
+	  Mockito.when(permissionDAO.findById(saved.getId())).thenReturn(permission);
+	  saved.setPermissionId("EU"); saved.setPermissionName("Permission updated");
+	  saved.setModifiedDate(new Date()); PermissionDto updateRequest =
+	  mapper.readValue(mapToJson(saved), PermissionDto.class); Permission
+	  permission1 = mapper.readValue(mapToJson(updateRequest), Permission.class);
+	  Mockito.when(permissionDAO.save(Mockito.any(Permission.class))).thenReturn(
+	  permission1); BasicResponse<PermissionResponseDto> updatedPermission =
+	  permissionService.updatePermission(updateRequest);
+	  
+	  assertNotNull(updatedPermission.getData().getPermissionId());
+	  assertEquals("Permission updated",
+	  updatedPermission.getData().getPermissionName());
+	  
+	  }
+	  
+	  @Test public void test_updatePermissions_throws_exception() throws
+	  JsonMappingException, JsonProcessingException, PermissionNotFoundException {
+	  
+	  PermissionDto permissionDto =
+	  PermissionDto.builder().permissionId("EU").permissionName("end user").build()
+	  ;
+	  
+	  Mockito.when(permissionDAO.findByPermissionId(permissionDto.getPermissionId()
+	  )).thenReturn(null);
+	  
+	  PermissionNotFoundException thrown =
+	  assertThrows(PermissionNotFoundException.class, () ->
+	  permissionService.updatePermission(permissionDto));
+	  
+	  }
+	  
+	  @Test public void test_getAllPermissions() throws JsonMappingException,
+	  JsonProcessingException, PermissionNotFoundException { Permission permission1
+	  = Permission.builder().permissionId("EU").permissionName("end user")
+	  .createdDate(new Date()).build(); Permission permission2 =
+	  Permission.builder().permissionId("TA").permissionName("tenant admin")
+	  .createdDate(new Date()).build();
+	  
+	  List<Permission> permissionList = Arrays.asList(permission1, permission2);
+	  
+	  Page<Permission> page = new PageImpl<>(permissionList);
+	  
+	  Mockito.when(permissionDAO.getAllPermissions(PageRequest.of(0,
+	  20))).thenReturn(page);
+	  
+	  // assertThat(permissionService.getAllPermissions(PageRequest.of(0, //
+	 // 20)).getTotalElements()).isEqualTo(2);
+	  
+	  }
+	 
 
-		Permission permission = mapper.readValue(mapToJson(permissionDto), Permission.class);
-
-		PermissionResponseDto saved = PermissionResponseDto.builder().id("qwerty").permissionId("EU")
-				.permissionName("end user").createdDate(new Date()).build();
-		Mockito.when(permissionDAO.findById(saved.getId())).thenReturn(permission);
-		saved.setPermissionId("EU");
-		saved.setPermissionName("Permission updated");
-		saved.setModifiedDate(new Date());
-		PermissionDto updateRequest = mapper.readValue(mapToJson(saved), PermissionDto.class);
-		Permission permission1 = mapper.readValue(mapToJson(updateRequest), Permission.class);
-		Mockito.when(permissionDAO.save(Mockito.any(Permission.class))).thenReturn(permission1);
-		BasicResponse<PermissionResponseDto> updatedPermission = permissionService.updatePermission(updateRequest);
-
-		assertNotNull(updatedPermission.getData().getPermissionId());
-		assertEquals("Permission updated", updatedPermission.getData().getPermissionName());
-
-	}
-
-	@Test
-	public void test_updatePermissions_throws_exception()
-			throws JsonMappingException, JsonProcessingException, PermissionNotFoundException {
-
-		PermissionDto permissionDto = PermissionDto.builder().permissionId("EU").permissionName("end user").build();
-
-		Mockito.when(permissionDAO.findByPermissionId(permissionDto.getPermissionId())).thenReturn(null);
-
-		PermissionNotFoundException thrown = assertThrows(PermissionNotFoundException.class,
-				() -> permissionService.updatePermission(permissionDto));
-
-	}
-
-	@Test
-	public void test_getAllPermissions()
-			throws JsonMappingException, JsonProcessingException, PermissionNotFoundException {
-		Permission permission1 = Permission.builder().permissionId("EU").permissionName("end user")
-				.createdDate(new Date()).build();
-		Permission permission2 = Permission.builder().permissionId("TA").permissionName("tenant admin")
-				.createdDate(new Date()).build();
-
-		List<Permission> permissionList = Arrays.asList(permission1, permission2);
-
-		Page<Permission> page = new PageImpl<>(permissionList);
-
-		Mockito.when(permissionDAO.getAllPermissions(PageRequest.of(0, 20))).thenReturn(page);
-
-		// assertThat(permissionService.getAllPermissions(PageRequest.of(0,
-		// 20)).getTotalElements()).isEqualTo(2);
-
-	}
-
-	/*
-	 * @Test public void test_deletePermissions_success() throws
-	 * JsonMappingException, JsonProcessingException, PermissionNotFoundException {
-	 * 
-	 * Permission permission = Permission.builder().id("qwerty").permissionId("EU").
-	 * permissionName("end user")
-	 * .permissionDescription("permissionDescription").build();
-	 * 
-	 * Mockito.when(permissionDAO.findById("qwerty")).thenReturn(permission);
-	 * 
-	 * permissionService.deletePermission(permission.getId());
-	 * 
-	 * }
-	 */
+	
+		/*
+		 * @Test public void test_deletePermissions_success() throws
+		 * JsonMappingException, JsonProcessingException, PermissionNotFoundException {
+		 * 
+		 * Permission permission = Permission.builder().id("qwerty").permissionId("EU").
+		 * permissionName("end user")
+		 * .permissionDescription("permissionDescription").build();
+		 * 
+		 * Mockito.when(permissionDAO.findById("qwerty")).thenReturn(permission);
+		 * 
+		 * permissionService.deletePermission(permission.getId());
+		 * 
+		 * }
+		 */
+	 
 
 }

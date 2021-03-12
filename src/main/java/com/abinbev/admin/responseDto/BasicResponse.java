@@ -19,8 +19,8 @@ import lombok.ToString;
 public class BasicResponse<T>{
 
 	private ErrorResponse error;
-	private String code;
-	private String message;
+	private SuccessResponse message;
+	
 	private T data;
 
 

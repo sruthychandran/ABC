@@ -106,14 +106,17 @@ public class MessageProperties {
 	@Value("${permission.retrieve.successCode}")
 	String permissionRetrieveSuccesCode;
 
-	@Value("${login.success}")
+	@Value("${login.successMessage}")
 	String loginSuccessMessage;
+	@Value("${login.successCode}")
+	String loginSuccessCode;
 	@Value("${login.failed}")
 	String loginFailureMessage;
 
-	@Value("${signup.success}")
+	@Value("${signup.successMessage}")
 	String signupSuccessMessage;
-
+	@Value("${signup.successCode}")
+	String signupSuccessCode;
 	@Value("${signup.failure}")
 	String signupFailureMessage;
 

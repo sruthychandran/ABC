@@ -22,6 +22,7 @@ import com.abinbev.admin.requestDto.CategoryServiceDto;
 import com.abinbev.admin.responseDto.BasicResponse;
 import com.abinbev.admin.responseDto.CategoryServiceResponseDto;
 import com.abinbev.admin.responseDto.ErrorResponse;
+import com.abinbev.admin.responseDto.SuccessResponse;
 import com.abinbev.admin.service.CategoryServiceRoleMappingService;
 import com.abinbev.admin.service.CategoryServiceService;
 import com.abinbev.admin.utility.ErrorCodes;
@@ -66,13 +67,14 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		} else {
 			throw new CategoryServiceCreationFailureException(errorCodes.getCategoryServiceSaveFailure());
 		}
-		CategoryServiceRoleMapping categoryServiceRoleMapping = new CategoryServiceRoleMapping();
-		
+
 		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getCatergoryServiceSaveSuccessMessage());
-		basicResponse.setCode(messageProperties.getCategoryServiceSaveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getCatergoryServiceSaveSuccessMessage(),
+				messageProperties.getCategoryServiceSaveSuccesCode());
+		basicResponse.setMessage(message);
+		
 
 		basicResponse.setData(categoryServiceResponseObj);
 
@@ -98,7 +100,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		categoryService.setId(existingCategoryService.getId());
 
 		categoryService.setCreatedDate(existingCategoryService.getCreatedDate());
-		
+
 		categoryService.setStatus(existingCategoryService.getStatus());
 
 		categoryService.setModifiedDate(new Date());
@@ -113,8 +115,10 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getCatergoryServiceUpdateSuccessMessage());
-		basicResponse.setCode(messageProperties.getCategoryServiceUpdateSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getCatergoryServiceUpdateSuccessMessage(),
+				messageProperties.getCategoryServiceUpdateSuccesCode());
+		basicResponse.setMessage(message);
+	
 		basicResponse.setData(categoryServiceResponseObj);
 		return basicResponse;
 
@@ -145,8 +149,11 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 				categoryServiceResponseList, pageable, categoryServicePage.getContent().size());
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getCatergoryServiceRetrieveSuccessMessage());
-		basicResponse.setCode(messageProperties.getCategoryServiceRetrieveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getCatergoryServiceRetrieveSuccessMessage(),
+				messageProperties.getCategoryServiceRetrieveSuccesCode());
+		basicResponse.setMessage(message);
+
+		
 		basicResponse.setData(categoryResponsePage);
 		return basicResponse;
 
@@ -165,7 +172,7 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 			throw new CategoryServiceNotFoundException(errorCodes.getCategoryServiceNotFound());
 		}
 		existingCategoryService.setStatus(messageProperties.getInactiveStatus());
-		
+
 		existingCategoryService.setModifiedDate(new Date());
 		CategoryService categoryServiceObj = categoryDAO.save(existingCategoryService);
 
@@ -174,8 +181,10 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		ErrorResponse error = new ErrorResponse(null, null);
 		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getCatergoryServiceDeleteSuccessMessage());
-		basicResponse.setCode(messageProperties.getCategoryServiceDeleteSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getCatergoryServiceDeleteSuccessMessage(),
+				messageProperties.getCategoryServiceDeleteSuccesCode());
+		basicResponse.setMessage(message);
+		
 		basicResponse.setData(categoryServiceResponseObj);
 		return basicResponse;
 
@@ -199,14 +208,14 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 		BasicResponse<CategoryServiceResponseDto> basicResponse = new BasicResponse<CategoryServiceResponseDto>();
 		ErrorResponse error = new ErrorResponse(null, null);
 		basicResponse.setError(error);
-		basicResponse.setMessage(messageProperties.getCatergoryServiceRetrieveSuccessMessage());
-		basicResponse.setCode(messageProperties.getCategoryServiceRetrieveSuccesCode());
+		SuccessResponse message = new SuccessResponse(messageProperties.getCatergoryServiceRetrieveSuccessMessage(),
+				messageProperties.getCategoryServiceRetrieveSuccesCode());
+		basicResponse.setMessage(message);
+		
 		basicResponse.setData(categoryServiceResponseObj);
 
 		return basicResponse;
 	}
-
-	
 
 	private List<CategoryServiceResponseDto> toCategoryResponseDto(List<CategoryService> categoryServiceList) {
 		List<CategoryServiceResponseDto> categoryServiceResponseList = new ArrayList<>();
@@ -219,6 +228,14 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
 
 	}
 
-	
+	@Override
+	public void findByUserRole(String userRole) {
+		
+		List<CategoryServiceRoleMapping> categoryRoleList =categoryServiceRoleMappingService.findByUserRole(userRole);
+		for(CategoryServiceRoleMapping categoryRole :categoryRoleList) {
+			//categoryDAO.findByModuleId(categoryRole.getModuleId())
+		}
+		
+	}
 
 }
